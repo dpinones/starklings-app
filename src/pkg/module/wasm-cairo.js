@@ -296,7 +296,6 @@ function initSync(module) {
 }
 
 async function __wbg_init(input) {
-    console.log('init')
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
