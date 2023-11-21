@@ -4,4 +4,3 @@
 
 * npm install
 * npm run start
-asd

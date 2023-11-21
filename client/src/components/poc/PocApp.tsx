@@ -1,8 +1,8 @@
 import Editor from "@monaco-editor/react";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import "./App.css";
-import __wbg_init, { compileCairoProgram } from "./pkg/module/wasm-cairo";
+import "./PocApp.css";
+import __wbg_init, { compileCairoProgram } from "../../pkg/module/wasm-cairo";
 
 const cairoTestProgram = `
   use debug::PrintTrait;
@@ -16,7 +16,7 @@ const cairoTestProgram = `
     }
 }`;
 
-function App() {
+export const PocApp = () => {
   const [editorValue, setEditorValue] = useState(cairoTestProgram);
   const [error, setError] = useState("");
   const [passed, setPassed] = useState(false);
@@ -36,7 +36,7 @@ function App() {
           Fix the code
         </Typography>
         <Editor
-          onChange={(val) => setEditorValue(val)}
+          onChange={(val) => val && setEditorValue(val)}
           theme="vs-dark"
           height="400px"
           width="800px"
@@ -111,5 +111,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
