@@ -13,11 +13,11 @@ export const getAllGroups = async (req, res, next) => {
     groupRet.exercises = [];
 
     resultExercises.rows.forEach(exercise => {
-      if (group.id === exercise.groups) {
+      if (group.id === exercise.exercise_group) {
         let exerciseRet = {};
         exerciseRet.name = exercise.name;
         exerciseRet.path = exercise.path;
-        exerciseRet.mode = exercise.modes;
+        exerciseRet.mode = exercise.mode;
         groupRet.exercises.push(exerciseRet);
       }
     });
@@ -39,7 +39,7 @@ export const getGroup = async (req, res) => {
     });
   }
 
-  const resultExercises = await pool.query("SELECT * FROM exercises WHERE groups = $1", [
+  const resultExercises = await pool.query("SELECT * FROM exercises WHERE exercise_group = $1", [
     req.params.id
   ]);
 
@@ -50,7 +50,7 @@ export const getGroup = async (req, res) => {
     let exerciseRet = {};
     exerciseRet.name = exercise.name;
     exerciseRet.path = exercise.path;
-    exerciseRet.mode = exercise.modes;
+    exerciseRet.mode = exercise.mode;
     result.exercises.push(exerciseRet);
   });
 
