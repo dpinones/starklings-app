@@ -75,5 +75,5 @@ export const getHint = async (req, res) => {
   const hintMatch = exerciseMath.match(/hint = """([\s\S]+?)"""/);
   const hint = hintMatch ? hintMatch[1].trim() : null;
 
-  return res.json(hint);
+  return res.json({ hints: hint });
 };
