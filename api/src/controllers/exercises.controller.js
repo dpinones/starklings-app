@@ -70,7 +70,8 @@ export const getHint = async (req, res) => {
     res.status(500).json({ error: 'Error al realizar la solicitud' });
   }
 
-  const exerciseMath = response.data.find(exer => exer.includes(`name = "${exercise.id}"`));
+  const exercisesSplit = response.data.split("[[exercises]]");
+  const exerciseMath = exercisesSplit.find(exer => exer.includes(`name = "${exercise.id}"`));
   const hintMatch = exerciseMath.match(/hint = """([\s\S]+?)"""/);
   const hint = hintMatch ? hintMatch[1].trim() : null;
 
