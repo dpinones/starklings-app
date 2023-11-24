@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import groupsRoutes from "./routes/groups.routes.js";
+import exercisesRoutes from "./routes/exercises.routes.js";
 import { ORIGIN } from "./config.js";
 import { pool } from "./db.js";
 
@@ -29,6 +30,7 @@ app.get("/api/ping", async (req, res) => {
 });
 
 app.use("/api", groupsRoutes);
+app.use("/api", exercisesRoutes);
 
 // Error Hander
 app.use((err, req, res, next) => {
