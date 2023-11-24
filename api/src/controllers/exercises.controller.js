@@ -50,3 +50,30 @@ export const getExercise = async (req, res) => {
 
   return res.json(exercise);
 };
+
+export const getHint = async (req, res) => {
+  const result = await pool.query("SELECT * FROM exercises WHERE id = $1", [
+    req.params.id,
+  ]);
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({
+      message: "No Exercise exists with that id",
+    });
+  }
+
+  const exercise = result.rows[0];
+  let response;
+  try {
+    response = await axios.get(URL_GITHUB_STARKLINGS + 'info.toml');
+  } catch (error) {
+    res.status(500).json({ error: 'Error al realizar la solicitud' });
+  }
+
+  const exercisesSplit = response.data.split("[[exercises]]");
+  const exerciseMath = exercisesSplit.find(exer => exer.includes(`name = "${exercise.id}"`));
+  const hintMatch = exerciseMath.match(/hint = """([\s\S]+?)"""/);
+  const hint = hintMatch ? hintMatch[1].trim() : null;
+
+  return res.json(hint);
+};
