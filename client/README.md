@@ -1,7 +1,5 @@
 # Starklings.app
 
-React project
-
 ## Run project
 
 * npm install
