@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useGetNextExerciseId } from "../../../queries/useGetNextEcerciseName";
 
-const DEFAULT_FIRST_EXERCISE_ID = 'intro1'
+const DEFAULT_FIRST_EXERCISE_ID = "intro1";
 
 export const Home = () => {
-  const firstExerciseId = useGetNextExerciseId()
+  const firstExerciseId = useGetNextExerciseId();
   return (
     <Box
       sx={{
@@ -12,12 +12,18 @@ export const Home = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        alignItems: 'center',
+        alignItems: "center",
         overflowX: "hidden",
       }}
     >
       <Logo />
-      <Button href={`/exercise/${firstExerciseId ?? DEFAULT_FIRST_EXERCISE_ID}`} sx={{mt: 4}} variant='contained'>Start coding</Button>
+      <Button
+        href={`/exercise/${firstExerciseId ?? DEFAULT_FIRST_EXERCISE_ID}`}
+        sx={{ mt: 8, px: 16, fontSize: 16 }}
+        variant="contained"
+      >
+        Start coding
+      </Button>
     </Box>
   );
 };
@@ -38,7 +44,7 @@ const Logo = () => {
       >
         starklings.app
       </Typography>
-      <Box sx={{ position: "absolute", overflow: 'hidden', width: "100%" }}>
+      <Box sx={{ position: "absolute", overflow: "hidden", width: "100%" }}>
         <Typography
           sx={{
             zIndex: 2,

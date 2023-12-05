@@ -20,10 +20,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Share Tech Mono', monospace !important;
 }
 
-p, button {
+p, button, a {
   font-family: 'Sometype Mono', monospace !important;
 }
 
-button {
+a, button {
   border-radius: 0 !important;
 }
