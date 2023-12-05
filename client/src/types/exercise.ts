@@ -1,4 +1,5 @@
 export interface IExercise {
+  id: string
   name: string
   path: string
   mode: string
