@@ -15,6 +15,7 @@ export const getAllGroups = async (req, res, next) => {
     resultExercises.rows.forEach(exercise => {
       if (group.id === exercise.exercise_group) {
         let exerciseRet = {};
+        exerciseRet.id = exercise.id;
         exerciseRet.name = exercise.name;
         exerciseRet.path = exercise.path;
         exerciseRet.mode = exercise.mode;
@@ -48,6 +49,7 @@ export const getGroup = async (req, res) => {
   result.exercises = [];
   resultExercises.rows.forEach(exercise => {
     let exerciseRet = {};
+    exerciseRet.id = exercise.id;
     exerciseRet.name = exercise.name;
     exerciseRet.path = exercise.path;
     exerciseRet.mode = exercise.mode;
