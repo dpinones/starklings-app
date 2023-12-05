@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material";
-import { useGetGroups } from "../queries/useGetGroups";
-import { CircularProgressCenterLoader } from "./shared/CircularProgressCenterLoader";
-import { IGroup } from "../types/group";
+import { Box, Link, Typography } from "@mui/material";
+import { useGetGroups } from "../../../queries/useGetGroups";
+import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
+import { IGroup } from "../../../types/group";
 
 export const Home = () => {
   const { data: groups, isLoading: groupsLoading } = useGetGroups();
@@ -17,7 +17,7 @@ export const Home = () => {
               <ul>
                 {group.exercises.map((exercise) => (
                   <li key={exercise.name}>
-                    <Typography>{exercise.name}</Typography>
+                    <Link href={`/exercise/${exercise.name}`}>{exercise.name}</Link>
                   </li>
                 ))}
               </ul>

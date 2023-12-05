@@ -13,5 +13,17 @@ code {
 }
 
 html, body, #root, #root>div {
-  height: 100%
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+p, button {
+  font-family: 'Sometype Mono', monospace !important;
+}
+
+button {
+  border-radius: 0 !important;
 }

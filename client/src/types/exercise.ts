@@ -4,4 +4,6 @@ export interface IExercise {
   mode: string
   group?: string
   order?: number
+  code?: string
+  description?: string
 }
