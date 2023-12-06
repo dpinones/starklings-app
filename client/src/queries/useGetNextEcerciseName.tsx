@@ -11,5 +11,5 @@ export const useGetNextExerciseId = (
     return exercises[0].id
   }
   const currentExerciseIndex = exercises.findIndex(exercise => exercise.id === currentExerciseId)
-  return currentExerciseIndex ? exercises[currentExerciseIndex + 1].id : ''
+  return currentExerciseIndex !== undefined ? exercises[currentExerciseIndex + 1].id : ''
 };
