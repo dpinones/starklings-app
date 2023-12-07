@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetExercise } from "../../../queries/useGetExercise";
+import { useGetHint } from "../../../queries/useGetHint";
 import { useGetNextExerciseId } from "../../../queries/useGetNextEcerciseName";
 import { useCairo } from "../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
@@ -19,6 +20,14 @@ export const Workspace = () => {
   const [succeeded, setSucceeded] = useState(false);
   const nextId = useGetNextExerciseId(id);
   const navigate = useNavigate();
+  const [hint, setHint] = useState<string | undefined>(undefined);
+  const {
+    mutate: getHint,
+    data: hintResponse,
+    isPending: hintLoading,
+  } = useGetHint(id ?? "", (data) => {
+    setHint(data.data.hints.replace("\n", "<br />"));
+  });
 
   useEffect(() => {
     if (data?.code) {
@@ -26,20 +35,30 @@ export const Workspace = () => {
     }
   }, [data?.code]);
 
+  const reset = () => {
+    setSucceeded(false);
+    setHint(undefined);
+  };
+
   const handleCompileClick = () => {
     setCompileError(undefined);
     setSucceeded(false);
     const compileResult = compile(editorValue);
     if (compileResult.success) {
       setSucceeded(true);
+      setHint(undefined)
     } else {
       console.error(compileResult.error);
       setCompileError(compileResult.error ?? "Something went wrong!");
     }
   };
 
+  const handleHintClick = async () => {
+    getHint();
+  };
+
   const handleNextClick = () => {
-    setSucceeded(false);
+    reset();
     navigate(`/exercise/${nextId}`);
   };
 
@@ -53,10 +72,10 @@ export const Workspace = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              overflowY: 'auto'
+              overflowY: "auto",
             }}
           >
-            <Box sx={{ px: 8, py: 6, }}>
+            <Box sx={{ px: 8, py: 6 }}>
               <Typography sx={{ mb: 4 }} variant="h4">
                 {data?.name}
               </Typography>
@@ -68,6 +87,13 @@ export const Workspace = () => {
               )}
             </Box>
             <Box>
+              {hintLoading && <CircularProgressCenterLoader />}
+              {hint && (
+                <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
+                  <AlertTitle>Hint</AlertTitle>
+                  <div dangerouslySetInnerHTML={{ __html: hint }} />
+                </Alert>
+              )}
               {succeeded && (
                 <Alert sx={{ m: 2, ml: 4 }} variant="filled" severity="success">
                   <AlertTitle>Great!</AlertTitle>
@@ -95,13 +121,25 @@ export const Workspace = () => {
                   justifyContent: "flex-end",
                 }}
               >
-                <Button variant="contained" onClick={handleCompileClick}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleHintClick}
+                  disabled={!!hint || succeeded}
+                >
+                  Get Hint
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleCompileClick}
+                >
                   Compile
                 </Button>
                 {succeeded && (
                   <Button
                     variant="contained"
-                    color="success"
+                    color="secondary"
                     onClick={handleNextClick}
                   >
                     Next
