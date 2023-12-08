@@ -4,8 +4,11 @@
   "description": "",
   "main": "src/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "dev": "nodemon .",
+    "dev": "nodemon --env-file .env src/index.js",
     "start": "node ."
   },
   "keywords": [],
@@ -26,6 +29,6 @@
   },
   "devDependencies": {
     "eslint": "^8.44.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.2"
   }
 }
