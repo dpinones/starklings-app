@@ -48,6 +48,19 @@ export const getExercise = async (req, res) => {
   exercise.description = description;
   exercise.code = code;
 
+  const result_exercises = await pool.query("SELECT * FROM exercises");
+  exercise.next_exercise = "None";
+  let flag = false;
+  for (const row of result_exercises.rows) {
+    if (flag) {
+      exercise.next_exercise = row.id;
+      break;
+    }
+    if (row.id == exercise.id) {
+      flag = true;
+    }
+  }
+
   return res.json(exercise);
 };
 
