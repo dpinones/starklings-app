@@ -2,6 +2,7 @@ import { Editor } from "@monaco-editor/react";
 import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
@@ -46,7 +47,7 @@ export const Workspace = () => {
     const compileResult = compile(editorValue);
     if (compileResult.success) {
       setSucceeded(true);
-      setHint(undefined)
+      setHint(undefined);
     } else {
       console.error(compileResult.error);
       setCompileError(compileResult.error ?? "Something went wrong!");
@@ -64,104 +65,120 @@ export const Workspace = () => {
 
   return (
     <Box sx={{ height: "100%", overflowY: "hidden" }}>
-      <Grid sx={{ mt: 0, height: "100%" }} container spacing={2}>
-        <Grid sx={{ height: "100%", maxHeight: "100%" }} xs={6}>
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              overflowY: "auto",
-            }}
-          >
-            <Box sx={{ px: 8, py: 6 }}>
-              <Typography sx={{ mb: 4 }} variant="h4">
-                {data?.name}
-              </Typography>
-              {isLoading && <CircularProgressCenterLoader />}
-              {data && (
-                <Typography style={{ whiteSpace: "pre-line" }}>
-                  {data.description}
+      <PanelGroup direction={"horizontal"}>
+        <Grid sx={{ mt: 0, height: "100%" }} container spacing={2}>
+          <Panel minSizePercentage={25} defaultSizePercentage={50}>
+            <Box
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                overflowY: "auto",
+              }}
+            >
+              <Box sx={{ px: 8, py: 6 }}>
+                <Typography sx={{ mb: 4 }} variant="h4">
+                  {data?.name}
                 </Typography>
-              )}
-            </Box>
-            <Box>
-              {hintLoading && <CircularProgressCenterLoader />}
-              {hint && (
-                <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
-                  <AlertTitle>Hint</AlertTitle>
-                  <div dangerouslySetInnerHTML={{ __html: hint }} />
-                </Alert>
-              )}
-              {succeeded && (
-                <Alert sx={{ m: 2, ml: 4 }} variant="filled" severity="success">
-                  <AlertTitle>Great!</AlertTitle>
-                  The submitted code compiles perfectly. Click{" "}
-                  <strong>NEXT</strong> whenever you are ready to proceed.
-                </Alert>
-              )}
-              {compileError && (
-                <Alert
-                  sx={{ m: 2, ml: 4, wordBreak: "break-all" }}
-                  variant="filled"
-                  severity="error"
-                >
-                  <AlertTitle>
-                    Ups! Something went wrong with your code
-                  </AlertTitle>
-                  <div dangerouslySetInnerHTML={{ __html: compileError }} />
-                  Fix the code and click <strong>COMPILE</strong> again.
-                </Alert>
-              )}
-              <Box
-                sx={{
-                  background: "#000",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleHintClick}
-                  disabled={!!hint || succeeded}
-                >
-                  Get Hint
-                </Button>
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={handleCompileClick}
-                >
-                  Compile
-                </Button>
-                {succeeded && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleNextClick}
-                  >
-                    Next
-                  </Button>
+                {isLoading && <CircularProgressCenterLoader />}
+                {data && (
+                  <Typography style={{ whiteSpace: "pre-line" }}>
+                    {data.description}
+                  </Typography>
                 )}
               </Box>
+              <Box>
+                {hintLoading && <CircularProgressCenterLoader />}
+                {hint && (
+                  <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
+                    <AlertTitle>Hint</AlertTitle>
+                    <div dangerouslySetInnerHTML={{ __html: hint }} />
+                  </Alert>
+                )}
+                {succeeded && (
+                  <Alert
+                    sx={{ m: 2, ml: 4 }}
+                    variant="filled"
+                    severity="success"
+                  >
+                    <AlertTitle>Great!</AlertTitle>
+                    The submitted code compiles perfectly. Click{" "}
+                    <strong>NEXT</strong> whenever you are ready to proceed.
+                  </Alert>
+                )}
+                {compileError && (
+                  <Alert
+                    sx={{ m: 2, ml: 4, wordBreak: "break-all" }}
+                    variant="filled"
+                    severity="error"
+                  >
+                    <AlertTitle>
+                      Ups! Something went wrong with your code
+                    </AlertTitle>
+                    <div dangerouslySetInnerHTML={{ __html: compileError }} />
+                    Fix the code and click <strong>COMPILE</strong> again.
+                  </Alert>
+                )}
+                <Box
+                  sx={{
+                    background: "#000",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={handleHintClick}
+                    disabled={!!hint || succeeded}
+                  >
+                    Get Hint
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={handleCompileClick}
+                  >
+                    Compile
+                  </Button>
+                  {succeeded && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleNextClick}
+                    >
+                      Next
+                    </Button>
+                  )}
+                </Box>
+              </Box>
             </Box>
-          </Box>
-        </Grid>
-        <Grid xs={6}>
-          {data && (
-            <Editor
-              onChange={(val) => val && setEditorValue(val)}
-              theme="vs-dark"
-              height="100%"
-              width="100%"
-              defaultLanguage="rust"
-              defaultValue={data.code}
+          </Panel>
+          <PanelResizeHandle>
+            <Box
+              sx={{
+                display: "flex",
+                height: "100%",
+                backgroundColor: "#000",
+                width: 5,
+              }}
             />
-          )}
+          </PanelResizeHandle>
+          <Panel minSizePercentage={25} defaultSizePercentage={50}>
+            {data && (
+              <Editor
+                onChange={(val) => val && setEditorValue(val)}
+                theme="vs-dark"
+                height="100%"
+                width="100%"
+                defaultLanguage="rust"
+                defaultValue={data.code}
+              />
+            )}
+          </Panel>
         </Grid>
-      </Grid>
+      </PanelGroup>
     </Box>
   );
 };
