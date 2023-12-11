@@ -1,14 +1,16 @@
 import { Editor } from "@monaco-editor/react";
-import { Alert, AlertTitle, Box, Button, Typography } from "@mui/material";
+import { Alert, AlertTitle, Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams } from "react-router-dom";
+import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
 import { useGetNextExerciseId } from "../../../queries/useGetNextEcerciseName";
 import { useCairo } from "../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
+import { ActionBar } from "./ActionBar";
 
 export const Workspace = () => {
   const { id } = useParams();
@@ -47,6 +49,7 @@ export const Workspace = () => {
     setSucceeded(false);
     const compileResult = compile(editorValue);
     if (compileResult.success) {
+      localStorage.setItem(CURRENT_EXERCISE, nextId);
       setSucceeded(true);
       setHint(undefined);
     } else {
@@ -62,6 +65,11 @@ export const Workspace = () => {
   const handleNextClick = () => {
     reset();
     navigate(`/exercise/${nextId}`);
+  };
+
+  const handleRestartClick = () => {
+    localStorage.removeItem(CURRENT_EXERCISE);
+    navigate(`/`);
   };
 
   return (
@@ -140,41 +148,15 @@ export const Workspace = () => {
                 )}
               </Box>
             </Box>
-            {/* action bar */}
-            <Box
-              sx={{
-                background: "#000",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={handleHintClick}
-                disabled={!!hint || succeeded}
-              >
-                Get Hint
-              </Button>
-              {!isTest && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={handleCompileClick}
-                >
-                  Compile
-                </Button>
-              )}
-              {(succeeded || isTest) && (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleNextClick}
-                >
-                  Next
-                </Button>
-              )}
-            </Box>
+            <ActionBar
+              onGetHintClick={handleHintClick}
+              onCompileClick={handleCompileClick}
+              onNextClick={handleNextClick}
+              onRestartClick={handleRestartClick}
+              isTest={isTest}
+              succeeded={succeeded}
+              hintVisible={!!hint}
+            />
           </Panel>
           <PanelResizeHandle>
             <Box
