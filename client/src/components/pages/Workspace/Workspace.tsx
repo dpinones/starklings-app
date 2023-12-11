@@ -68,92 +68,101 @@ export const Workspace = () => {
       <PanelGroup direction={"horizontal"}>
         <Grid sx={{ mt: 0, height: "100%" }} container spacing={2}>
           <Panel minSizePercentage={25} defaultSizePercentage={50}>
-            <Box
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                overflowY: "auto",
-              }}
-            >
-              <Box sx={{ px: 8, py: 6 }}>
-                <Typography sx={{ mb: 4 }} variant="h4">
-                  {data?.name}
-                </Typography>
-                {isLoading && <CircularProgressCenterLoader />}
-                {data && (
-                  <Typography style={{ whiteSpace: "pre-line" }}>
-                    {data.description}
+
+              {/* description + alerts */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  overflowY: "auto",
+                  height: "calc(100vh - 86px)",
+                }}
+              >
+                {/* description */}
+                <Box sx={{ px: 8, py: 6 }}>
+                  <Typography sx={{ mb: 4 }} variant="h4">
+                    {data?.name}
                   </Typography>
-                )}
-              </Box>
-              <Box>
-                {hintLoading && <CircularProgressCenterLoader />}
-                {hint && (
-                  <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
-                    <AlertTitle>Hint</AlertTitle>
-                    <div dangerouslySetInnerHTML={{ __html: hint }} />
-                  </Alert>
-                )}
-                {succeeded && (
-                  <Alert
-                    sx={{ m: 2, ml: 4 }}
-                    variant="filled"
-                    severity="success"
-                  >
-                    <AlertTitle>Great!</AlertTitle>
-                    The submitted code compiles perfectly. Click{" "}
-                    <strong>NEXT</strong> whenever you are ready to proceed.
-                  </Alert>
-                )}
-                {compileError && (
-                  <Alert
-                    sx={{ m: 2, ml: 4, wordBreak: "break-all" }}
-                    variant="filled"
-                    severity="error"
-                  >
-                    <AlertTitle>
-                      Ups! Something went wrong with your code
-                    </AlertTitle>
-                    <div dangerouslySetInnerHTML={{ __html: compileError }} />
-                    Fix the code and click <strong>COMPILE</strong> again.
-                  </Alert>
-                )}
-                <Box
-                  sx={{
-                    background: "#000",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={handleHintClick}
-                    disabled={!!hint || succeeded}
-                  >
-                    Get Hint
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={handleCompileClick}
-                  >
-                    Compile
-                  </Button>
-                  {succeeded && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleNextClick}
+                  {isLoading && <CircularProgressCenterLoader />}
+                  {data && (
+                    <Typography style={{ whiteSpace: "pre-line" }}>
+                      {data.description}
+                    </Typography>
+                  )}
+                </Box>
+                {/* alerts */}
+                <Box>
+                  {hintLoading && <CircularProgressCenterLoader />}
+                  {hint && (
+                    <Alert
+                      sx={{ m: 2, ml: 4 }}
+                      severity="info"
+                      variant="filled"
                     >
-                      Next
-                    </Button>
+                      <AlertTitle>Hint</AlertTitle>
+                      <div dangerouslySetInnerHTML={{ __html: hint }} />
+                    </Alert>
+                  )}
+                  {succeeded && (
+                    <Alert
+                      sx={{ m: 2, ml: 4 }}
+                      variant="filled"
+                      severity="success"
+                    >
+                      <AlertTitle>Great!</AlertTitle>
+                      The submitted code compiles perfectly. Click{" "}
+                      <strong>NEXT</strong> whenever you are ready to proceed.
+                    </Alert>
+                  )}
+                  {compileError && (
+                    <Alert
+                      sx={{ m: 2, ml: 4, wordBreak: "break-all" }}
+                      variant="filled"
+                      severity="error"
+                    >
+                      <AlertTitle>
+                        Ups! Something went wrong with your code
+                      </AlertTitle>
+                      <div dangerouslySetInnerHTML={{ __html: compileError }} />
+                      Fix the code and click <strong>COMPILE</strong> again.
+                    </Alert>
                   )}
                 </Box>
               </Box>
-            </Box>
+              {/* action bar */}
+              <Box
+                sx={{
+                  background: "#000",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleHintClick}
+                  disabled={!!hint || succeeded}
+                >
+                  Get Hint
+                </Button>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleCompileClick}
+                >
+                  Compile
+                </Button>
+                {succeeded && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleNextClick}
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
           </Panel>
           <PanelResizeHandle>
             <Box
