@@ -175,6 +175,10 @@ export const Workspace = () => {
                 theme="vs-dark"
                 height="100%"
                 width="100%"
+                options={{
+                  scrollBeyondLastLine: false,
+                  fontSize: 16,
+                }}
                 defaultLanguage="rust"
                 defaultValue={data.code}
               />
