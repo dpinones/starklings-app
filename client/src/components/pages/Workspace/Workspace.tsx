@@ -1,5 +1,5 @@
 import { Editor } from "@monaco-editor/react";
-import { Alert, AlertTitle, Box, Typography } from "@mui/material";
+import { Alert, AlertTitle, Box, Link, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
@@ -106,6 +106,24 @@ export const Workspace = () => {
                   <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
                     <AlertTitle>Hint</AlertTitle>
                     <div dangerouslySetInnerHTML={{ __html: hint }} />
+                    <br />
+                    Remember that you can always check the Cairo book at{" "}
+                    <Link
+                      target="_blank"
+                      sx={{ color: "#000" }}
+                      href={"https://book.cairo-lang.org/"}
+                    >
+                      https://book.cairo-lang.org/
+                    </Link>{" "}
+                    or the Cairo documentation at{" "}
+                    <Link
+                      target="_blank"
+                      sx={{ color: "#000" }}
+                      href={"https://docs.cairo-lang.org/"}
+                    >
+                      https://docs.cairo-lang.org/
+                    </Link>
+                    .
                   </Alert>
                 )}
                 {succeeded && (
