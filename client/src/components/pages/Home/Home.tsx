@@ -1,12 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useGetNextExerciseId } from "../../../queries/useGetNextEcerciseName";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 
 const DEFAULT_FIRST_EXERCISE_ID = "intro1";
 
 export const Home = () => {
-  const firstExerciseId = useGetNextExerciseId();
-  const localStorageExerciseId = localStorage.getItem(CURRENT_EXERCISE)
+  const localStorageExerciseId = localStorage.getItem(CURRENT_EXERCISE);
   return (
     <Box
       sx={{
@@ -20,7 +18,9 @@ export const Home = () => {
     >
       <Logo />
       <Button
-        href={`/exercise/${localStorageExerciseId ?? firstExerciseId ?? DEFAULT_FIRST_EXERCISE_ID}`}
+        href={`/exercise/${
+          localStorageExerciseId ?? DEFAULT_FIRST_EXERCISE_ID
+        }`}
         sx={{ mt: 8, px: 16, fontSize: 16 }}
         variant="contained"
       >
