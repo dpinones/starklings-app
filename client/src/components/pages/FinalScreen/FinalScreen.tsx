@@ -1,7 +1,16 @@
 import { Box, Button, Link, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { Logo } from "../../shared/Logo";
 
 export const FinalScreen = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.removeItem(CURRENT_EXERCISE);
+    navigate("/");
+  };
+
   return (
     <Box
       sx={{
@@ -17,7 +26,7 @@ export const FinalScreen = () => {
       <Typography sx={{ textAlign: "center", lineHeight: 1.6, mt: 2 }}>
         You are a Cairo rockstar! <br />
         Thank you for completing starklings. <br />
-        Do you have any feedback for us? {" "}
+        Do you have any feedback for us?{" "}
         <Link target="_blank" href="https://github.com/dpinones/starklings-app">
           GitHub
         </Link>{" "}
@@ -26,7 +35,7 @@ export const FinalScreen = () => {
         round XD
       </Typography>
       <Button
-        href={`/exercise/intro1`}
+        onClick={handleClick}
         sx={{ mt: 8, px: 16, fontSize: 16 }}
         variant="contained"
       >
