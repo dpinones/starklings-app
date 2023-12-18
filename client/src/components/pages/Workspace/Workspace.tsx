@@ -1,5 +1,6 @@
 import { Editor } from "@monaco-editor/react";
-import { Alert, AlertTitle, Box, Link, Typography } from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { Alert, AlertTitle, Box, IconButton, Link, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
@@ -36,6 +37,8 @@ export const Workspace = () => {
   useEffect(() => {
     if (data?.code) {
       setEditorValue(data.code);
+    } else {
+      setEditorValue('')
     }
   }, [data?.code]);
 
@@ -80,6 +83,10 @@ export const Workspace = () => {
   const handleRestartClick = () => {
     localStorage.removeItem(CURRENT_EXERCISE);
     navigate(`/`);
+  };
+
+  const resetCode = () => {
+    setEditorValue(data?.code ?? '');
   };
 
   return (
@@ -204,18 +211,31 @@ export const Workspace = () => {
             {isLoading ? (
               <CircularProgressCenterLoader />
             ) : (
-              <Editor
-                onChange={(val) => val && setEditorValue(val)}
-                theme="vs-dark"
-                height="100%"
-                width="100%"
-                options={{
-                  scrollBeyondLastLine: false,
-                  fontSize: 16,
-                }}
-                defaultLanguage="rust"
-                value={editorValue}
-              />
+              <>
+                <Editor
+                  onChange={(val) => val && setEditorValue(val)}
+                  theme="vs-dark"
+                  height="100%"
+                  width="100%"
+                  options={{
+                    scrollBeyondLastLine: false,
+                    fontSize: 16,
+                  }}
+                  defaultLanguage="rust"
+                  value={editorValue}
+                />
+                <Box sx={{ position: "absolute", bottom: 35, right: 25 }}>
+                  <Tooltip title="Reset code">
+                    <IconButton
+                      onClick={resetCode}
+                      sx={{ p: 0.5, color: "#FFF" }}
+                      aria-label="reset-code"
+                    >
+                      <RefreshIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </>
             )}
           </Panel>
         </Grid>
