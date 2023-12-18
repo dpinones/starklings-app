@@ -2,6 +2,7 @@ import { Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
+import { FinalScreen } from "./components/pages/FinalScreen/FinalScreen";
 import { Home } from "./components/pages/Home/Home";
 import { Workspace } from "./components/pages/Workspace/Workspace";
 import { PocApp } from "./components/poc/PocApp";
@@ -24,11 +25,14 @@ function App() {
               display: "flex",
               alignItems: "center",
               flexDirection: "row",
-              gap: 2
+              gap: 2,
             }}
           >
-            <Link sx={{ textDecoration: 'none'}} href="/">
-              <Typography variant="h3" sx={{ fontSize: 20, ml: 4, color: '#FFF' }}>
+            <Link sx={{ textDecoration: "none" }} href="/">
+              <Typography
+                variant="h3"
+                sx={{ fontSize: 20, ml: 4, color: "#FFF" }}
+              >
                 starklings.app
               </Typography>
             </Link>
@@ -38,6 +42,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/poc" element={<PocApp />} />
               <Route path="/exercise/:id" element={<Workspace />} />
+              <Route path="/end" element={<FinalScreen />} />
             </Routes>
           </Box>
         </Box>

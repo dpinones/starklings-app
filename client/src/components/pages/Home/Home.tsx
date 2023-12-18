@@ -1,5 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
+import { Logo } from "../../shared/Logo";
 
 const DEFAULT_FIRST_EXERCISE_ID = "intro1";
 
@@ -26,41 +27,6 @@ export const Home = () => {
       >
         Start coding
       </Button>
-    </Box>
-  );
-};
-
-const Logo = () => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        overflowX: "hidden",
-      }}
-    >
-      <Typography
-        sx={{ zIndex: 3, ml: "-0.5%", fontSize: "14.2vw" }}
-        variant="h1"
-      >
-        starklings.app
-      </Typography>
-      <Box sx={{ position: "absolute", overflow: "hidden", width: "100%" }}>
-        <Typography
-          sx={{
-            zIndex: 2,
-            transform: "translateY(4px) scale(1.01)",
-            // color: "#f2951b",
-            color: "#1976d2",
-            ml: "-0.5%",
-            fontSize: "14.2vw",
-          }}
-          variant="h1"
-        >
-          starklings.app
-        </Typography>
-      </Box>
     </Box>
   );
 };

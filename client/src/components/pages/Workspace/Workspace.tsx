@@ -66,7 +66,7 @@ export const Workspace = () => {
   const handleNextClick = () => {
     reset();
     nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
-    navigate(`/exercise/${nextId}`);
+    navigate(nextId ? `/exercise/${nextId}` : "/end");
   };
 
   const handlePrevClick = () => {
