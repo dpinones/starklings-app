@@ -48,6 +48,21 @@ export const getExercise = async (req, res) => {
   exercise.description = description;
   exercise.code = code;
 
+  const result_exercises = await pool.query("SELECT * FROM exercises");
+  exercise.prev_exercise = "None";
+  exercise.next_exercise = "None";
+  for (let i = 0; i < result_exercises.rows.length; i++) {
+    let exercise_temp = result_exercises.rows[i];
+    if (exercise_temp.id == exercise.id) {
+      if (i > 0) {
+        exercise.prev_exercise = result_exercises.rows[i - 1].id;
+      }
+
+      if (i < result_exercises.rows.length - 1) {
+        exercise.next_exercise = result_exercises.rows[i + 1].id;
+      }
+    }
+  }
   return res.json(exercise);
 };
 
