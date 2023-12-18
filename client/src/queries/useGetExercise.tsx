@@ -12,6 +12,10 @@ export const useGetExercise = (exerciseName: string | undefined) => {
       if (data.description) {
         data.description = data.description.replaceAll("//", "").replace(/\n/g, "\n\n");
       }
+      if (data.code) {
+        data.code = data.code.replace(/^\n+/g, '');
+
+      }
       return data;
     },
   });
