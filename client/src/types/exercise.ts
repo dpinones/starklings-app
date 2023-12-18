@@ -3,8 +3,10 @@ export interface IExercise {
   name: string
   path: string
   mode: 'run' | 'test'
-  group?: string
-  order?: number
+  exercise_group?: string
+  exercise_order?: number
   code?: string
   description?: string
+  prev_exercise?: string
+  next_exercise?: string
 }

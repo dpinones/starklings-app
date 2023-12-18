@@ -1,3 +1,4 @@
+import { SkipNext, SkipPrevious } from "@mui/icons-material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -14,20 +15,24 @@ interface IActionBarProps {
   onGetHintClick: () => {};
   onCompileClick: () => void;
   onNextClick: () => void;
+  onPrevClick: () => void;
   onRestartClick: () => void;
   isTest: boolean;
   succeeded: boolean;
   hintVisible: boolean;
+  first: boolean;
 }
 
 export const ActionBar = ({
   onGetHintClick,
   onCompileClick,
+  onPrevClick,
   onNextClick,
   onRestartClick,
   isTest,
   succeeded,
   hintVisible,
+  first,
 }: IActionBarProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
@@ -46,10 +51,36 @@ export const ActionBar = ({
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ ml: 3 }}>
-          <Tooltip title="Start over">
-            <IconButton onClick={openDialog} sx={{ p: 0.5, color: "#FFF" }} aria-label="start-over">
-              <RestartAltIcon />
+        <Box sx={{ display: "flex", ml: 4, gap: 1 }}>
+          {!first && (
+            <>
+              <Tooltip title="Start over">
+                <IconButton
+                  onClick={openDialog}
+                  sx={{ p: 0.5, color: "#FFF" }}
+                  aria-label="start-over"
+                >
+                  <RestartAltIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Go to previous exercise">
+                <IconButton
+                  onClick={onPrevClick}
+                  sx={{ p: 0.5, color: "#FFF" }}
+                  aria-label="previous exercise"
+                >
+                  <SkipPrevious />
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
+          <Tooltip title="Skip current exercise">
+            <IconButton
+              onClick={onNextClick}
+              sx={{ p: 0.5, color: "#FFF" }}
+              aria-label="skip-exercise"
+            >
+              <SkipNext />
             </IconButton>
           </Tooltip>
         </Box>
@@ -94,12 +125,15 @@ export const ActionBar = ({
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            If you click 'OK', the app will be restarted and you will loose all your progress.
+            If you click 'OK', the app will be restarted and you will loose all
+            your progress.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant='contained' color='error' onClick={closeDialog}>Cancel</Button>
-          <Button variant='contained' onClick={onRestartClick} autoFocus>
+          <Button variant="contained" color="error" onClick={closeDialog}>
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={onRestartClick} autoFocus>
             OK
           </Button>
         </DialogActions>
