@@ -31,7 +31,7 @@ function App() {
             }}
           >
             <Box sx={{display: 'flex', flexDirection: 'row', gap: 2, ml: 2}}>
-              <img width="27px" src="starknet.png" alt="starknet logo" />
+              <img width="27px" src="/starknet.png" alt="starknet logo" />
               <Link sx={{ textDecoration: "none" }} href="/">
                 <Typography
                   variant="h3"
