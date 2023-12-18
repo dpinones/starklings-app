@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
-import { useGetNextExerciseId } from "../../../queries/useGetNextEcerciseName";
 import { useCairo } from "../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
@@ -21,7 +20,8 @@ export const Workspace = () => {
     undefined
   );
   const [succeeded, setSucceeded] = useState(false);
-  const nextId = useGetNextExerciseId(id);
+  const nextId = data?.next_exercise;
+  const prevId = data?.prev_exercise;
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);
   const isTest = data?.mode === "test";
@@ -42,6 +42,7 @@ export const Workspace = () => {
   const reset = () => {
     setSucceeded(false);
     setHint(undefined);
+    setCompileError(undefined);
   };
 
   const handleCompileClick = () => {
@@ -49,7 +50,7 @@ export const Workspace = () => {
     setSucceeded(false);
     const compileResult = compile(editorValue);
     if (compileResult.success) {
-      localStorage.setItem(CURRENT_EXERCISE, nextId);
+      nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
       setSucceeded(true);
       setHint(undefined);
     } else {
@@ -64,7 +65,16 @@ export const Workspace = () => {
 
   const handleNextClick = () => {
     reset();
+    nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
     navigate(`/exercise/${nextId}`);
+  };
+
+  const handlePrevClick = () => {
+    reset();
+    if (prevId) {
+      localStorage.setItem(CURRENT_EXERCISE, prevId);
+      navigate(`/exercise/${prevId}`);
+    }
   };
 
   const handleRestartClick = () => {
@@ -95,7 +105,9 @@ export const Workspace = () => {
                 {isLoading && <CircularProgressCenterLoader />}
                 {data && (
                   <Typography style={{ whiteSpace: "pre-line" }}>
-                    {data.description}
+                    {data.description?.trim() !== ""
+                      ? data.description
+                      : "Having trouble to solve this one? Click 'GET HINT' button for help!"}
                   </Typography>
                 )}
               </Box>
@@ -170,10 +182,12 @@ export const Workspace = () => {
               onGetHintClick={handleHintClick}
               onCompileClick={handleCompileClick}
               onNextClick={handleNextClick}
+              onPrevClick={handlePrevClick}
               onRestartClick={handleRestartClick}
               isTest={isTest}
               succeeded={succeeded}
               hintVisible={!!hint}
+              first={!prevId}
             />
           </Panel>
           <PanelResizeHandle>
@@ -187,7 +201,9 @@ export const Workspace = () => {
             />
           </PanelResizeHandle>
           <Panel minSizePercentage={25} defaultSizePercentage={50}>
-            {data && (
+            {isLoading ? (
+              <CircularProgressCenterLoader />
+            ) : (
               <Editor
                 onChange={(val) => val && setEditorValue(val)}
                 theme="vs-dark"
@@ -198,7 +214,7 @@ export const Workspace = () => {
                   fontSize: 16,
                 }}
                 defaultLanguage="rust"
-                defaultValue={data.code}
+                value={editorValue}
               />
             )}
           </Panel>
