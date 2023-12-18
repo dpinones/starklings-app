@@ -1,56 +1,56 @@
+<p align="center">
+  <img alt="Starklings logo" width="150" src="https://raw.githubusercontent.com/onlydustxyz/marketplace-frontend-old/develop/docs/resources/img/logo.png">
+</p>
+
 # Starklings App
 
 A web interactive tutorial to start learning Cairo and Starknet.
 
-## Backend
+## About
 
-Within `api` directory run:
+Starklings App is a web interactive platform designed to help users kickstart their journey into learning Cairo, with a focus on [Starklings](https://github.com/shramee/starklings-cairo1) exercises. These exercises are considered essential for those taking their first steps in understanding Cairo. 
+Our goal is to simplify the initial learning experience by eliminating the need for complex configurations and installations.
+
+## Components
+
+### Backend
+
+The backend of the Starklings App is responsible for handling data processing and interactions with the Starknet exercises. 
+Follow these steps to set up and run the backend:
 
 ```bash
 cd api/
+```
+
+Install dependencies:
+
+```bash
 npm i
+```
+
+Run the development server:
+
+```bash
 npm run dev
 ```
 
-You should see something like this:
+### Frontend
 
-```sh
-> starklings-api@1.0.0 dev
-> nodemon --env-file .env src/index.js
-
-[nodemon] 3.0.2
-[nodemon] to restart at any time, enter `rs`
-[nodemon] watching path(s): *.*
-[nodemon] watching extensions: js,mjs,cjs,json
-[nodemon] starting `node --env-file .env src/index.js`
-Server on port 3000
-```
-
-## Frontend
-
-Within `client` directory run:
+The frontend is the user interface of the Starklings App, providing an interactive environment for users to engage with Cairo exercises. 
+To get the frontend up and running, follow these steps:
 
 ```bash
 cd client/
-npm i
-npm run start
 ```
 
-You should see something like this:
+Install dependencies:
 
-```sh
-Compiled successfully!
+```bash
+npm i
+```
 
-You can now view starklings-app in the browser.
+Launch the development server:
 
-  Local:            http://localhost:3000
-  On Your Network:  http://192.168.0.175:3000
-
-Note that the development build is not optimized.
-To create a production build, use npm run build.
-
-webpack compiled successfully
-Files successfully emitted, waiting for typecheck results...
-Issues checking in progress...
-No issues found.
+```bash
+npm run dev
 ```
