@@ -9,7 +9,8 @@ A web interactive tutorial to start learning Cairo and Starknet.
 ## About
 
 Starklings App is a web interactive platform designed to help users kickstart their journey into learning Cairo.
-This platform is based on Starklings exercises, considered essential for those taking their first steps in understanding Cairo.
+This platform is based on [Starklings](https://github.com/shramee/starklings-cairo1) exercises, considered essential for those taking their first steps in understanding Cairo.
+
 Our goal is to simplify the Starklings experience by getting rid of complex configurations and installations. Just access the app on a browser and start coding.
 
 ## Components
