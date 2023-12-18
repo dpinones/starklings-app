@@ -1,7 +1,6 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { Logo } from "../../shared/Logo";
-
 const DEFAULT_FIRST_EXERCISE_ID = "intro1";
 
 export const Home = () => {
@@ -18,11 +17,14 @@ export const Home = () => {
       }}
     >
       <Logo />
+      <Typography sx={{ mt: 3 }}>
+        A web interactive tutorial to learn Cairo and Starknet.
+      </Typography>
       <Button
         href={`/exercise/${
           localStorageExerciseId ?? DEFAULT_FIRST_EXERCISE_ID
         }`}
-        sx={{ mt: 8, px: 16, fontSize: 16 }}
+        sx={{ mt: 6, px: 16, fontSize: 16 }}
         variant="contained"
       >
         Start coding

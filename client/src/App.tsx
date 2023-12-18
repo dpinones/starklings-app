@@ -1,4 +1,5 @@
-import { Link, Typography } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import { IconButton, Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
@@ -26,16 +27,28 @@ function App() {
               alignItems: "center",
               flexDirection: "row",
               gap: 2,
+              justifyContent: "space-between",
             }}
           >
-            <Link sx={{ textDecoration: "none" }} href="/">
-              <Typography
-                variant="h3"
-                sx={{ fontSize: 20, ml: 4, color: "#FFF" }}
-              >
-                starklings.app
-              </Typography>
-            </Link>
+            <Box sx={{display: 'flex', flexDirection: 'row', gap: 2, ml: 2}}>
+              <img width="27px" src="starknet.png" alt="starknet logo" />
+              <Link sx={{ textDecoration: "none" }} href="/">
+                <Typography
+                  variant="h3"
+                  sx={{ fontSize: 20, color: "#FFF" }}
+                >
+                  starklings.app
+                </Typography>
+              </Link>
+            </Box>
+            <IconButton
+              href={"https://github.com/dpinones/starklings-app"}
+              target="_blank"
+              sx={{ p: 0.5, color: "#FFF", mr: 2 }}
+              aria-label="start-over"
+            >
+              <GitHubIcon />
+            </IconButton>
           </Box>
           <Box sx={{ height: "calc(100% - 50px)" }}>
             <Routes>
@@ -44,6 +57,11 @@ function App() {
               <Route path="/exercise/:id" element={<Workspace />} />
               <Route path="/end" element={<FinalScreen />} />
             </Routes>
+            <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
+              <Typography sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}>
+                powered by Starknet Foundation
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>
