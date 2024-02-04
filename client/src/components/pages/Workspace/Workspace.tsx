@@ -11,6 +11,8 @@ import { useGetHint } from "../../../queries/useGetHint";
 import { useCairo } from "../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
+import { isMobileOnly } from 'react-device-detect';
+import { MobileWarningDialog } from "./MobileWarningDialog";
 
 export const Workspace = () => {
   const { id } = useParams();
@@ -240,6 +242,7 @@ export const Workspace = () => {
           </Panel>
         </Grid>
       </PanelGroup>
+      {isMobileOnly && <MobileWarningDialog />}
     </Box>
   );
 };
