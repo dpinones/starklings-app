@@ -3,6 +3,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Alert, AlertTitle, Box, IconButton, Link, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
+import { isMobileOnly } from 'react-device-detect';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
@@ -11,7 +12,6 @@ import { useGetHint } from "../../../queries/useGetHint";
 import { useCairo } from "../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
-import { isMobileOnly } from 'react-device-detect';
 import { MobileWarningDialog } from "./MobileWarningDialog";
 
 export const Workspace = () => {
@@ -35,6 +35,8 @@ export const Workspace = () => {
   } = useGetHint(id ?? "", (data) => {
     setHint(data.data.hints.replace("\n", "<br />"));
   });
+
+  throw new Error('asdjiioasdjiojasd')
 
   useEffect(() => {
     if (data?.code) {
