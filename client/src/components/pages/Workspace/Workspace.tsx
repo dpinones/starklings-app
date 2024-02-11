@@ -36,8 +36,6 @@ export const Workspace = () => {
     setHint(data.data.hints.replace("\n", "<br />"));
   });
 
-  throw new Error('asdjiioasdjiojasd')
-
   useEffect(() => {
     if (data?.code) {
       setEditorValue(data.code);
