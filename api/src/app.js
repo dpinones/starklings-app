@@ -5,6 +5,7 @@ import cors from "cors";
 
 import groupsRoutes from "./routes/groups.routes.js";
 import exercisesRoutes from "./routes/exercises.routes.js";
+import scarbRoutes from "./routes/scarb.routes.js";
 import { ORIGIN } from "./config.js";
 import { pool } from "./db.js";
 
@@ -31,6 +32,7 @@ app.get("/api/ping", async (req, res) => {
 
 app.use("/api", groupsRoutes);
 app.use("/api", exercisesRoutes);
+app.use("/api", scarbRoutes);
 
 // Error Hander
 app.use((err, req, res, next) => {
