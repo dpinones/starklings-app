@@ -10,16 +10,16 @@ export const scarbTest = async (req, res, next) => {
 }
 
 export const scarbBuild = async (req, res, next) => {
-    const folderName = 'folder_name';
-    const content = 'fn main() {}';
+    const {user, content } = req.body;
+    console.log("user", user);
     
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');
-    const destinationFolder = path.join(tempFolder, folderName);
+    const destinationFolder = path.join(tempFolder, user);
 
     try {
         if (!await existFolder(destinationFolder)) {
-            await executeScarbNew(folderName, tempFolder);
+            await executeScarbNew(user, tempFolder);
         }
         await replaceCode(destinationFolder, content);
         await executeScarbBuild(destinationFolder);
