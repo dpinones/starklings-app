@@ -7,11 +7,25 @@ const accessAsync = util.promisify(fs.access);
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export const scarbTest = async (req, res, next) => {
+    let {user, content } = req.body;
+    const rootDir = process.cwd();
+    const tempFolder = path.join(rootDir, 'temp');
+    const destinationFolder = path.join(tempFolder, user);
+
+    try {
+        if (!await existFolder(destinationFolder)) {
+            await executeScarbNew(user, tempFolder);
+        }
+        await replaceCode(destinationFolder, content);
+        const log = await executeScarbTest(destinationFolder);
+        return res.status(200).json({ message: log });
+    } catch (error) {
+        return next(error);
+    }
 }
 
 export const scarbBuild = async (req, res, next) => {
     const {user, content } = req.body;
-    console.log("user", user);
     
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');
@@ -59,6 +73,16 @@ async function replaceCode(destinationFolder, content) {
 async function executeScarbBuild(destinationFolder) {
     try {
         await util.promisify(exec)(`scarb build`, { cwd: destinationFolder });
+        
+    } catch (error) {
+        throw { statusCode: 404, message: error.stdout };
+    }
+}
+
+async function executeScarbTest(destinationFolder) {
+    try {
+        const { stdout } = await util.promisify(exec)(`scarb test`, { cwd: destinationFolder });
+        return stdout;
     } catch (error) {
         throw { statusCode: 404, message: error.stdout };
     }
