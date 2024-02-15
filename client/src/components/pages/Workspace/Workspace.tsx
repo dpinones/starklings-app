@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
-import { useCairo } from "../../hooks/useCairo";
+import { useCairo } from "../../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
