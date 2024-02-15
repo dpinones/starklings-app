@@ -22,7 +22,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustc --version
 
 # install Scarb
-RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | bash
+RUN curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v 2.4.0
 ENV PATH="/root/.local/bin:${PATH}"
 
 #Specify a working directory
