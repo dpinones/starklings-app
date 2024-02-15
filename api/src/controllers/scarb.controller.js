@@ -7,7 +7,10 @@ const accessAsync = util.promisify(fs.access);
 const writeFileAsync = util.promisify(fs.writeFile);
 
 export const scarbTest = async (req, res, next) => {
-    let {user, content } = req.body;
+
+    const content = req.body;
+    const user = req.params.user;
+
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');
     const destinationFolder = path.join(tempFolder, user);
@@ -25,7 +28,8 @@ export const scarbTest = async (req, res, next) => {
 }
 
 export const scarbBuild = async (req, res, next) => {
-    const {user, content } = req.body;
+    const content = req.body;
+    const user = req.params.user;
     
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');

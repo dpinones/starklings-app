@@ -6,8 +6,8 @@ import {
 
 const router = Router();
 
-router.post("/scarb/build", scarbBuild);
+router.post("/scarb/build/:user", scarbBuild);
 
-router.post("/scarb/test", scarbTest);
+router.post("/scarb/test/:user", scarbTest);
 
 export default router;
