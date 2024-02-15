@@ -14,13 +14,14 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: '*',
+    origin: ORIGIN,
     credentials: true,
   })
 );
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
