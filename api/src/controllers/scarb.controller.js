@@ -30,6 +30,30 @@ export const scarbBuild = async (req, res, next) => {
     }
 };
 
+export const scarbTest = async (req, res, next) => {
+    const content = req.body;
+    const user = req.params.user;
+
+    if (Object.keys(content).length == 0) {
+        return res.status(200).json({ statusCode: 404, message: 'Error body is empty' });
+    }
+
+    const rootDir = process.cwd();
+    const tempFolder = path.join(rootDir, 'temp');
+    const destinationFolder = path.join(tempFolder, user);
+
+    try {
+        if (!await existFolder(destinationFolder)) {
+            await executeScarbNew(user, tempFolder);
+        }
+        await replaceCode(destinationFolder, content);
+        const log = await executeScarbTest(destinationFolder);
+        return res.status(200).json({ message: log });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 async function existFolder(folderName) {
     try {
         await accessAsync(folderName, fs.constants.F_OK);
@@ -61,6 +85,15 @@ async function executeScarbBuild(destinationFolder) {
     try {
         await util.promisify(exec)(`scarb build`, { cwd: destinationFolder });
         
+    } catch (error) {
+        throw { statusCode: 404, message: error.stdout };
+    }
+}
+
+async function executeScarbTest(destinationFolder) {
+    try {
+        const { stdout } = await util.promisify(exec)(`scarb test`, { cwd: destinationFolder });
+        return stdout;
     } catch (error) {
         throw { statusCode: 404, message: error.stdout };
     }
