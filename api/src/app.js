@@ -5,6 +5,7 @@ import cors from "cors";
 
 import groupsRoutes from "./routes/groups.routes.js";
 import exercisesRoutes from "./routes/exercises.routes.js";
+import scarbRoutes from "./routes/scarb.routes.js";
 import { ORIGIN } from "./config.js";
 import { pool } from "./db.js";
 
@@ -13,13 +14,14 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: '*',
+    origin: ORIGIN,
     credentials: true,
   })
 );
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.text());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
@@ -31,6 +33,7 @@ app.get("/api/ping", async (req, res) => {
 
 app.use("/api", groupsRoutes);
 app.use("/api", exercisesRoutes);
+app.use("/api", scarbRoutes);
 
 // Error Hander
 app.use((err, req, res, next) => {
