@@ -1,5 +1,6 @@
 import { SkipNext, SkipPrevious } from "@mui/icons-material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -21,6 +22,7 @@ interface IActionBarProps {
   succeeded: boolean;
   hintVisible: boolean;
   first: boolean;
+  compilePending: boolean;
 }
 
 export const ActionBar = ({
@@ -33,6 +35,7 @@ export const ActionBar = ({
   succeeded,
   hintVisible,
   first,
+  compilePending,
 }: IActionBarProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
@@ -94,20 +97,21 @@ export const ActionBar = ({
             color="primary"
             variant="contained"
             onClick={onGetHintClick}
-            disabled={hintVisible || succeeded}
+            disabled={hintVisible || succeeded || compilePending}
           >
             Get Hint
           </Button>
-          {!isTest && (
-            <Button
-              variant="contained"
-              color="success"
-              onClick={onCompileClick}
-            >
-              Compile
-            </Button>
-          )}
-          {(succeeded || isTest) && (
+          <Button
+            disabled={compilePending}
+            variant="contained"
+            color="success"
+            onClick={onCompileClick}
+          >
+            {isTest ? "Test" : "Compile"}
+            {compilePending && <CircularProgress sx={{ml: 1}} size='1rem' />
+}
+          </Button>
+          {succeeded && (
             <Button variant="contained" color="secondary" onClick={onNextClick}>
               Next
             </Button>

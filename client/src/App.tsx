@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import {
   QueryCache,
@@ -17,6 +17,12 @@ import { PocApp } from "./components/poc/PocApp";
 
 const NAV_HEIGHT = "50px";
 
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
 function App() {
   const { showError } = useNotification();
 
@@ -31,21 +37,25 @@ function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <QueryClientProvider client={queryClient}>
-        <BasicLayout>
-          <>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/poc" element={<PocApp />} />
-              <Route path="/exercise/:id" element={<Workspace />} />
-              <Route path="/end" element={<FinalScreen />} />
-            </Routes>
-            <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
-              <Typography sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}>
-                powered by Starknet Foundation
-              </Typography>
-            </Box>
-          </>
-        </BasicLayout>
+        <ThemeProvider theme={darkTheme}>
+          <BasicLayout>
+            <>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/poc" element={<PocApp />} />
+                <Route path="/exercise/:id" element={<Workspace />} />
+                <Route path="/end" element={<FinalScreen />} />
+              </Routes>
+              <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
+                <Typography
+                  sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
+                >
+                  powered by Starknet Foundation
+                </Typography>
+              </Box>
+            </>
+          </BasicLayout>
+        </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );
