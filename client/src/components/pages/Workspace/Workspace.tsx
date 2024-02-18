@@ -1,12 +1,21 @@
 import { Editor } from "@monaco-editor/react";
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { Alert, AlertTitle, Box, IconButton, Link, Tooltip, Typography } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  IconButton,
+  Link,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
-import { isMobileOnly } from 'react-device-detect';
+import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
+import { useBuildCairo, useTestCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
 import { useCairo } from "../../../hooks/useCairo";
@@ -16,7 +25,13 @@ import { MobileWarningDialog } from "./MobileWarningDialog";
 
 export const Workspace = () => {
   const { id } = useParams();
-  const { compile } = useCairo();
+
+  const { mutateAsync: build, isPending: buildPending } =
+    useBuildCairo("nicon44");
+  const { mutateAsync: test, isPending: testPending } = useTestCairo("nicon44");
+
+  const compilePending = buildPending || testPending;
+
   const { data, isLoading } = useGetExercise(id);
   const [editorValue, setEditorValue] = useState("");
   const [compileError, setCompileError] = useState<string | undefined>(
@@ -40,7 +55,7 @@ export const Workspace = () => {
     if (data?.code) {
       setEditorValue(data.code);
     } else {
-      setEditorValue('')
+      setEditorValue("");
     }
   }, [data?.code]);
 
@@ -50,17 +65,18 @@ export const Workspace = () => {
     setCompileError(undefined);
   };
 
-  const handleCompileClick = () => {
+  const handleCompileClick = async () => {
     setCompileError(undefined);
     setSucceeded(false);
-    const compileResult = compile(editorValue);
-    if (compileResult.success) {
+    try {
+      isTest ? await test(editorValue) : await build(editorValue);
       nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
       setSucceeded(true);
       setHint(undefined);
-    } else {
-      console.error(compileResult.error);
-      setCompileError(compileResult.error ?? "Something went wrong!");
+    } catch (e: any) {
+      const error = e.response?.data?.message ?? "Something went wrong!";
+      console.error(e);
+      setCompileError(error);
     }
   };
 
@@ -88,7 +104,7 @@ export const Workspace = () => {
   };
 
   const resetCode = () => {
-    setEditorValue(data?.code ?? '');
+    setEditorValue(data?.code ?? "");
   };
 
   return (
@@ -171,20 +187,6 @@ export const Workspace = () => {
                     Fix the code and click <strong>COMPILE</strong> again.
                   </Alert>
                 )}
-                {isTest && (
-                  <Alert
-                    sx={{ m: 2, ml: 4 }}
-                    variant="filled"
-                    severity="warning"
-                  >
-                    <AlertTitle>Exercise not supported</AlertTitle>
-                    We don't support this exercise in the current version of the
-                    app. But we are working on it! It's under development and it
-                    will be available soon.
-                    <br />
-                    Please, hit the next button to skip the exercise.
-                  </Alert>
-                )}
               </Box>
             </Box>
             <ActionBar
@@ -197,6 +199,7 @@ export const Workspace = () => {
               succeeded={succeeded}
               hintVisible={!!hint}
               first={!prevId}
+              compilePending={compilePending}
             />
           </Panel>
           <PanelResizeHandle>
