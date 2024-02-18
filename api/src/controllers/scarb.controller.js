@@ -11,7 +11,7 @@ export const scarbBuild = async (req, res, next) => {
     const user = req.params.user;
 
     if (Object.keys(content).length == 0) {
-        return res.status(200).json({ statusCode: 404, message: 'Error body is empty' });
+        return res.status(404).json({ statusCode: 404, message: 'Error body is empty' });
     }
     
     const rootDir = process.cwd();
@@ -35,7 +35,7 @@ export const scarbTest = async (req, res, next) => {
     const user = req.params.user;
 
     if (Object.keys(content).length == 0) {
-        return res.status(200).json({ statusCode: 404, message: 'Error body is empty' });
+        return res.status(404).json({ statusCode: 404, message: 'Error body is empty' });
     }
 
     const rootDir = process.cwd();
