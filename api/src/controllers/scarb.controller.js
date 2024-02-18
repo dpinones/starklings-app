@@ -11,7 +11,7 @@ export const scarbBuild = async (req, res, next) => {
     const user = req.params.user;
 
     if (Object.keys(content).length == 0) {
-        return res.status(200).json({ statusCode: 404, message: 'Error body is empty' });
+        return res.status(500).json({ statusCode: 500, message: 'Error body is empty' });
     }
     
     const rootDir = process.cwd();
@@ -35,7 +35,7 @@ export const scarbTest = async (req, res, next) => {
     const user = req.params.user;
 
     if (Object.keys(content).length == 0) {
-        return res.status(200).json({ statusCode: 404, message: 'Error body is empty' });
+        return res.status(500).json({ statusCode: 500, message: 'Error body is empty' });
     }
 
     const rootDir = process.cwd();
@@ -67,7 +67,7 @@ async function executeScarbNew(folderName, tempFolder) {
     try {
         await util.promisify(exec)(`scarb new ${folderName}`, { cwd: tempFolder });
     } catch (error) {
-        throw { statusCode: 404, message: 'Error executing scarb new' };
+        throw { statusCode: 500, message: 'Error executing scarb new' };
     }
 }
 
@@ -77,7 +77,7 @@ async function replaceCode(destinationFolder, content) {
     try {
         await writeFileAsync(libCairoFile, content);
     } catch (error) {
-        throw { statusCode: 404, message: 'Error writing to file' };
+        throw { statusCode: 500, message: 'Error writing to file' };
     }
 }
 
@@ -86,7 +86,7 @@ async function executeScarbBuild(destinationFolder) {
         await util.promisify(exec)(`scarb build`, { cwd: destinationFolder });
         
     } catch (error) {
-        throw { statusCode: 404, message: error.stdout };
+        throw { statusCode: 500, message: error.stdout };
     }
 }
 
@@ -95,6 +95,6 @@ async function executeScarbTest(destinationFolder) {
         const { stdout } = await util.promisify(exec)(`scarb test`, { cwd: destinationFolder });
         return stdout;
     } catch (error) {
-        throw { statusCode: 404, message: error.stdout };
+        throw { statusCode: 500, message: error.stdout };
     }
 }
