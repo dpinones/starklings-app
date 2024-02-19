@@ -21,6 +21,7 @@ import { FinalScreen } from "./components/pages/FinalScreen/FinalScreen";
 import { Home } from "./components/pages/Home/Home";
 import { Workspace } from "./components/pages/Workspace/Workspace";
 import { PocApp } from "./components/poc/PocApp";
+import { StarknetProvider } from "./context/StarknetProvider";
 import { useNotification } from "./hooks/useNotification";
 
 const darkTheme = createTheme({
@@ -52,27 +53,29 @@ function App() {
         connectors={connectors}
         explorer={voyager}
       >
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={darkTheme}>
-            <BasicLayout>
-              <>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/poc" element={<PocApp />} />
-                  <Route path="/exercise/:id" element={<Workspace />} />
-                  <Route path="/end" element={<FinalScreen />} />
-                </Routes>
-                <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
-                  <Typography
-                    sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
-                  >
-                    powered by Starknet Foundation
-                  </Typography>
-                </Box>
-              </>
-            </BasicLayout>
-          </ThemeProvider>
-        </QueryClientProvider>
+        <StarknetProvider>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={darkTheme}>
+              <BasicLayout>
+                <>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/poc" element={<PocApp />} />
+                    <Route path="/exercise/:id" element={<Workspace />} />
+                    <Route path="/end" element={<FinalScreen />} />
+                  </Routes>
+                  <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
+                    <Typography
+                      sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
+                    >
+                      powered by Starknet Foundation
+                    </Typography>
+                  </Box>
+                </>
+              </BasicLayout>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </StarknetProvider>
       </StarknetConfig>
     </ErrorBoundary>
   );
