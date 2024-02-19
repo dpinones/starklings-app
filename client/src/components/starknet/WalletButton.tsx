@@ -2,10 +2,11 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import {
   Connector,
-  useConnect,
   ConnectorNotFoundError,
+  useConnect,
 } from "@starknet-react/core";
 import { useState } from "react";
+import { useStarknetContext } from "../../context/StarknetProvider";
 import { useNotification } from "../../hooks/useNotification";
 
 interface IWalletButtonProps {
@@ -18,6 +19,7 @@ export const WalletButton = ({
   handleClose,
 }: IWalletButtonProps) => {
   const { connectAsync } = useConnect();
+  const { setConnector } = useStarknetContext();
   const [disabled, setDisabled] = useState(false);
   const { showError } = useNotification();
 
@@ -27,6 +29,7 @@ export const WalletButton = ({
     }
     try {
       await connectAsync({ connector });
+      setConnector(connector);
       handleClose();
     } catch (e: unknown) {
       if (e instanceof ConnectorNotFoundError) {

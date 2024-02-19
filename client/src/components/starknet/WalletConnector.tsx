@@ -1,12 +1,14 @@
 import { Button, Menu, MenuItem } from "@mui/material";
-import { useAccount } from "@starknet-react/core";
-import { useState } from "react";
+import { useAccount, useConnect, useDisconnect } from "@starknet-react/core";
+import { useEffect, useState } from "react";
+import { useStarknetContext } from "../../context/StarknetProvider";
 import { ConnectWalletDrawer } from "./ConnectWalletDrawer";
-import { Connector, useDisconnect, ConnectorNotFoundError } from "@starknet-react/core";
 
 export const WalletConnector = () => {
   const { address, isConnected } = useAccount();
-  const { disconnectAsync} = useDisconnect()
+  const { disconnectAsync } = useDisconnect();
+  const { connect } = useConnect();
+  const { setConnector, connectedConnector } = useStarknetContext();
   const [connectWalletDrawerOpen, setConnectWalletDrawerOpen] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -18,10 +20,16 @@ export const WalletConnector = () => {
     setAnchorEl(null);
   };
   const disconnect = async () => {
-    await disconnectAsync()
-    handleClose()
-  }
+    await disconnectAsync();
+    setConnector(undefined);
+    handleClose();
+  };
 
+  useEffect(() => {
+    if (connectedConnector && !isConnected) {
+      connect({ connector: connectedConnector });
+    }
+  }, []);
 
   return (
     <>
@@ -30,7 +38,12 @@ export const WalletConnector = () => {
           <Button variant="outlined" color="warning" onClick={handleClick}>
             {"0x..." + address.slice(address.length - 6)}
           </Button>
-          <Menu sx={{mt: 1}} anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <Menu
+            sx={{ mt: 1 }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+          >
             <MenuItem onClick={disconnect}>Disconnect wallet</MenuItem>
           </Menu>
         </>
