@@ -1,5 +1,6 @@
-import { Connector, useConnect } from "@starknet-react/core";
+import { Connector, useAccount, useConnect } from "@starknet-react/core";
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
+import { USERNAME } from "../constants/localStorage";
 
 const CONNECTED_WALLET = "CONNECTED_WALLET";
 
@@ -21,6 +22,7 @@ export const useStarknetContext = () => useContext(StarknetContext);
 
 export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
   const { connectors } = useConnect();
+  const { address } = useAccount();
   const connectedWallet = window.localStorage.getItem(CONNECTED_WALLET);
   const foundConnector = connectors.find(
     (connector) => connector.id === connectedWallet
@@ -36,6 +38,12 @@ export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
         connector
           ? window.localStorage.setItem(CONNECTED_WALLET, connector.id)
           : window.localStorage.removeItem(CONNECTED_WALLET);
+        if (connector && address) {
+          window.localStorage.setItem(
+            USERNAME,
+            `w${address.slice(address.length - 6)}`
+          );
+        }
       },
       connectedConnector: connectedConnector,
     }),
