@@ -1,7 +1,10 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { IconButton, Link, Typography } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
+import { IconButton, Link, Tooltip, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useState } from "react";
 import { WalletConnector } from "../starknet/WalletConnector";
+import { About } from "./About";
 
 const NAV_HEIGHT = "50px";
 
@@ -33,15 +36,9 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
               </Typography>
             </Link>
           </Box>
-          <Box sx={{display: 'flex', gap: 1, alignItems: 'center', mr: 2 }}>
-            <IconButton
-              href={"https://github.com/dpinones/starklings-app"}
-              target="_blank"
-              sx={{ p: 0.5, color: "#FFF"}}
-              aria-label="start-over"
-            >
-              <GitHubIcon />
-            </IconButton>
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center", mr: 2 }}>
+            
+            <About />
             <WalletConnector />
           </Box>
         </Box>
