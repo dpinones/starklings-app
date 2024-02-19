@@ -1,5 +1,13 @@
 import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import Box from "@mui/material/Box";
+import { sepolia } from "@starknet-react/chains";
+import {
+  StarknetConfig,
+  argent,
+  braavos,
+  publicProvider,
+  voyager,
+} from "@starknet-react/core";
 import {
   QueryCache,
   QueryClient,
@@ -8,14 +16,12 @@ import {
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
 import { ErrorFallback } from "./components/error/ErrorFallback";
-import { useNotification } from "./components/hooks/useNotification";
 import { BasicLayout } from "./components/layout/BasicLayout";
 import { FinalScreen } from "./components/pages/FinalScreen/FinalScreen";
 import { Home } from "./components/pages/Home/Home";
 import { Workspace } from "./components/pages/Workspace/Workspace";
 import { PocApp } from "./components/poc/PocApp";
-
-const NAV_HEIGHT = "50px";
+import { useNotification } from "./hooks/useNotification";
 
 const darkTheme = createTheme({
   palette: {
@@ -34,29 +40,40 @@ function App() {
     }),
   });
 
+  const chains = [sepolia];
+  const provider = publicProvider();
+  const connectors = [braavos(), argent()];
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={darkTheme}>
-          <BasicLayout>
-            <>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/poc" element={<PocApp />} />
-                <Route path="/exercise/:id" element={<Workspace />} />
-                <Route path="/end" element={<FinalScreen />} />
-              </Routes>
-              <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
-                <Typography
-                  sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
-                >
-                  powered by Starknet Foundation
-                </Typography>
-              </Box>
-            </>
-          </BasicLayout>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <StarknetConfig
+        chains={chains}
+        provider={provider}
+        connectors={connectors}
+        explorer={voyager}
+      >
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={darkTheme}>
+            <BasicLayout>
+              <>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/poc" element={<PocApp />} />
+                  <Route path="/exercise/:id" element={<Workspace />} />
+                  <Route path="/end" element={<FinalScreen />} />
+                </Routes>
+                <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
+                  <Typography
+                    sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
+                  >
+                    powered by Starknet Foundation
+                  </Typography>
+                </Box>
+              </>
+            </BasicLayout>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </StarknetConfig>
     </ErrorBoundary>
   );
 }
