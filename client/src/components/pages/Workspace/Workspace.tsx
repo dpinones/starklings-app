@@ -18,7 +18,6 @@ import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useBuildCairo, useTestCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
-import { useCairo } from "../../../hooks/useCairo";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
@@ -27,8 +26,8 @@ export const Workspace = () => {
   const { id } = useParams();
 
   const { mutateAsync: build, isPending: buildPending } =
-    useBuildCairo("nicon44");
-  const { mutateAsync: test, isPending: testPending } = useTestCairo("nicon44");
+    useBuildCairo();
+  const { mutateAsync: test, isPending: testPending } = useTestCairo();
 
   const compilePending = buildPending || testPending;
 
