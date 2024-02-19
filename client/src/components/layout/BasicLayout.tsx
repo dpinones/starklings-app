@@ -33,16 +33,16 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
               </Typography>
             </Link>
           </Box>
-          <Box sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
-            <WalletConnector />
+          <Box sx={{display: 'flex', gap: 1, alignItems: 'center', mr: 2 }}>
             <IconButton
               href={"https://github.com/dpinones/starklings-app"}
               target="_blank"
-              sx={{ p: 0.5, color: "#FFF", mr: 2 }}
+              sx={{ p: 0.5, color: "#FFF"}}
               aria-label="start-over"
             >
               <GitHubIcon />
             </IconButton>
+            <WalletConnector />
           </Box>
         </Box>
         <Box sx={{ height: "calc(100% - 50px)" }}>{children}</Box>
