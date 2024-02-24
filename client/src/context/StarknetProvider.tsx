@@ -41,7 +41,7 @@ export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
         if (connector && address) {
           window.localStorage.setItem(
             USERNAME,
-            `w${address.slice(address.length - 6)}`
+            `w${address}`
           );
         }
       },
