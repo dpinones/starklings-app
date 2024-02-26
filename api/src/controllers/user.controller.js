@@ -7,6 +7,12 @@ import { pool } from "../db.js";
 const accessAsync = util.promisify(fs.access);
 const writeFileAsync = util.promisify(fs.writeFile);
 
+export const getExercisesByUser = async (req, res, next) => {
+    const user = req.params.user;
+    const result = await pool.query("SELECT * FROM Resolutions WHERE user_name = $1", [user]);
+    return res.json(result.rows);
+};
+
 export const resolveExercise = async (req, res, next) => {
     const content = req.body;
     const user = req.params.user;
