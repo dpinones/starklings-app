@@ -13,6 +13,16 @@ export const getExercisesByUser = async (req, res, next) => {
     return res.json(result.rows);
 };
 
+export const matchUser = async (req, res, next) => {
+    const user = req.params.user;
+    const newUser = req.params.newUser;
+
+    console.log("user ", user);
+    console.log("newUser", newUser);
+    await pool.query("UPDATE resolutions SET user_name = $1 WHERE user_name = $2", [newUser, user]);
+    return res.status(200).json({ message: 'ok' });
+};
+
 export const resolveExercise = async (req, res, next) => {
     const content = req.body;
     const user = req.params.user;
