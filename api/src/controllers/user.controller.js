@@ -46,7 +46,11 @@ export const resolveExercise = async (req, res, next) => {
         } else {
             log = await executeScarbTest(destinationFolder);
         }
-        // save Resolutions
+
+        await pool.query("INSERT INTO Resolutions (user_name, exercise_id) VALUES ($1, $2)", [
+            user, exercise_id
+        ]);
+
         return res.status(200).json({ message: log });
     } catch (error) {
         return next(error);
