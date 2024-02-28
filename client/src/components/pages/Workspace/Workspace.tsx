@@ -15,21 +15,18 @@ import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
-import { useBuildCairo, useTestCairo } from "../../../queries/useCompileCairo";
+import { useCompileCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetHint } from "../../../queries/useGetHint";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
+import { Sidebar } from "./Sidebar";
 
 export const Workspace = () => {
   const { id } = useParams();
 
-  const { mutateAsync: build, isPending: buildPending } =
-    useBuildCairo();
-  const { mutateAsync: test, isPending: testPending } = useTestCairo();
-
-  const compilePending = buildPending || testPending;
+  const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
   const { data, isLoading } = useGetExercise(id);
   const [editorValue, setEditorValue] = useState("");
@@ -68,7 +65,7 @@ export const Workspace = () => {
     setCompileError(undefined);
     setSucceeded(false);
     try {
-      isTest ? await test(editorValue) : await build(editorValue);
+      await compile({ exercise: id ?? "", code: editorValue });
       nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
       setSucceeded(true);
       setHint(undefined);
@@ -107,7 +104,8 @@ export const Workspace = () => {
   };
 
   return (
-    <Box sx={{ height: "100%", overflowY: "hidden" }}>
+    <Box sx={{ height: "100%", overflowY: "hidden", display: "flex" }}>
+      <Sidebar currentExercise={id ?? ''} />
       <PanelGroup direction={"horizontal"}>
         <Grid sx={{ mt: 0, height: "100%" }} container spacing={2}>
           <Panel minSizePercentage={25} defaultSizePercentage={50}>

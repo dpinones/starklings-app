@@ -1,5 +1,4 @@
 import { SkipNext, SkipPrevious } from "@mui/icons-material";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -57,7 +56,7 @@ export const ActionBar = ({
         <Box sx={{ display: "flex", ml: 4, gap: 1 }}>
           {!first && (
             <>
-              <Tooltip title="Start over">
+              {/* <Tooltip title="Start over">
                 <IconButton
                   onClick={openDialog}
                   sx={{ p: 0.5, color: "#FFF" }}
@@ -65,7 +64,7 @@ export const ActionBar = ({
                 >
                   <RestartAltIcon />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title="Go to previous exercise">
                 <IconButton
                   onClick={onPrevClick}
@@ -108,8 +107,7 @@ export const ActionBar = ({
             onClick={onCompileClick}
           >
             {isTest ? "Test" : "Compile"}
-            {compilePending && <CircularProgress sx={{ml: 1}} size='1rem' />
-}
+            {compilePending && <CircularProgress sx={{ ml: 1 }} size="1rem" />}
           </Button>
           {succeeded && (
             <Button variant="contained" color="secondary" onClick={onNextClick}>
