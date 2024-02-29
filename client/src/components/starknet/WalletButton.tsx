@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import {
   Connector,
   ConnectorNotFoundError,
-  useConnect,
+  useConnect
 } from "@starknet-react/core";
 import { useState } from "react";
 import { useStarknetContext } from "../../context/StarknetProvider";

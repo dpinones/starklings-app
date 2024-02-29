@@ -1,6 +1,7 @@
 import { Connector, useAccount, useConnect } from "@starknet-react/core";
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import { USERNAME } from "../constants/localStorage";
+import { useMatchUserToWallet } from "../queries/useMatchUserToWallet";
 
 const CONNECTED_WALLET = "CONNECTED_WALLET";
 
@@ -31,6 +32,8 @@ export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
     Connector | undefined
   >(foundConnector);
 
+  const { mutate: matchUserToWallet } = useMatchUserToWallet();
+
   const value = useMemo(
     () => ({
       setConnector: (connector: Connector | undefined) => {
@@ -43,6 +46,7 @@ export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
             USERNAME,
             `w${address}`
           );
+          matchUserToWallet(address)
         }
       },
       connectedConnector: connectedConnector,
