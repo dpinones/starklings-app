@@ -1,4 +1,4 @@
-import { Connector, useAccount, useConnect } from "@starknet-react/core";
+import { Connector, useConnect } from "@starknet-react/core";
 import { ReactNode, createContext, useContext, useMemo, useState } from "react";
 import { USERNAME } from "../constants/localStorage";
 import { useMatchUserToWallet } from "../queries/useMatchUserToWallet";
@@ -23,7 +23,6 @@ export const useStarknetContext = () => useContext(StarknetContext);
 
 export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
   const { connectors } = useConnect();
-  const { address } = useAccount();
   const connectedWallet = window.localStorage.getItem(CONNECTED_WALLET);
   const foundConnector = connectors.find(
     (connector) => connector.id === connectedWallet
@@ -36,17 +35,15 @@ export const StarknetProvider = ({ children }: IStarknetProviderProps) => {
 
   const value = useMemo(
     () => ({
-      setConnector: (connector: Connector | undefined) => {
+      setConnector: async (connector: Connector | undefined) => {
         setConnectedConnector(connector);
         connector
           ? window.localStorage.setItem(CONNECTED_WALLET, connector.id)
           : window.localStorage.removeItem(CONNECTED_WALLET);
-        if (connector && address) {
-          window.localStorage.setItem(
-            USERNAME,
-            `w${address}`
-          );
-          matchUserToWallet(address)
+        if (connector) {
+          const { address } = await connector.account();
+          window.localStorage.setItem(USERNAME, `w${address}`);
+          matchUserToWallet(`w${address}`);
         }
       },
       connectedConnector: connectedConnector,
