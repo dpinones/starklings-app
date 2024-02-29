@@ -17,24 +17,51 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useCompileCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
+import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
+import { IExercise } from "../../../types/exercise";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
 import { Sidebar } from "./Sidebar";
+
+const findNextExercise = (
+  exercises: IExercise[],
+  currentExerciseId: string
+) => {
+  const currentExerciseIndex = exercises.findIndex(
+    (exercise) => exercise.id === currentExerciseId
+  );
+  if (!currentExerciseIndex) {
+    return "intro1";
+  }
+  for (let i = currentExerciseIndex + 1; i < exercises.length; i++) {
+    if (!exercises[i]?.completed) {
+      return exercises[i]?.id;
+    }
+  }
+  for (let i = 0; i < currentExerciseIndex; i++) {
+    if (!exercises[i]?.completed) {
+      return exercises[i]?.id;
+    }
+  }
+  return null;
+};
 
 export const Workspace = () => {
   const { id } = useParams();
 
   const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
+  const { data: exercises } = useGetExercises();
   const { data, isLoading } = useGetExercise(id);
   const [editorValue, setEditorValue] = useState("");
   const [compileError, setCompileError] = useState<string | undefined>(
     undefined
   );
   const [succeeded, setSucceeded] = useState(false);
-  const nextId = data?.next_exercise;
+  const nextId = findNextExercise(exercises ?? [], id ?? "");
+  console.log("nextId", nextId);
   const prevId = data?.prev_exercise;
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);
@@ -105,7 +132,7 @@ export const Workspace = () => {
 
   return (
     <Box sx={{ height: "100%", overflowY: "hidden", display: "flex" }}>
-      <Sidebar currentExercise={id ?? ''} />
+      <Sidebar currentExercise={id ?? ""} />
       <PanelGroup direction={"horizontal"}>
         <Grid sx={{ mt: 0, height: "100%" }} container spacing={2}>
           <Panel minSizePercentage={25} defaultSizePercentage={50}>
@@ -197,6 +224,7 @@ export const Workspace = () => {
               hintVisible={!!hint}
               first={!prevId}
               compilePending={compilePending}
+              last={!data?.next_exercise}
             />
           </Panel>
           <PanelResizeHandle>
