@@ -44,8 +44,7 @@ export const ConnectWalletDrawer = ({
           </Box>
           <Box>
             <Typography sx={{ mb: 2 }} variant="body2">
-              When your wallet is connected, all your process is saved on the
-              Starknet blockchain.
+              When your wallet is connected, all your process is saved.
             </Typography>
             <Typography variant="body2">
               Besides, at the end of the tutorial you will be able to claim a
