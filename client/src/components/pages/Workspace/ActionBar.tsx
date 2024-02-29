@@ -22,6 +22,7 @@ interface IActionBarProps {
   hintVisible: boolean;
   first: boolean;
   compilePending: boolean;
+  last: boolean;
 }
 
 export const ActionBar = ({
@@ -35,6 +36,7 @@ export const ActionBar = ({
   hintVisible,
   first,
   compilePending,
+  last,
 }: IActionBarProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
@@ -54,9 +56,7 @@ export const ActionBar = ({
         }}
       >
         <Box sx={{ display: "flex", ml: 4, gap: 1 }}>
-          {!first && (
-            <>
-              {/* <Tooltip title="Start over">
+          {/* <Tooltip title="Start over">
                 <IconButton
                   onClick={openDialog}
                   sx={{ p: 0.5, color: "#FFF" }}
@@ -65,19 +65,19 @@ export const ActionBar = ({
                   <RestartAltIcon />
                 </IconButton>
               </Tooltip> */}
-              <Tooltip title="Go to previous exercise">
-                <IconButton
-                  onClick={onPrevClick}
-                  sx={{ p: 0.5, color: "#FFF" }}
-                  aria-label="previous exercise"
-                >
-                  <SkipPrevious />
-                </IconButton>
-              </Tooltip>
-            </>
-          )}
+          <Tooltip title="Go to previous exercise">
+            <IconButton
+              disabled={first}
+              onClick={onPrevClick}
+              sx={{ p: 0.5, color: "#FFF" }}
+              aria-label="previous exercise"
+            >
+              <SkipPrevious />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Skip current exercise">
             <IconButton
+              disabled={last}
               onClick={onNextClick}
               sx={{ p: 0.5, color: "#FFF" }}
               aria-label="skip-exercise"

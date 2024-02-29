@@ -1,4 +1,7 @@
-import { Box, Button, Link, Typography } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import XIcon from "@mui/icons-material/X";
+import { Box, Button, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { Logo } from "../../shared/Logo";
@@ -27,10 +30,24 @@ export const FinalScreen = () => {
         You are a Cairo rockstar! <br />
         Thank you for completing starklings. <br />
         Do you have any feedback for us?{" "}
-        <Link target="_blank" href="https://github.com/dpinones/starklings-app">
-          GitHub
-        </Link>{" "}
-        <br /> <br />
+        <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>
+          <IconButton
+            href={"https://twitter.com/starklingsapp"}
+            target="_blank"
+            sx={{ ml: 1, p: 0.5, color: "#FFF" }}
+            aria-label="start-over"
+          >
+            <XIcon />
+          </IconButton>
+          <IconButton
+            href={"https://github.com/dpinones/starklings-app"}
+            target="_blank"
+            sx={{ ml: 1, p: 0.5, color: "#FFF" }}
+            aria-label="start-over"
+          >
+            <GitHubIcon />
+          </IconButton>
+        </Box>
         This is the end of the way... <br /> but you can always go for a second
         round XD
       </Typography>
