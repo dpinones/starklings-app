@@ -61,7 +61,6 @@ export const Workspace = () => {
   );
   const [succeeded, setSucceeded] = useState(false);
   const nextId = findNextExercise(exercises ?? [], id ?? "");
-  console.log("nextId", nextId);
   const prevId = data?.prev_exercise;
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);

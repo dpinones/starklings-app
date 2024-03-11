@@ -1,8 +1,8 @@
 import Editor from "@monaco-editor/react";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import "./PocApp.css";
 import __wbg_init, { compileCairoProgram } from "../../pkg/module/wasm-cairo";
+import "./PocApp.css";
 
 const cairoTestProgram = `
   use debug::PrintTrait;
@@ -63,10 +63,10 @@ export const PocApp = () => {
             onClick={() => {
               const result = compileCairoProgram(editorValue, false);
               if (result.startsWith("failed to compile")) {
-                setError(result)
-                setPassed(false)
+                setError(result);
+                setPassed(false);
               } else {
-                setError('')
+                setError("");
                 setPassed(true);
               }
               console.log("compile result: ", result);
@@ -98,16 +98,20 @@ export const PocApp = () => {
 
         {error !== "" && (
           <Box sx={{ m: 2 }}>
-            <Typography color='red' sx={{ textAlign: "left" }}>{error}</Typography>
+            <Typography color="red" sx={{ textAlign: "left" }}>
+              {error}
+            </Typography>
           </Box>
         )}
 
         {passed && (
           <Box sx={{ m: 2 }}>
-            <Typography variant="h4" color='green'>Well done!</Typography>
+            <Typography variant="h4" color="green">
+              Well done!
+            </Typography>
           </Box>
         )}
       </header>
     </div>
   );
-}
+};
