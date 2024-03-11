@@ -1,18 +1,19 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
-    Box,
-    CSSObject,
-    Divider,
-    IconButton,
-    Theme,
-    styled
+  Box,
+  CSSObject,
+  Divider,
+  IconButton,
+  Theme,
+  styled,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import { useState } from "react";
+import { SIDEBAR_OPEN } from "../../../constants/localStorage";
 import { ExerciseList } from "./ExerciseList";
 
-const DRAWER_WIDTH = 240;
+const DRAWER_WIDTH = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -60,10 +61,17 @@ interface ISidebarProps {
 }
 
 export const Sidebar = ({ currentExercise }: ISidebarProps) => {
-  const [open, setOpen] = useState(true);
+  const lsOpen = window.localStorage.getItem(SIDEBAR_OPEN);
+
+  const [open, setOpen] = useState<boolean>(
+    lsOpen === null ? true : lsOpen === "true"
+  );
 
   const toggleSidebar = () => {
-    setOpen((prev) => !prev);
+    setOpen((prev) => {
+      window.localStorage.setItem(SIDEBAR_OPEN, (!prev).toString());
+      return !prev;
+    });
   };
 
   return (

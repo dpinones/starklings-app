@@ -1,11 +1,12 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {
-  Button,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 import { useGetExercises } from "../../../queries/useGetExercises";
@@ -88,9 +89,11 @@ export const ExerciseList = ({ currentExercise, open }: IExerciseListProps) => {
   return (
     <List>
       {shownExercises?.[0]?.exercise_order !== 1 && (
-        <Button fullWidth onClick={() => setShowPrevious(true)}>
-          Load previous exercises
-        </Button>
+        <LoadMoreButton
+          description="Load previous exercises"
+          open={open}
+          onClick={() => setShowPrevious(true)}
+        />
       )}
       {shownExercises?.map((exercise) => (
         <ListItem key={exercise.id} disablePadding sx={{ display: "block" }}>
@@ -137,10 +140,31 @@ export const ExerciseList = ({ currentExercise, open }: IExerciseListProps) => {
         </ListItem>
       ))}
       {shownExercises?.slice(-1)[0]?.id !== exercises?.slice(-1)[0]?.id && (
-        <Button fullWidth onClick={() => setShowNext(true)}>
-          Load next exercises
-        </Button>
+        <LoadMoreButton
+          description="Load next exercises"
+          open={open}
+          onClick={() => setShowNext(true)}
+        />
       )}
     </List>
   );
+};
+
+interface ILoadMoreButtonProps {
+  description: string;
+  open: boolean;
+  onClick: () => void;
+}
+
+const LoadMoreButton = ({
+  description,
+  open,
+  onClick,
+}: ILoadMoreButtonProps) => {
+  const button = (
+    <ListItemButton sx={{ color: "#777" }} onClick={onClick}>
+      {open ? description : <MoreHorizIcon />}
+    </ListItemButton>
+  );
+  return !open ? <Tooltip title={description}>{button}</Tooltip> : button;
 };
