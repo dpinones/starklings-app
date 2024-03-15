@@ -1,11 +1,25 @@
 import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import { CURRENT_EXERCISE } from "../../../constants/localStorage";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  GITHUB_ENABLED
+} from "../../../constants/localStorage";
+import { getFirstExerciseUrl } from "../../../utils/getFirstExerciseUrl";
 import { Logo } from "../../shared/Logo";
-const DEFAULT_FIRST_EXERCISE_ID = "intro1";
+import { GitHubWarningDialog } from "./GitHubWarningDialog";
 
 export const Home = () => {
-  const localStorageExerciseId = localStorage.getItem(CURRENT_EXERCISE);
+  const [ghDialogOpen, setGhDialogOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleStartCodingClick = () => {
+    if (localStorage.getItem(GITHUB_ENABLED)) {
+      navigate(getFirstExerciseUrl());
+    } else {
+      setGhDialogOpen(true);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -21,13 +35,18 @@ export const Home = () => {
       <Typography sx={{ mt: 3 }}>
         A web interactive tutorial to learn Cairo and Starknet.
       </Typography>
-      <Link
-        to={`/exercise/${localStorageExerciseId ?? DEFAULT_FIRST_EXERCISE_ID}`}
+
+      <Button
+        onClick={handleStartCodingClick}
+        sx={{ mt: 6, px: 16, fontSize: 16 }}
+        variant="contained"
       >
-        <Button sx={{ mt: 6, px: 16, fontSize: 16 }} variant="contained">
-          Start coding
-        </Button>
-      </Link>
+        Start coding
+      </Button>
+      <GitHubWarningDialog
+        open={ghDialogOpen}
+        onClose={() => setGhDialogOpen(false)}
+      />
     </Box>
   );
 };

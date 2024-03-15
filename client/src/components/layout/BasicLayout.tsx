@@ -1,9 +1,6 @@
-import GitHubIcon from "@mui/icons-material/GitHub";
-import InfoIcon from "@mui/icons-material/Info";
-import { IconButton, Link, Tooltip, Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useState } from "react";
-import { WalletConnector } from "../starknet/WalletConnector";
+import { GitHubLoginButton } from "../github/GitHubLoginButton";
 import { About } from "./About";
 
 const NAV_HEIGHT = "50px";
@@ -37,9 +34,8 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
             </Link>
           </Box>
           <Box sx={{ display: "flex", gap: 1, alignItems: "center", mr: 2 }}>
-            
             <About />
-            <WalletConnector />
+            <GitHubLoginButton />
           </Box>
         </Box>
         <Box sx={{ height: "calc(100% - 50px)" }}>{children}</Box>
