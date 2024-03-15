@@ -7,6 +7,7 @@ import groupsRoutes from "./routes/groups.routes.js";
 import exercisesRoutes from "./routes/exercises.routes.js";
 import scarbRoutes from "./routes/scarb.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import githubRoutes from "./routes/github.routes.js";
 import { ORIGIN } from "./config.js";
 import { pool } from "./db.js";
 
@@ -36,6 +37,7 @@ app.use("/api", groupsRoutes);
 app.use("/api", exercisesRoutes);
 app.use("/api", scarbRoutes);
 app.use("/api", userRoutes);
+app.use("/api", githubRoutes);
 
 // Error Hander
 app.use((err, req, res, next) => {
