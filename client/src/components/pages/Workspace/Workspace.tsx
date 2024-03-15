@@ -32,7 +32,8 @@ const findNextExercise = (
   const currentExerciseIndex = exercises.findIndex(
     (exercise) => exercise.id === currentExerciseId
   );
-  if (!currentExerciseIndex) {
+
+  if (currentExerciseIndex === undefined) {
     return "intro1";
   }
   for (let i = currentExerciseIndex + 1; i < exercises.length; i++) {
