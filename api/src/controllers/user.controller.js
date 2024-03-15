@@ -63,7 +63,7 @@ export const resolveExercise = async (req, res, next) => {
             log = await executeScarbTest(destinationFolder);
         }
 
-        await pool.query("INSERT INTO Resolutions (user_name, exercise_id) VALUES ($1, $2)", [
+        await pool.query("INSERT INTO Resolutions (user_name, exercise_id) VALUES ($1, $2) ON CONFLICT (user_name, exercise_id) DO NOTHING", [
             user, exercise_id
         ]);
 
