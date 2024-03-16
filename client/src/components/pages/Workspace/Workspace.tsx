@@ -207,7 +207,7 @@ export const Workspace = () => {
                     <AlertTitle>
                       Ups! Something went wrong with your code
                     </AlertTitle>
-                    <div dangerouslySetInnerHTML={{ __html: compileError }} />
+                    <pre dangerouslySetInnerHTML={{ __html: compileError }} />
                     Fix the code and click <strong>COMPILE</strong> again.
                   </Alert>
                 )}
