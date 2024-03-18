@@ -2,6 +2,7 @@ import { Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { isMobileOnly } from "react-device-detect";
 import { GitHubLoginButton } from "../github/GitHubLoginButton";
+import { SimpleLink } from "../shared/SimpleLink";
 import { About } from "./About";
 
 const NAV_HEIGHT = "50px";
@@ -36,14 +37,7 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
               justifyContent: "center",
             }}
           >
-            <Link
-              href="https://starknet.notion.site/Starknet-Basecamp-Hub-1541b3c1f49f439da872d3d71647d834"
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{
-                textDecoration: "none",
-              }}
-            >
+            <SimpleLink href="https://starknet.notion.site/Starknet-Basecamp-Hub-1541b3c1f49f439da872d3d71647d834">
               <Typography
                 sx={{
                   lineHeight: 1.1,
@@ -52,7 +46,7 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
               >
                 Sign up for a free 6-week Starknet Basecamp bootcamp.
               </Typography>
-            </Link>
+            </SimpleLink>
             <Typography
               sx={{
                 lineHeight: 1.2,
@@ -62,16 +56,9 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
             >
               Plus, use your new Cairo skills to contribute to open-source
               projects and earn rewards on{" "}
-              <Link
-                href="https://app.onlydust.xyz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  textDecoration: "none",
-                }}
-              >
+              <SimpleLink href="https://app.onlydust.xyz/">
                 app.onlydust.xyz
-              </Link>
+              </SimpleLink>
               .
             </Typography>
             {/*             <IconButton
