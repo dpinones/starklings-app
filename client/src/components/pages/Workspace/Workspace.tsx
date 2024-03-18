@@ -52,6 +52,8 @@ const findNextExercise = (
 export const Workspace = () => {
   const { id } = useParams();
 
+  const bannersHeight = 138;
+
   const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
   const { data: exercises } = useGetExercises();
@@ -143,7 +145,7 @@ export const Workspace = () => {
                 flexDirection: "column",
                 justifyContent: "space-between",
                 overflowY: "auto",
-                height: "calc(100vh - 86px)",
+                height: `calc(100vh - ${bannersHeight}px)`,
               }}
             >
               {/* description */}

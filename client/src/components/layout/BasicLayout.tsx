@@ -1,17 +1,87 @@
 import { Link, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { isMobileOnly } from "react-device-detect";
 import { GitHubLoginButton } from "../github/GitHubLoginButton";
 import { About } from "./About";
 
 const NAV_HEIGHT = "50px";
+const BANNER_HEIGHT = "50px";
 
 interface IBasicLayoutProps {
   children: JSX.Element;
 }
 export const BasicLayout = ({ children }: IBasicLayoutProps) => {
+  /*   const [bannerClosed, setBannerClosed] = useState(
+    localStorage.getItem(BANNER_CLOSED)
+  );
+
+  const closeBanner = () => {
+    setBannerClosed("true");
+    localStorage.setItem(BANNER_CLOSED, "true");
+  }; */
+
   return (
     <Box sx={{ height: "100%", backgroundColor: "#242424", color: "#FFF" }}>
       <Box sx={{ height: "100%" }}>
+        {!isMobileOnly && (
+          <Box
+            sx={{
+              height: BANNER_HEIGHT,
+              zIndex: 1000,
+              width: "100%",
+              backgroundColor: "#101c42",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Link
+              href="https://starknet.notion.site/Starknet-Basecamp-Hub-1541b3c1f49f439da872d3d71647d834"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                textDecoration: "none",
+              }}
+            >
+              <Typography
+                sx={{
+                  lineHeight: 1.1,
+                  textWrap: "nowrap",
+                }}
+              >
+                Sign up for a free 6-week Starknet Basecamp bootcamp.
+              </Typography>
+            </Link>
+            <Typography
+              sx={{
+                lineHeight: 1.2,
+                textWrap: "nowrap",
+                fontSize: 15,
+              }}
+            >
+              Plus, use your new Cairo skills to contribute to open-source
+              projects and earn rewards on{" "}
+              <Link
+                href="https://app.onlydust.xyz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  textDecoration: "none",
+                }}
+              >
+                app.onlydust.xyz
+              </Link>
+              .
+            </Typography>
+            {/*             <IconButton
+              onClick={closeBanner}
+              sx={{ position: "absolute", right: 15 }}
+            >
+              <CloseIcon />
+            </IconButton> */}
+          </Box>
+        )}
         <Box
           sx={{
             height: NAV_HEIGHT,
@@ -38,7 +108,13 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
             <GitHubLoginButton />
           </Box>
         </Box>
-        <Box sx={{ height: "calc(100% - 50px)" }}>{children}</Box>
+        <Box
+          sx={{
+            height: `calc(100% - 100px)`,
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );
