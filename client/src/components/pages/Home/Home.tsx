@@ -1,9 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  GITHUB_ENABLED
-} from "../../../constants/localStorage";
+import { GITHUB_ENABLED } from "../../../constants/localStorage";
 import { getFirstExerciseUrl } from "../../../utils/getFirstExerciseUrl";
 import { Logo } from "../../shared/Logo";
 import { GitHubWarningDialog } from "./GitHubWarningDialog";
@@ -31,6 +29,9 @@ export const Home = () => {
         overflowX: "hidden",
       }}
     >
+      <Box sx={{ mb: 1 }}>
+        <img width="150px" src="/logo.svg" alt="starklings logo" />
+      </Box>
       <Logo />
       <Typography sx={{ mt: 3 }}>
         A web interactive tutorial to learn Cairo and Starknet.
