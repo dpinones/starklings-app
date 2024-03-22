@@ -32,7 +32,7 @@ export const Home = () => {
     >
       <Logo />
       <Typography sx={{ mt: 3 }}>
-        A web interactive tutorial to learn Cairo and Starknet.
+        A web-based interactive tutorial to learn Cairo and Starknet.
       </Typography>
 
       <Button

@@ -9,8 +9,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
-import { SimpleLink } from "../shared/SimpleLink";
 import { isMobileOnly } from "react-device-detect";
+import { SimpleLink } from "../shared/SimpleLink";
 
 export const About = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -42,30 +42,37 @@ export const About = () => {
           <DialogContentText id="alert-dialog-description">
             <Box sx={{ px: 2, mb: 4 }}>
               <Grid container>
-                {!isMobileOnly && <Grid sm={3} item>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignContent: "center",
-                      height: "100%",
-                    }}
-                  >
-                    <img width="150px" src="/logo.svg" alt="starklings logo" />
-                  </Box>
-                </Grid>}
-                <Grid sm={9} item>
-                  starklings.app is a web interactive platform designed to help
-                  users kickstart their journey into learning Cairo. This
-                  platform is based on{" "}
+                {!isMobileOnly && (
+                  <Grid sm={3} item>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignContent: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <img
+                        width="150px"
+                        src="/logo.svg"
+                        alt="starklings logo"
+                      />
+                    </Box>
+                  </Grid>
+                )}
+                <Grid xs={9} item>
+                  The Starklings App is an interactive web platform designed to
+                  assist users in embarking on their journey to learn Cairo.
+                  This platform is built upon{" "}
                   <SimpleLink href="https://github.com/shramee/starklings-cairo1">
                     Starklings
                   </SimpleLink>{" "}
-                  exercises, considered essential for those taking their first
-                  steps in understanding Cairo.
+                  exercises, which are considered essential for beginners
+                  seeking to grasp the fundamentals of Cairo.
                   <br />
                   <br />
-                  Our goal is to simplify the Starklings experience by getting
-                  rid of complex configurations and installations.
+                  Our objective is to simplify the Starklings experience by
+                  eliminating complex configurations and installations. Simply
+                  access the app through your browser and begin coding.
                 </Grid>
               </Grid>
             </Box>
