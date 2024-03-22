@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 import { SimpleLink } from "../shared/SimpleLink";
+import { isMobileOnly } from "react-device-detect";
 
 export const About = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -41,7 +42,7 @@ export const About = () => {
           <DialogContentText id="alert-dialog-description">
             <Box sx={{ px: 2, mb: 4 }}>
               <Grid container>
-                <Grid xs={3} item>
+                {!isMobileOnly && <Grid sm={3} item>
                   <Box
                     sx={{
                       display: "flex",
@@ -51,8 +52,8 @@ export const About = () => {
                   >
                     <img width="150px" src="/logo.svg" alt="starklings logo" />
                   </Box>
-                </Grid>
-                <Grid xs={9} item>
+                </Grid>}
+                <Grid sm={9} item>
                   starklings.app is a web interactive platform designed to help
                   users kickstart their journey into learning Cairo. This
                   platform is based on{" "}
@@ -70,7 +71,7 @@ export const About = () => {
             </Box>
 
             <Grid container>
-              <Grid item xs={5}>
+              <Grid item sm={5}>
                 <Typography sx={{ ml: 2 }} variant="h5">
                   Stay connected
                 </Typography>
@@ -112,7 +113,7 @@ export const About = () => {
                   </li>
                 </ul>
               </Grid>
-              <Grid item xs={7} sx={{ pl: 1 }}>
+              <Grid item sm={7} sx={{ pl: 1 }}>
                 <Typography sx={{ ml: 2 }} variant="h5">
                   Take your next step with Starknet
                 </Typography>

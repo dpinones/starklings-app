@@ -92,7 +92,7 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
           </Box>
           <Box sx={{ display: "flex", gap: 1, alignItems: "center", mr: 2 }}>
             <About />
-            <GitHubLoginButton />
+            {!isMobileOnly && <GitHubLoginButton />}
           </Box>
         </Box>
         <Box

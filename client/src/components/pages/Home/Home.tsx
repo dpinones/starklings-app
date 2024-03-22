@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
+import { isMobileOnly } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import { GITHUB_ENABLED } from "../../../constants/localStorage";
 import { getFirstExerciseUrl } from "../../../utils/getFirstExerciseUrl";
@@ -11,7 +12,7 @@ export const Home = () => {
   const navigate = useNavigate();
 
   const handleStartCodingClick = () => {
-    if (localStorage.getItem(GITHUB_ENABLED)) {
+    if (localStorage.getItem(GITHUB_ENABLED) || isMobileOnly) {
       navigate(getFirstExerciseUrl());
     } else {
       setGhDialogOpen(true);
