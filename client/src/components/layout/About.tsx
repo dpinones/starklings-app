@@ -40,18 +40,33 @@ export const About = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <Box sx={{ px: 2, mb: 4 }}>
-              starklings.app is a web interactive platform designed to help
-              users kickstart their journey into learning Cairo. This platform
-              is based on{" "}
-              <SimpleLink href="https://github.com/shramee/starklings-cairo1">
-                Starklings
-              </SimpleLink>{" "}
-              exercises, considered essential for those taking their first steps
-              in understanding Cairo.
-              <br />
-              <br />
-              Our goal is to simplify the Starklings experience by getting rid
-              of complex configurations and installations.
+              <Grid container>
+                <Grid xs={3} item>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <img width="150px" src="/logo.svg" alt="starklings logo" />
+                  </Box>
+                </Grid>
+                <Grid xs={9} item>
+                  starklings.app is a web interactive platform designed to help
+                  users kickstart their journey into learning Cairo. This
+                  platform is based on{" "}
+                  <SimpleLink href="https://github.com/shramee/starklings-cairo1">
+                    Starklings
+                  </SimpleLink>{" "}
+                  exercises, considered essential for those taking their first
+                  steps in understanding Cairo.
+                  <br />
+                  <br />
+                  Our goal is to simplify the Starklings experience by getting
+                  rid of complex configurations and installations.
+                </Grid>
+              </Grid>
             </Box>
 
             <Grid container>

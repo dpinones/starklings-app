@@ -83,7 +83,7 @@ export const BasicLayout = ({ children }: IBasicLayoutProps) => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "row", gap: 2, ml: 2 }}>
-            <img width="27px" src="/starknet.png" alt="starknet logo" />
+            <img width="30px" src="/logo.svg" alt="starklings logo" />
             <Link sx={{ textDecoration: "none" }} href="/">
               <Typography variant="h3" sx={{ fontSize: 20, color: "#FFF" }}>
                 starklings.app
