@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Starklings logo" width="150" src="https://raw.githubusercontent.com/onlydustxyz/marketplace-frontend-old/develop/docs/resources/img/logo.png">
+  <img alt="Starklings logo" width="150" src="https://avatars.githubusercontent.com/oa/2511820?s=240&u=cd5bd4a66a696036e63d3169ba5f5fc8c06fdeeb&v=4">
 </p>
 
 # Starklings App
