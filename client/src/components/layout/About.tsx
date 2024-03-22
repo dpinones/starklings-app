@@ -53,18 +53,14 @@ export const About = () => {
                   </Box>
                 </Grid>
                 <Grid xs={9} item>
-                  starklings.app is a web interactive platform designed to help
-                  users kickstart their journey into learning Cairo. This
-                  platform is based on{" "}
+                  The Starklings App is an interactive web platform designed to assist users in embarking on their journey to learn Cairo. This platform is built upon{" "}
                   <SimpleLink href="https://github.com/shramee/starklings-cairo1">
                     Starklings
                   </SimpleLink>{" "}
-                  exercises, considered essential for those taking their first
-                  steps in understanding Cairo.
+                  exercises, which are considered essential for beginners seeking to grasp the fundamentals of Cairo.
                   <br />
                   <br />
-                  Our goal is to simplify the Starklings experience by getting
-                  rid of complex configurations and installations.
+                  Our objective is to simplify the Starklings experience by eliminating complex configurations and installations. Simply access the app through your browser and begin coding.
                 </Grid>
               </Grid>
             </Box>
