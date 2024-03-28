@@ -6,6 +6,7 @@ import {
   Box,
   IconButton,
   Link,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -13,7 +14,7 @@ import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
 import { useCompileCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
@@ -51,6 +52,8 @@ const findNextExercise = (
 
 export const Workspace = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const compatibility = !!searchParams.get("compatibility");
 
   const bannersHeight = 138;
 
@@ -78,7 +81,9 @@ export const Workspace = () => {
 
   useEffect(() => {
     if (data?.code) {
-      setEditorValue(data.code);
+      if (!compatibility) {
+        setEditorValue(data.code);
+      }
     } else {
       setEditorValue("");
     }
@@ -244,18 +249,32 @@ export const Workspace = () => {
               <CircularProgressCenterLoader />
             ) : (
               <>
-                <Editor
-                  onChange={(val) => val && setEditorValue(val)}
-                  theme="vs-dark"
-                  height="100%"
-                  width="100%"
-                  options={{
-                    scrollBeyondLastLine: false,
-                    fontSize: 16,
-                  }}
-                  defaultLanguage="rust"
-                  value={editorValue}
-                />
+                {compatibility ? (
+                  <TextField
+                    id="compatibility-editor"
+                    multiline
+                    rows={30}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      val && setEditorValue(val);
+                    }}
+                    fullWidth
+                    value={editorValue}
+                  />
+                ) : (
+                  <Editor
+                    onChange={(val) => val && setEditorValue(val)}
+                    theme="vs-dark"
+                    height="100%"
+                    width="100%"
+                    options={{
+                      scrollBeyondLastLine: false,
+                      fontSize: 16,
+                    }}
+                    defaultLanguage="rust"
+                    value={editorValue}
+                  />
+                )}
                 <Box sx={{ position: "absolute", bottom: 35, right: 25 }}>
                   <Tooltip title="Reset code">
                     <IconButton
