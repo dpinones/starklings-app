@@ -1,94 +1,91 @@
-import axios from 'axios';
-import { pool } from "../db.js";
-import {
-  URL_GITHUB_STARKLINGS
-} from "../config.js";
+import fs from 'fs';
+import util from 'util';
+
+const readFileAsync = util.promisify(fs.readFile);
 
 export const getAllExercises = async (req, res, next) => {
-  const result = await pool.query("SELECT * FROM exercises");
-  return res.json(result.rows);
+  let diccionario = {};
+
+  diccionario["intro1"] = {
+    id: "intro1",
+    name: "Intro 1",
+    path: "exercises/intro/intro1.cairo",
+    mode: "run",
+    exercise_group: "intro",
+    exercise_order: 1,
+    description: "",
+    hint: "No hints this time ;)"
+  };
+  diccionario["intro2"] = {
+    id: "intro2",
+    name: "Intro 2",
+    path: "exercises/intro/intro2.cairo",
+    mode: "run",
+    exercise_group: "intro",
+    exercise_order: 2,
+    description: "",
+    hint: "No hints this time ;)"
+  };
+
+  let result = [];
+
+  for (let clave in diccionario) {
+    if (diccionario.hasOwnProperty(clave)) {
+      result.push(diccionario[clave]);
+    }
+  }
+  return res.json(result);
 };
 
 export const getExercise = async (req, res) => {
-  const result = await pool.query("SELECT * FROM exercises WHERE id = $1", [
-    req.params.id,
-  ]);
+  let diccionario = {};
 
-  if (result.rowCount === 0) {
-    return res.status(404).json({
-      message: "No Exercise exists with that id",
-    });
-  }
+  diccionario["intro1"] = {
+    id: "intro1",
+    name: "Intro 1",
+    path: "exercises/intro/intro1.cairo",
+    mode: "run",
+    exercise_group: "intro",
+    exercise_order: 1,
+    description: "",
+    hint: "No hints this time ;)"
+  };
 
-  // TODO: move to Parser
-  const exercise = result.rows[0];
-  let response;
-  try {
-    response = await axios.get(URL_GITHUB_STARKLINGS + exercise.path);
-  } catch (error) {
+  if (!diccionario.hasOwnProperty(req.params.id)) {
     res.status(500).json({ error: 'Error al realizar la solicitud' });
   }
 
-  let data = response.data.split('// I AM NOT DONE');
-  let descriptionArray = data[0].split('\n');
-  let codeArray = data[1].split('\n');
+  const exercise = diccionario[req.params.id];
+  try {
+      exercise.code = await readFileAsync(exercise.path, 'utf8');
+  } catch (error) {
+      throw { statusCode: 500, message: 'Error al leer el archivo' };
+  }
 
-  let description = '';
-  descriptionArray.forEach( (line, idx) => {
-    if (idx > 0) {
-      description += line + '\n';
-    }
-  });
-
-  let code = '';
-  codeArray.forEach( line => {
-    code += line + '\n';
-  });
-
-  exercise.description = description;
-  exercise.code = code;
-
-  const result_exercises = await pool.query("SELECT * FROM exercises");
   exercise.prev_exercise = "None";
   exercise.next_exercise = "None";
-  for (let i = 0; i < result_exercises.rows.length; i++) {
-    let exercise_temp = result_exercises.rows[i];
-    if (exercise_temp.id == exercise.id) {
-      if (i > 0) {
-        exercise.prev_exercise = result_exercises.rows[i - 1].id;
-      }
-
-      if (i < result_exercises.rows.length - 1) {
-        exercise.next_exercise = result_exercises.rows[i + 1].id;
-      }
-    }
-  }
   return res.json(exercise);
 };
 
 export const getHint = async (req, res) => {
-  const result = await pool.query("SELECT * FROM exercises WHERE id = $1", [
-    req.params.id,
-  ]);
+  let diccionario = {};
 
-  if (result.rowCount === 0) {
-    return res.status(404).json({
-      message: "No Exercise exists with that id",
-    });
-  }
+  diccionario["intro1"] = {
+    id: "intro1",
+    name: "Intro 1",
+    path: "exercises/intro/intro1.cairo",
+    mode: "run",
+    exercise_group: "intro",
+    exercise_order: 1,
+    description: "",
+    hint: "No hints this time ;)"
+  };
 
-  const exercise = result.rows[0];
-  let response;
-  try {
-    response = await axios.get(URL_GITHUB_STARKLINGS + 'info.toml');
-  } catch (error) {
+  if (!diccionario.hasOwnProperty(req.params.id)) {
     res.status(500).json({ error: 'Error al realizar la solicitud' });
   }
+  
+  const exercise = diccionario[req.params.id];
 
-  const exercisesSplit = response.data.split("[[exercises]]");
-  const exerciseMath = exercisesSplit.find(exer => exer.includes(`name = "${exercise.id}"`));
-  const hintMatch = exerciseMath.match(/hint = """([\s\S]+?)"""/);
-  const hint = hintMatch ? hintMatch[1].trim() : null;
-
-  return res.json({ hints: hint });
+  return res.json({ hints: exercise.hint });
 };

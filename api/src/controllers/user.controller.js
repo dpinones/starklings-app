@@ -28,25 +28,29 @@ export const resolveExercise = async (req, res, next) => {
     const user = req.params.user;
     const exercise_id = req.params.exercise;
 
-    console.log("exercise_id: ", exercise_id);
-
     if (Object.keys(content).length == 0) {
         return res.status(500).json({ statusCode: 500, message: 'Error body is empty' });
     }
 
-    const result = await pool.query("SELECT * FROM exercises WHERE id = $1", [
-        exercise_id,
-    ]);
-    if (result.rowCount === 0) {
-        return res.status(404).json({
-            message: "No Exercise exists with that id",
-        });
+    let diccionario = {};
+
+    diccionario["intro1"] = {
+        id: "intro1",
+        name: "Intro 1",
+        path: "exercises/intro/intro1.cairo",
+        mode: "run",
+        exercise_group: "intro",
+        exercise_order: 1,
+        description: "",
+        hint: "No hints this time ;)"
+    };
+
+    if (!diccionario.hasOwnProperty(req.params.id)) {
+        res.status(500).json({ error: 'Error al realizar la solicitud' });
     }
-    // TODO: move to Parser
-    const exercise = result.rows[0];
-    console.log("exercise: ", exercise);
-    console.log("exercise.mode: ", exercise.mode);
-    
+
+    const exercise = diccionario[req.params.id];
+
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');
     const destinationFolder = path.join(tempFolder, user);
@@ -57,8 +61,8 @@ export const resolveExercise = async (req, res, next) => {
         }
         await replaceCode(destinationFolder, content);
         let log;
-        if (exercise.mode === 'build') {
-            log = await executeScarbBuild(destinationFolder);
+        if (exercise.mode === 'run') {
+            log = await executeScarbRun(destinationFolder);
         } else {
             log = await executeScarbTest(destinationFolder);
         }
@@ -100,9 +104,9 @@ async function replaceCode(destinationFolder, content) {
     }
 }
 
-async function executeScarbBuild(destinationFolder) {
+async function executeScarbRun(destinationFolder) {
     try {
-        const { stdout } = await util.promisify(exec)(`scarb build`, { cwd: destinationFolder });
+        const { stdout } = await util.promisify(exec)(`scarb cairo-run`, { cwd: destinationFolder });
         return stdout;
     } catch (error) {
         throw { statusCode: 500, message: error.stdout };
