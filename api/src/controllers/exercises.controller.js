@@ -1,61 +1,39 @@
 import fs from 'fs';
 import util from 'util';
+import toml from '@iarna/toml';
 
 const readFileAsync = util.promisify(fs.readFile);
 
 export const getAllExercises = async (req, res, next) => {
-  let diccionario = {};
 
-  diccionario["intro1"] = {
-    id: "intro1",
-    name: "Intro 1",
-    path: "exercises/intro/intro1.cairo",
-    mode: "run",
-    exercise_group: "intro",
-    exercise_order: 1,
-    description: "",
-    hint: "No hints this time ;)"
-  };
-  diccionario["intro2"] = {
-    id: "intro2",
-    name: "Intro 2",
-    path: "exercises/intro/intro2.cairo",
-    mode: "run",
-    exercise_group: "intro",
-    exercise_order: 2,
-    description: "",
-    hint: "No hints this time ;)"
-  };
-
-  let result = [];
-
-  for (let clave in diccionario) {
-    if (diccionario.hasOwnProperty(clave)) {
-      result.push(diccionario[clave]);
-    }
+  let response;
+  try {
+    response = await readFileAsync('info.toml', 'utf8');
+  } catch (error) {
+      throw { statusCode: 500, message: 'Error al leer el archivo' };
   }
-  return res.json(result);
+  let result = toml.parse(response);
+  return res.json(result.exercises);
 };
 
 export const getExercise = async (req, res) => {
-  let diccionario = {};
+  
+  let response;
+  try {
+    response = await readFileAsync('info.toml', 'utf8');
+  } catch (error) {
+      throw { statusCode: 500, message: 'Error al leer el archivo' };
+  }
+  let result = toml.parse(response);
 
-  diccionario["intro1"] = {
-    id: "intro1",
-    name: "Intro 1",
-    path: "exercises/intro/intro1.cairo",
-    mode: "run",
-    exercise_group: "intro",
-    exercise_order: 1,
-    description: "",
-    hint: "No hints this time ;)"
-  };
-
-  if (!diccionario.hasOwnProperty(req.params.id)) {
-    res.status(500).json({ error: 'Error al realizar la solicitud' });
+  let exercise;
+  for (const objeto of result.exercises) {
+    if (objeto.id === req.params.id) {
+      exercise = objeto;
+      break;
+    }
   }
 
-  const exercise = diccionario[req.params.id];
   try {
       exercise.code = await readFileAsync(exercise.path, 'utf8');
   } catch (error) {
@@ -68,24 +46,21 @@ export const getExercise = async (req, res) => {
 };
 
 export const getHint = async (req, res) => {
-  let diccionario = {};
-
-  diccionario["intro1"] = {
-    id: "intro1",
-    name: "Intro 1",
-    path: "exercises/intro/intro1.cairo",
-    mode: "run",
-    exercise_group: "intro",
-    exercise_order: 1,
-    description: "",
-    hint: "No hints this time ;)"
-  };
-
-  if (!diccionario.hasOwnProperty(req.params.id)) {
-    res.status(500).json({ error: 'Error al realizar la solicitud' });
+  let response;
+  try {
+    response = await readFileAsync('info.toml', 'utf8');
+  } catch (error) {
+      throw { statusCode: 500, message: 'Error al leer el archivo' };
   }
-  
-  const exercise = diccionario[req.params.id];
+  let result = toml.parse(response);
+
+  let exercise;
+  for (const objeto of result.exercises) {
+    if (objeto.id === req.params.id) {
+      exercise = objeto;
+      break;
+    }
+  }
 
   return res.json({ hints: exercise.hint });
 };

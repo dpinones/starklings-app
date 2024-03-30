@@ -17,8 +17,6 @@ export const matchUser = async (req, res, next) => {
     const user = req.params.user;
     const newUser = req.params.newUser;
 
-    console.log("user ", user);
-    console.log("newUser", newUser);
     await pool.query("UPDATE resolutions SET user_name = $1 WHERE user_name = $2", [newUser, user]);
     return res.status(200).json({ message: 'ok' });
 };
@@ -32,24 +30,21 @@ export const resolveExercise = async (req, res, next) => {
         return res.status(500).json({ statusCode: 500, message: 'Error body is empty' });
     }
 
-    let diccionario = {};
-
-    diccionario["intro1"] = {
-        id: "intro1",
-        name: "Intro 1",
-        path: "exercises/intro/intro1.cairo",
-        mode: "run",
-        exercise_group: "intro",
-        exercise_order: 1,
-        description: "",
-        hint: "No hints this time ;)"
-    };
-
-    if (!diccionario.hasOwnProperty(req.params.id)) {
-        res.status(500).json({ error: 'Error al realizar la solicitud' });
+    let response;
+    try {
+        response = await readFileAsync('info.toml', 'utf8');
+    } catch (error) {
+        throw { statusCode: 500, message: 'Error al leer el archivo' };
     }
+    let result = toml.parse(response);
 
-    const exercise = diccionario[req.params.id];
+    let exercise;
+    for (const objeto of result.exercises) {
+        if (objeto.id === req.params.id) {
+        exercise = objeto;
+        break;
+        }
+    }
 
     const rootDir = process.cwd();
     const tempFolder = path.join(rootDir, 'temp');
