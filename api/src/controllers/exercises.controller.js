@@ -40,8 +40,6 @@ export const getExercise = async (req, res) => {
       throw { statusCode: 500, message: 'Error al leer el archivo' };
   }
 
-  exercise.prev_exercise = "None";
-  exercise.next_exercise = "None";
   return res.json(exercise);
 };
 
