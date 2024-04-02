@@ -1,7 +1,3 @@
-// I AM NOT DONE
-// These modules have some issues, can you fix?
-// Run `starklings hint modules2` or `hint` watch command for a hint.
-
 const YEAR: u16 = 2050;
 
 mod order {

@@ -1,12 +1,3 @@
-// starknet3.cairo
-// Joe liked Jill's work very much. He really likes how useful storage can be.
-// Now they decided to write a contract to track the number of exercises they
-// complete successfully. Jill says they can use the owner code and allow
-// only the owner to update the contract, they agree.
-// Can you help them write this contract?
-
-// I AM NOT DONE
-
 use starknet::ContractAddress;
 
 #[starknet::interface]

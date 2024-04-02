@@ -1,20 +1,3 @@
-// traits2.cairo
-
-// The previous exercise did not make the distinction
-// between different types of animals, but this one does.
-// The trait `AnimalTrait` has two functions:
-// `new` and `make_noise`.
-// `new` should return a new instance of the type
-// implementing the trait.
-// `make_noise` should return the noise the animal makes.
-// The types `Cat` and `Cow` are already defined for you.
-// You need to implement the trait `AnimalTrait` for them.
-
-// No hints for this one!
-// Execute `starklings hint traits2` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
-
 #[derive(Copy, Drop)]
 struct Cat {
     noise: felt252, 

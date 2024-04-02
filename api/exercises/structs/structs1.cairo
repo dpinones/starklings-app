@@ -1,13 +1,7 @@
-// structs1.cairo
-// Address all the TODOs to make the tests pass!
-// Execute `starklings hint structs1` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
 #[derive(Copy, Drop)]
 struct ColorStruct { // TODO: Something goes here
-// TODO: Your struct needs to have red, green, blue felts
+    // TODO: Your struct needs to have red, green, blue felts
 }
-
 
 #[test]
 fn classic_c_structs() {
