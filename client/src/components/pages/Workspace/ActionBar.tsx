@@ -104,6 +104,7 @@ export const ActionBar = ({
             disabled={compilePending}
             variant="contained"
             color="success"
+            data-cy="run-button"
             onClick={onCompileClick}
           >
             {isTest ? "Test" : "Compile"}
