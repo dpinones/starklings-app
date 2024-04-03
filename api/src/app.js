@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import groupsRoutes from "./routes/groups.routes.js";
 import exercisesRoutes from "./routes/exercises.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import githubRoutes from "./routes/github.routes.js";
@@ -32,7 +31,6 @@ app.get("/api/ping", async (req, res) => {
   return res.json(result.rows[0]);
 });
 
-app.use("/api", groupsRoutes);
 app.use("/api", exercisesRoutes);
 app.use("/api", userRoutes);
 app.use("/api", githubRoutes);

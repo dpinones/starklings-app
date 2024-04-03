@@ -1,10 +1,3 @@
-// primitive_types4.cairo
-// Modify the integer types to make the tests pass.
-// Learn how to convert between integer types, and felts.
-// Execute `starklings hint primitive_types4` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
-
 use traits::Into;
 use traits::TryInto;
 use option::OptionTrait;
