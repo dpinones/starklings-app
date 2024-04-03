@@ -8,13 +8,14 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "nodemon --env-file .env src/index.js",
+    "dev": "node --env-file .env src/index.js",
     "start": "node ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@iarna/toml": "^2.2.5",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
