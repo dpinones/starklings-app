@@ -1,3 +1,5 @@
+use core::dict::Felt252DictTrait;
+
 fn multiply_element_by_10(ref dict: Felt252Dict<u32>, n: usize) {
     //TODO : make a function that multiplies the elements stored at the indexes 0 to n of a dictionary by 10
 }

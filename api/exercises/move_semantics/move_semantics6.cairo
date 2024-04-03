@@ -1,5 +1,3 @@
-use debug::PrintTrait;
-
 #[derive(Drop)]
 struct Number {
     value: u32, 

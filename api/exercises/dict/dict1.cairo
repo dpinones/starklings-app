@@ -1,3 +1,5 @@
+use core::dict::Felt252DictTrait;
+
 fn create_dictionary() -> Felt252Dict<u32> {
     let mut dict: Felt252Dict<u32> = Default::default();
     //TODO
