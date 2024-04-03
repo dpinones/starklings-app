@@ -1,5 +1,3 @@
-use debug::PrintTrait;
-
 const NUMBER = 3;
 const SMALL_NUMBER = 3_u8;
 fn main() {
