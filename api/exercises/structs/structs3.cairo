@@ -1,4 +1,3 @@
-use array::ArrayTrait;
 #[derive(Copy, Drop)]
 struct Package {
     sender_country: felt252,

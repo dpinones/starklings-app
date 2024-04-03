@@ -1,6 +1,3 @@
-use array::ArrayTrait;
-use debug::PrintTrait;
-
 fn main() {
     let arr0 = ArrayTrait::new();
 

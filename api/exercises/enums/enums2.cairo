@@ -1,7 +1,3 @@
-use debug::PrintTrait;
-use array::ArrayTrait;
-use traits::Into;
-
 #[derive(Copy, Drop)]
 enum Message { // TODO: define the different variants used below
 }
