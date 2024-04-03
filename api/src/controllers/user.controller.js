@@ -1,11 +1,13 @@
 import util from 'util';
 import fs from 'fs';
+import toml from '@iarna/toml';
 import { exec } from 'child_process';
 import path from 'path';
 import { pool } from "../db.js";
 
 const accessAsync = util.promisify(fs.access);
 const writeFileAsync = util.promisify(fs.writeFile);
+const readFileAsync = util.promisify(fs.readFile);
 
 export const getExercisesByUser = async (req, res, next) => {
     const user = req.params.user;
@@ -34,15 +36,15 @@ export const resolveExercise = async (req, res, next) => {
     try {
         response = await readFileAsync('info.toml', 'utf8');
     } catch (error) {
-        throw { statusCode: 500, message: 'Error al leer el archivo' };
+        throw { statusCode: 500, message: 'Error al leer el archivo2' };
     }
     let result = toml.parse(response);
 
     let exercise;
     for (const objeto of result.exercises) {
-        if (objeto.id === req.params.id) {
-        exercise = objeto;
-        break;
+        if (objeto.id === exercise_id) {
+            exercise = objeto;
+            break;
         }
     }
 
