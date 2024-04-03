@@ -7,8 +7,6 @@ export interface IExercise {
   exercise_order?: number
   code?: string
   description?: string
-  prev_exercise?: string
-  next_exercise?: string
   completed: boolean
   disabled: boolean
 }

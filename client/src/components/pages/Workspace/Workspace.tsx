@@ -20,35 +20,14 @@ import { useCompileCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
-import { IExercise } from "../../../types/exercise";
+import {
+  findNextExercise,
+  findPrevExercise,
+} from "../../../utils/exerciseNavigation";
 import { CircularProgressCenterLoader } from "../../shared/CircularProgressCenterLoader";
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
 import { Sidebar } from "./Sidebar";
-
-const findNextExercise = (
-  exercises: IExercise[],
-  currentExerciseId: string
-) => {
-  const currentExerciseIndex = exercises.findIndex(
-    (exercise) => exercise.id === currentExerciseId
-  );
-
-  if (currentExerciseIndex === undefined) {
-    return "intro1";
-  }
-  for (let i = currentExerciseIndex + 1; i < exercises.length; i++) {
-    if (!exercises[i]?.completed) {
-      return exercises[i]?.id;
-    }
-  }
-  for (let i = 0; i < currentExerciseIndex; i++) {
-    if (!exercises[i]?.completed) {
-      return exercises[i]?.id;
-    }
-  }
-  return null;
-};
 
 export const Workspace = () => {
   const { id } = useParams();
@@ -67,7 +46,7 @@ export const Workspace = () => {
   );
   const [succeeded, setSucceeded] = useState(false);
   const nextId = findNextExercise(exercises ?? [], id ?? "");
-  const prevId = data?.prev_exercise;
+  const prevId = findPrevExercise(exercises ?? [], id ?? "");
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);
   const isTest = data?.mode === "test";
@@ -231,7 +210,7 @@ export const Workspace = () => {
               hintVisible={!!hint}
               first={!prevId}
               compilePending={compilePending}
-              last={!data?.next_exercise}
+              last={!nextId}
             />
           </Panel>
           <PanelResizeHandle>

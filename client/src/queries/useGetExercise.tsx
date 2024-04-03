@@ -15,12 +15,6 @@ export const useGetExercise = (exerciseName: string | undefined) => {
       if (data.code) {
         data.code = data.code.replace(/^\n+/g, '');
       }
-      if (data.prev_exercise === 'None') {
-        data.prev_exercise = undefined
-      }      
-      if (data.next_exercise === 'None') {
-        data.next_exercise = undefined
-      }
       return data;
     },
   });
