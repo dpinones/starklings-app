@@ -13,6 +13,11 @@ export const getAllExercises = async (req, res, next) => {
       throw { statusCode: 500, message: 'Error al leer el archivo' };
   }
   let result = toml.parse(response);
+  let i = 1;
+  for (let exercise of result.exercises) {
+    exercise.exercise_order = i;
+    i++;
+  }
   return res.json(result.exercises);
 };
 
