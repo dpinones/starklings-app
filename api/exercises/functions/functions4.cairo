@@ -3,7 +3,7 @@ fn main() {
     println!("sale_price is {}", sale_price(original_price));
 }
 
-fn sale_price(price: u32) -> {
+fn sale_price(price: u32) -> u32 {
     if is_even(price) {
         price - 10
     } else {

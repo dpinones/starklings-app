@@ -16,7 +16,7 @@ fn main() {
         println!(" Neither alphabetic nor numeric!");
     }
 
-    let  // Finish this line like the example! What's your favorite short string?
+    let mut your_character = 'a'; // Finish this line like the example! What's your favorite short string?
     // Try a letter, try a number, try a special character, try a short string!
     if is_alphabetic(
         ref your_character
@@ -57,21 +57,20 @@ fn is_numeric(ref char: felt252) -> bool {
 // Note: the following code is not part of the challenge, it's just here to make the code above work.
 // Direct felt252 comparisons have been removed from the core library, so we need to implement them ourselves.
 // There will probably be a string / short string type in the future
-impl PartialOrdFelt of PartialOrd<felt252> {
-    #[inline(always)]
+impl Felt252PartialOrd of PartialOrd<felt252> {
     fn le(lhs: felt252, rhs: felt252) -> bool {
-        !(rhs < lhs)
+        Into::<felt252, u256>::into(lhs) <= Into::<felt252, u256>::into(rhs)
     }
-    #[inline(always)]
+
     fn ge(lhs: felt252, rhs: felt252) -> bool {
-        !(lhs < rhs)
+        Into::<felt252, u256>::into(lhs) >= Into::<felt252, u256>::into(rhs)
     }
-    #[inline(always)]
+
     fn lt(lhs: felt252, rhs: felt252) -> bool {
-        integer::u256_from_felt252(lhs) < integer::u256_from_felt252(rhs)
+        Into::<felt252, u256>::into(lhs) < Into::<felt252, u256>::into(rhs)
     }
-    #[inline(always)]
+
     fn gt(lhs: felt252, rhs: felt252) -> bool {
-        rhs < lhs
+        Into::<felt252, u256>::into(lhs) > Into::<felt252, u256>::into(rhs)
     }
 }

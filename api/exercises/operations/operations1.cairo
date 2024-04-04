@@ -1,10 +1,9 @@
 // Return the solution of x^3 + y - 2
 
 fn poly(x: usize, y: usize) -> usize {
-    // FILL ME
+    let res = (x * x * x) + y - 2;
     res // Do not change
 }
-
 
 // Do not change the test function
 #[test]
@@ -18,4 +17,3 @@ fn test_poly() {
     assert(res != 27, 'res != 27');
     assert(res % 2 == 0, 'res %2 != 0');
 }
-

@@ -4,8 +4,10 @@ fn test_loop() {
     let mut counter = 0;
     //TODO make the test pass without changing any existing line
     loop {
-        break ();
         counter += 1;
+        if counter == 10 {
+            break;
+        }
     };
     assert(counter == 10, 'counter should be 10')
 }

@@ -1,6 +1,10 @@
 // Put your function here!
-fn calculate_price_of_apples{
-
+fn calculate_price_of_apples(amount: u32) -> u32 {
+    if amount > 40 {
+        amount * 2
+    } else {
+        amount * 3
+    }
 }
 
 // Do not change the tests!
