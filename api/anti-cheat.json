@@ -1,0 +1,8 @@
+{
+    "variables1": {
+        "append": {
+            "to": "main",
+            "code": "assert(x == 5, 'x should be 5');"
+        }
+    }
+}
