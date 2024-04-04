@@ -66,7 +66,18 @@ export const resolveExercise = async (req, res, next) => {
   const tempFolder = path.join(rootDir, "temp");
   const destinationFolder = path.join(tempFolder, user);
 
-  const antiCheatCode = await antiCheat(content, exercise_id);
+  //check if the provided code needs to contain something
+  const shouldContain = antiCheatJson[exercise_id]?.shouldContain;
+  if (shouldContain && !content.includes(shouldContain)) {
+    return res
+      .status(500)
+      .json({
+        statusCode: 500,
+        message: "Provided code does not contain '" + shouldContain + "'",
+      });
+  }
+
+  const antiCheatCode = await appendAntiCheat(content, exercise_id);
   console.log("antiCheatCOde", antiCheatCode);
   try {
     if (!(await existFolder(destinationFolder))) {
@@ -140,7 +151,7 @@ async function executeScarbTest(destinationFolder) {
   }
 }
 
-async function antiCheat(code, exercise_id) {
+async function appendAntiCheat(code, exercise_id) {
   const antiCheatExercise = antiCheatJson[exercise_id];
   if (!antiCheatExercise) {
     return code;
@@ -152,7 +163,7 @@ async function antiCheat(code, exercise_id) {
   );
 }
 
-function appendCodeToFunction(code, functionName, codeLine) {
+function appendCodeToFunction(code, functionName = "main", codeLine) {
   // Find the index of the function definition
   const functionIndex = code.indexOf(`fn ${functionName}(`);
 
@@ -187,7 +198,7 @@ function appendCodeToFunction(code, functionName, codeLine) {
 
   // Append the code line inside the function
   let modifiedCode = code.slice(0, endFunctionIndex);
-  if (!lastLine.endsWith(";")) {
+  if (!lastLine.endsWith(";") && !lastLine.endsWith("}")) {
     modifiedCode += ";"; // Add semicolon if last line doesn't end with one
   }
   modifiedCode += `\n    ${codeLine}\n${code.slice(endFunctionIndex)}`;

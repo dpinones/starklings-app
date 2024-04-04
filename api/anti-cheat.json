@@ -1,8 +1,51 @@
 {
-    "variables1": {
-        "append": {
-            "to": "main",
-            "code": "assert(x == 5, 'x should be 5');"
-        }
+  "variables1": {
+    "append": {
+      "code": "assert(x == 5, 'x should be 5');"
     }
+  },
+  "variables2": {
+    "append": {
+      "code": "assert(x == 0 || x != 0, 'x should exist');"
+    }
+  },
+  "variables3": {
+    "append": {
+      "code": "assert(x == 0 || x != 0, 'x should exist');"
+    }
+  },
+  "variables4": {
+    "shouldContain": "x = 5;",
+    "append": {
+      "code": "assert(x == 5, 'x should be 5');"
+    }
+  },
+  "variables5": {
+    "shouldContain": "let number = 1_u8;",
+    "append": {
+      "code": "assert(number == 3, 'number should be 3');"
+    }
+  },
+  "variables6": {
+    "shouldContain": "3_u8;",
+    "append": {
+      "code": "assert(NUMBER == 3, 'NUMBER should be 3'); \nassert(SMALL_NUMBER == 3, 'SMALL_NUMBER should be 3');"
+    }
+  },
+  "primitive_types1": {
+    "append": {
+      "code": "assert(is_evening == true || is_evening == false, 'is_evening should exist');"
+    }
+  },
+  "primitive_types2": {
+    "append": {
+      "code": "assert(your_character == 0 || your_character != 0, 'your_character should exist');"
+    }
+  },
+  "primitive_types3": {
+    "append": {
+      "shouldContain": "let cat = ('Furry McFurson', 3);",
+      "code": "assert(name == 'Furry McFurson' && age == 3, 'name and cat should not change');"
+    }
+  }
 }
