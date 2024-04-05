@@ -18,7 +18,8 @@ import {
 import { useMatchUserToGitHubAccount } from "../../queries/useMatchUserToGitHubAccount";
 
 const convertGHUsername = (username: string) => {
-  return username?.match(/^\d/) ? "gh" + username : username;
+  const ghUser = username?.match(/^\d/) ? "gh" + username : username;
+  return ghUser.toLowerCase()
 };
 
 export const GitHubLoginButton = () => {
