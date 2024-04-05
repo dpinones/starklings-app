@@ -66,18 +66,23 @@ export const resolveExercise = async (req, res, next) => {
   const tempFolder = path.join(rootDir, "temp");
   const destinationFolder = path.join(tempFolder, user);
 
+  const antiCheatExercise = antiCheatJson[exercise_id];
+
   //check if the provided code needs to contain something
-  const shouldContain = antiCheatJson[exercise_id]?.shouldContain;
+  const shouldContain = antiCheatExercise?.shouldContain;
   if (shouldContain && !content.includes(shouldContain)) {
-    return res
-      .status(500)
-      .json({
-        statusCode: 500,
-        message: "Provided code does not contain '" + shouldContain + "'",
-      });
+    return res.status(500).json({
+      statusCode: 500,
+      message: "Provided code does not contain '" + shouldContain + "'",
+    });
   }
 
-  const antiCheatCode = await appendAntiCheat(content, exercise_id);
+  let antiCheatCode = content;
+
+  if (antiCheatExercise?.append) {
+    antiCheatCode = appendAntiCheat(antiCheatCode, antiCheatExercise.append);
+  }
+
   console.log("antiCheatCOde", antiCheatCode);
   try {
     if (!(await existFolder(destinationFolder))) {
@@ -151,16 +156,13 @@ async function executeScarbTest(destinationFolder) {
   }
 }
 
-async function appendAntiCheat(code, exercise_id) {
-  const antiCheatExercise = antiCheatJson[exercise_id];
-  if (!antiCheatExercise) {
-    return code;
+function appendAntiCheat(code, append) {
+  if (!append.to) {
+    return `${code}
+    ${append.code}`;
   }
-  return appendCodeToFunction(
-    code,
-    antiCheatExercise.append.to,
-    antiCheatExercise.append.code
-  );
+
+  return appendCodeToFunction(code, append.to, append.code);
 }
 
 function appendCodeToFunction(code, functionName = "main", codeLine) {

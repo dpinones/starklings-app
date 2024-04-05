@@ -1,51 +1,66 @@
 {
   "variables1": {
     "append": {
+      "to": "main",
       "code": "assert(x == 5, 'x should be 5');"
     }
   },
   "variables2": {
     "append": {
+      "to": "main",
       "code": "assert(x == 0 || x != 0, 'x should exist');"
     }
   },
   "variables3": {
     "append": {
+      "to": "main",
       "code": "assert(x == 0 || x != 0, 'x should exist');"
     }
   },
   "variables4": {
     "shouldContain": "x = 5;",
     "append": {
+      "to": "main",
       "code": "assert(x == 5, 'x should be 5');"
     }
   },
   "variables5": {
     "shouldContain": "let number = 1_u8;",
     "append": {
+      "to": "main",
       "code": "assert(number == 3, 'number should be 3');"
     }
   },
   "variables6": {
     "shouldContain": "3_u8;",
     "append": {
+      "to": "main",
       "code": "assert(NUMBER == 3, 'NUMBER should be 3'); \nassert(SMALL_NUMBER == 3, 'SMALL_NUMBER should be 3');"
     }
   },
   "primitive_types1": {
     "append": {
+      "to": "main",
       "code": "assert(is_evening == true || is_evening == false, 'is_evening should exist');"
     }
   },
   "primitive_types2": {
     "append": {
+      "to": "main",
       "code": "assert(your_character == 0 || your_character != 0, 'your_character should exist');"
     }
   },
   "primitive_types3": {
+    "shouldContain": "let cat = ('Furry McFurson', 3);",
     "append": {
-      "shouldContain": "let cat = ('Furry McFurson', 3);",
+      "to": "main",
       "code": "assert(name == 'Furry McFurson' && age == 3, 'name and cat should not change');"
+    }
+  },
+  "operations1": {
+    "shouldContain": "res // Do not change",
+    "append": {
+      "code": "\n#[test]\nfn test_poly_duplicate() {\nlet res = poly(5, 3);\nassert(res == 126, 'Error message');\nassert(res < 300, 'res < 300');\nassert(res <= 300, 'res <= 300');\nassert(res > 20, 'res > 20');\nassert(res >= 2, 'res >= 2');\nassert(res != 27, 'res != 27');\nassert(res % 2 == 0, 'res %2 != 0');\n}\n"
     }
   }
 }
