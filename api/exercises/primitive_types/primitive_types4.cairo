@@ -1,7 +1,3 @@
-use traits::Into;
-use traits::TryInto;
-
-
 fn sum_u8s(x: u8, y: u8) -> u8 {
     x + y
 }
