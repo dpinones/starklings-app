@@ -70,10 +70,14 @@ export const resolveExercise = async (req, res, next) => {
 
   //check if the provided code needs to contain something
   const shouldContain = antiCheatExercise?.shouldContain;
-  if (shouldContain && !content.includes(shouldContain)) {
-    return res.status(500).json({
-      statusCode: 500,
-      message: "Provided code does not contain '" + shouldContain + "'",
+  if (shouldContain?.length > 0) {
+    shouldContain.forEach((line) => {
+      if (!content.includes(line)) {
+        return res.status(500).json({
+          statusCode: 500,
+          message: "Provided code does not contain '" + line + "'",
+        });
+      }
     });
   }
 
