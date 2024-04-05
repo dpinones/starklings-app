@@ -18,21 +18,21 @@
     }
   },
   "variables4": {
-    "shouldContain": "x = 5;",
+    "shouldContain": ["x = 5;"],
     "append": {
       "to": "main",
       "code": "assert(x == 5, 'x should be 5');"
     }
   },
   "variables5": {
-    "shouldContain": "let number = 1_u8;",
+    "shouldContain": ["let number = 1_u8;"],
     "append": {
       "to": "main",
       "code": "assert(number == 3, 'number should be 3');"
     }
   },
   "variables6": {
-    "shouldContain": "3_u8;",
+    "shouldContain": ["3_u8;"],
     "append": {
       "to": "main",
       "code": "assert(NUMBER == 3, 'NUMBER should be 3'); \nassert(SMALL_NUMBER == 3, 'SMALL_NUMBER should be 3');"
@@ -51,16 +51,98 @@
     }
   },
   "primitive_types3": {
-    "shouldContain": "let cat = ('Furry McFurson', 3);",
+    "shouldContain": ["let cat = ('Furry McFurson', 3);"],
     "append": {
       "to": "main",
       "code": "assert(name == 'Furry McFurson' && age == 3, 'name and cat should not change');"
     }
   },
+  "primitive_types4": {
+    "shouldContain": ["assert(sum_big_numbers(255", "510"],
+    "append": {
+      "code": "#[test]\nfn test_sum_u8s_duplicate() {\n    assert(sum_u8s(1, 2_u8) == 3_u8, 'Something went wrong');\n}\n\n#[test]\nfn test_convert_to_felt_duplicate() {\n    assert(convert_to_felt(1_u8) == 1, 'Type conversion went wrong');\n}\n\n#[test]\nfn test_convert_to_u8_duplicate() {\n    assert(convert_felt_to_u8(1) == 1_u8, 'Type conversion went wrong');\n}\n"
+    }
+  },
   "operations1": {
-    "shouldContain": "res // Do not change",
+    "shouldContain": ["res // Do not change"],
     "append": {
       "code": "\n#[test]\nfn test_poly_duplicate() {\nlet res = poly(5, 3);\nassert(res == 126, 'Error message');\nassert(res < 300, 'res < 300');\nassert(res <= 300, 'res <= 300');\nassert(res > 20, 'res > 20');\nassert(res >= 2, 'res >= 2');\nassert(res != 27, 'res != 27');\nassert(res % 2 == 0, 'res %2 != 0');\n}\n"
     }
+  },
+  "operations2": {
+    "append": {
+      "code": "#[test]\n      fn test_modulus_duplicate() {\n          let res = modulus(16, 2);\n          assert(res == 0, 'Error message');\n          \n          let res = modulus(17, 3);\n          assert(res == 2, 'Error message');\n      }\n      \n      #[test]\n      fn test_floor_division_duplicate() {\n          let res = floor_division(160, 2);\n          assert(res == 80, 'Error message');\n          \n          let res = floor_division(21, 4);\n          assert(res == 5, 'Error message');\n      }\n      \n      #[test]\n      fn test_mul_duplicate() {\n          let res = multiplication(16, 2);\n          assert(res == 32, 'Error message');\n          \n          let res = multiplication(21, 4);\n          assert(res == 84, 'Error message');\n      }\n      \n      #[test]\n      #[should_panic]\n      fn test_u64_mul_overflow_1_duplicate() {\n          let _res = multiplication(0x100000000, 0x100000000);\n      }\n"
+    }
+  },
+  "if1": {
+    "append": {
+      "code": "\n    #[test]\n    fn ten_is_bigger_than_eight_duplicate() {\n        assert(10 == bigger(10, 8), '10 bigger than 8');\n    }\n\n    #[test]\n    fn fortytwo_is_bigger_than_thirtytwo_duplicate() {\n        assert(42 == bigger(32, 42), '42 bigger than 32');\n    }\n"
+    }
+  },
+  "if2": {
+    "append": {
+      "code": "#[test]\n    fn foo_for_fizz_duplicate() {\n        assert(foo_if_fizz('fizz') == 'foo', 'fizz returns foo')\n    }\n\n    #[test]\n    fn bar_for_fuzz_duplicate() {\n        assert(foo_if_fizz('fuzz') == 'bar', 'fuzz returns bar');\n    }\n\n    #[test]\n    fn default_to_baz_duplicate() {\n        assert(foo_if_fizz('literally anything') == 'baz', 'anything else returns baz');\n    }\n"
+    }
+  },
+  "functions1": {
+    "append": {
+      "to": "main",
+      "code": "call_me();"
+    }
+  },
+  "functions2": {
+    "append": {
+      "to": "main",
+      "code": "call_me(3);"
+    }
+  },
+  "functions3": {
+    "append": {
+      "to": "main",
+      "code": "call_me(3);"
+    }
+  },
+  "functions4": {
+    "append": {
+      "to": "main",
+      "code": "sale_price(original_price);"
+    }
+  },
+  "quizs1": {
+    "append": {
+      "code": "#[test]\nfn verify_test_duplicate() {\n    let price1 = calculate_price_of_apples(35);\n    let price2 = calculate_price_of_apples(40);\n    let price3 = calculate_price_of_apples(41);\n    let price4 = calculate_price_of_apples(65);\n\n    assert(105 == price1, 'Incorrect price');\n    assert(120 == price2, 'Incorrect price');\n    assert(82 == price3, 'Incorrect price');\n    assert(130 == price4, 'Incorrect price');\n}\n"
+    }
+  },
+  "loops1": {
+    "shouldContain": [
+      "#[test]",
+      "fn test_loop() {",
+      "let mut counter = 0;",
+      "loop {",
+      "break ();",
+      "counter += 1;",
+      "assert(counter == 10, 'counter should be 10')"
+    ]
+  },
+  "loops2": {
+    "shouldContain": [
+      "fn test_loop() {",
+      "let mut counter = 0;",
+      "let result = loop {",
+      "if counter == 5 {",
+      "counter += 1;"
+    ],
+    "append": {
+      "to": "test_loop",
+      "code": "assert(result == 5, 'result should be 5');"
+    }
+  },
+  "enums1": {
+    "shouldContain": [
+      "Message::Quit.print();",
+      "Message::Echo.print();",
+      "Message::Move.print();",
+      "Message::ChangeColor.print();"
+    ]
   }
 }
