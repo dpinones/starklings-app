@@ -660,12 +660,7 @@ path = "exercises/traits/traits1.cairo"
 mode = "test"
 description = """
 Time to implement some traits!
-
-Your task is to implement the trait
-`AnimalTrait` for the type `Animal`
-
-Execute `starklings hint traits1` or use the `hint` watch subcommand for a hint.
-
+Your task is to implement the trait `AnimalTrait` for the type `Animal`
 Fill in the impl block to make the code work.
 """
 hint = """ 
@@ -685,12 +680,10 @@ name = "Traits 2"
 path = "exercises/traits/traits2.cairo"
 mode = "test"
 description = """
-The previous exercise did not make the distinction
-between different types of animals, but this one does.
+The previous exercise did not make the distinction between different types of animals, but this one does.
 The trait `AnimalTrait` has two functions:
 `new` and `make_noise`.
-`new` should return a new instance of the type
-implementing the trait.
+`new` should return a new instance of the type implementing the trait.
 `make_noise` should return the noise the animal makes.
 The types `Cat` and `Cow` are already defined for you.
 You need to implement the trait `AnimalTrait` for them.

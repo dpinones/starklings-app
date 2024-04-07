@@ -1,5 +1,3 @@
-use core::dict::Felt252DictTrait;
-
 #[derive(Destruct)]
 struct Team {
     level: Felt252Dict<usize>,

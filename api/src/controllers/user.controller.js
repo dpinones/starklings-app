@@ -84,7 +84,11 @@ export const resolveExercise = async (req, res, next) => {
   let antiCheatCode = content;
 
   if (antiCheatExercise?.append) {
-    antiCheatCode = appendAntiCheat(antiCheatCode, antiCheatExercise.append);
+    try {
+      antiCheatCode = appendAntiCheat(antiCheatCode, antiCheatExercise.append);
+    } catch (error) {
+      return next(error);
+    }
   }
 
   console.log("antiCheatCOde", antiCheatCode);
@@ -174,8 +178,9 @@ function appendCodeToFunction(code, functionName = "main", codeLine) {
   const functionIndex = code.indexOf(`fn ${functionName}(`);
 
   if (functionIndex === -1) {
-    console.error(`Function '${functionName}' not found.`);
-    return code; // return original code if function not found
+    const error = `Function '${functionName}' not found.`;
+    console.error(error);
+    throw new Error(error);
   }
 
   // Find the end of the function definition
