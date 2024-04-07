@@ -150,14 +150,18 @@ export const Workspace = () => {
               <Box>
                 {hintLoading && <CircularProgressCenterLoader />}
                 {hint && (
-                  <Alert sx={{ m: 2, ml: 4 }} severity="info" variant="filled">
+                  <Alert
+                    sx={{ m: 2, ml: 4, color: "#FFF" }}
+                    severity="info"
+                    variant="filled"
+                  >
                     <AlertTitle>Hint</AlertTitle>
                     <div dangerouslySetInnerHTML={{ __html: hint }} />
                     <br />
                     Remember that you can always check the Cairo book at{" "}
                     <Link
                       target="_blank"
-                      sx={{ color: "#000" }}
+                      sx={{ color: "#FFF", fontStyle: "italic" }}
                       href={"https://book.cairo-lang.org/"}
                     >
                       https://book.cairo-lang.org/
@@ -165,7 +169,7 @@ export const Workspace = () => {
                     or the Cairo documentation at{" "}
                     <Link
                       target="_blank"
-                      sx={{ color: "#000" }}
+                      sx={{ color: "#FFF", fontStyle: "italic" }}
                       href={"https://docs.cairo-lang.org/"}
                     >
                       https://docs.cairo-lang.org/
