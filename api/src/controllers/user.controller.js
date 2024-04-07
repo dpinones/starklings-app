@@ -64,7 +64,8 @@ export const resolveExercise = async (req, res, next) => {
 
   const rootDir = process.cwd();
   const tempFolder = path.join(rootDir, "temp");
-  const destinationFolder = path.join(tempFolder, user);
+  const safeUser = user.toLowerCase().replace("-", "_");
+  const destinationFolder = path.join(tempFolder, safeUser);
 
   const antiCheatExercise = antiCheatJson[exercise_id];
 
@@ -90,7 +91,7 @@ export const resolveExercise = async (req, res, next) => {
   console.log("antiCheatCOde", antiCheatCode);
   try {
     if (!(await existFolder(destinationFolder))) {
-      await executeScarbNew(user, tempFolder);
+      await executeScarbNew(safeUser, tempFolder);
     }
     await replaceCode(destinationFolder, antiCheatCode);
     let log;
@@ -124,6 +125,7 @@ async function executeScarbNew(folderName, tempFolder) {
   try {
     await util.promisify(exec)(`scarb new ${folderName}`, { cwd: tempFolder });
   } catch (error) {
+    console.log("Error executing scarb new: ", error);
     throw { statusCode: 500, message: "Error executing scarb new" };
   }
 }
