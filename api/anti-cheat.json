@@ -158,6 +158,35 @@
       "code": "#[test]\nfn test_match_message_call_duplicate() {\n    let mut state = State { quit: false, position: Point { x: 0, y: 0 }, color: (0, 0, 0), };\n    state.process(Message::ChangeColor((255, 0, 255)));\n    state.process(Message::Echo('hello world'));\n    state.process(Message::Move(Point { x: 10, y: 15 }));\n    state.process(Message::Quit);\n\n    assert(state.color == (255, 0, 255), 'wrong color');\n    assert(state.position.x == 10, 'wrong x position');\n    assert(state.position.y == 15, 'wrong y position');\n    assert(state.quit == true, 'quit should be true');\n}\n"
     }
   },
+  "options1": {
+    "shouldContain": ["assert(icecreams == 5, 'err_6');"],
+    "append": {
+      "code": "#[test]\nfn check_icecream_duplicate() {\n    assert(maybe_icecream(9).unwrap() == 5, 'err_1');\n    assert(maybe_icecream(10).unwrap() == 5, 'err_2');\n    assert(maybe_icecream(23).unwrap() == 0, 'err_3');\n    assert(maybe_icecream(22).unwrap() == 0, 'err_4');\n    assert(maybe_icecream(25).is_none(), 'err_5');\n}\n"
+    }
+  },
+  "options2": {
+    "append": {
+      "code": "#[test]\nfn test_options_duplicate() {\n    let target = 'starklings';\n    let optional_some = Option::Some(target);\n    let optional_none: Option<felt252> = Option::None;\n    simple_option(optional_some);\n    simple_option(optional_none);\n}\n"
+    }
+  },
+  "options3": {
+    "append": {
+      "code": "#[test]\n#[available_gas(20000000)]\nfn test_all_defined_duplicate() {\n    let courses = array![\n        Option::Some('A'),\n        Option::Some('B'),\n        Option::Some('C'),\n        Option::Some('A'),\n    ];\n    let mut student = Student { name: 'Alice', courses: courses };\n    display_grades(@student, 0);\n}\n\n#[test]\n#[available_gas(20000000)]\nfn test_some_empty_duplicate() {\n    let courses = array![\n        Option::Some('A'),\n        Option::None,\n        Option::Some('B'),\n        Option::Some('C'),\n        Option::None,\n    ];\n    let mut student = Student { name: 'Bob', courses: courses };\n    display_grades(@student, 0);\n}\n"
+    }
+  },
+  "arrays1": {
+    "append": {
+      "code": "#[test]\nfn test_array_len_duplicate() {\n    let mut a = create_array();\n    assert(a.len() == 3, 'Array length is not 3');\n    assert(a.pop_front().unwrap() == 0, 'First element is not 0');\n}\n"
+    }
+  },
+  "arrays2": {
+    "shouldContain": [
+      "fn create_array() -> Array<felt252> {\n    let mut a = ArrayTrait::new();\n    a.append(42);\n    a\n}"
+    ],
+    "append": {
+      "code": "#[test]\nfn test_arrays2_duplicate() {\n    let mut a = create_array();\n    assert(*a.at(0) == 42, 'First element is not 42');\n}\n\n#[test]\nfn test_arrays2_empty_duplicate() {\n    let mut a = create_array();\n    remove_element_from_array(ref a);\n    assert(a.len() == 0, 'Array length is not 0');\n}\n"
+    }
+  },
   "structs1": {
     "append": {
       "to": "classic_c_structs",
