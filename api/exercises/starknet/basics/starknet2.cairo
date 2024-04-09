@@ -7,17 +7,20 @@ mod JillsContract {
 
     #[storage]
     struct Storage { // TODO: Add `contract_owner` storage, with ContractAddress type
+        contract_owner: ContractAddress
     }
 
     #[constructor]
     fn constructor(
         ref self: ContractState, owner: ContractAddress
     ) { // TODO: Write `owner` to contract_owner storage
+        self.contract_owner.write(owner)
     }
 
     #[abi(embed_v0)]
     impl IJillsContractImpl of super::IJillsContract<ContractState> {
         fn get_owner(self: @ContractState) -> ContractAddress { // TODO: Read contract_owner storage
+            self.contract_owner.read()
         }
     }
 }
@@ -29,14 +32,12 @@ trait IJillsContract<TContractState> {
 
 #[cfg(test)]
 mod test {
+    use starknet::ContractAddress;
+    use starknet::syscalls::deploy_syscall;
     use super::JillsContract;
     use super::IJillsContractDispatcher;
     use super::IJillsContractDispatcherTrait;
-    use starknet::ContractAddress;
-    use starknet::syscalls::deploy_syscall;
-    use starknet::class_hash::Felt252TryIntoClassHash;
-    use starknet::Felt252TryIntoContractAddress;
-    
+
     #[test]
     #[available_gas(2000000000)]
     fn test_owner_setting() {

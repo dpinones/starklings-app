@@ -4,10 +4,8 @@ trait IContractA<TContractState> {
     fn get_value(self: @TContractState) -> u128;
 }
 
-
 #[starknet::contract]
 mod ContractA {
-    use starknet::info::get_contract_address;
     use starknet::ContractAddress;
     use super::IContractBDispatcher;
     use super::IContractBDispatcherTrait;
@@ -28,6 +26,13 @@ mod ContractA {
         fn set_value(ref self: ContractState, value: u128) -> bool {
             // TODO: check if contract_b is enabled.
             // If it is, set the value and return true. Otherwise, return false.
+            let contract_b = IContractBDispatcher { contract_address: self.contract_b.read() };
+            if !contract_b.is_enabled() {
+                false
+            } else {
+                self.value.write(value);
+                true
+            }
         }
 
         fn get_value(self: @ContractState) -> u128 {
@@ -72,7 +77,6 @@ mod ContractB {
 #[cfg(test)]
 mod test {
     use starknet::syscalls::deploy_syscall;
-    use starknet::class_hash::Felt252TryIntoClassHash;
     use starknet::ContractAddress;
     use super::ContractA;
     use super::IContractADispatcher;
@@ -103,6 +107,7 @@ mod test {
         let contract_b = IContractBDispatcher { contract_address: address_b };
 
         //TODO interact with contract_b to make the test pass.
+        contract_b.enable();
 
         // Tests
         assert(contract_a.set_value(300) == true, 'Could not set value');

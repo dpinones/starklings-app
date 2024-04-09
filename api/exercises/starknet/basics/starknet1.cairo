@@ -8,6 +8,7 @@ mod JoesContract {
     #[storage]
     struct Storage {}
 
+    #[abi(embed_v0)]
     impl IJoesContractImpl of super::IJoesContract<ContractState> {
         fn get_owner(self: @ContractState) -> felt252 {
             'Joe'
@@ -17,12 +18,11 @@ mod JoesContract {
 
 #[cfg(test)]
 mod test {
+    use starknet::syscalls::deploy_syscall;
+    use starknet::ContractAddress;
     use super::JoesContract;
     use super::IJoesContractDispatcher;
     use super::IJoesContractDispatcherTrait;
-    use starknet::syscalls::deploy_syscall;
-    use starknet::class_hash::Felt252TryIntoClassHash;
-    use starknet::ContractAddress;
 
     #[test]
     #[available_gas(2000000000)]
