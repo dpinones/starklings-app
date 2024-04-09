@@ -158,6 +158,35 @@
       "code": "#[test]\nfn test_match_message_call_duplicate() {\n    let mut state = State { quit: false, position: Point { x: 0, y: 0 }, color: (0, 0, 0), };\n    state.process(Message::ChangeColor((255, 0, 255)));\n    state.process(Message::Echo('hello world'));\n    state.process(Message::Move(Point { x: 10, y: 15 }));\n    state.process(Message::Quit);\n\n    assert(state.color == (255, 0, 255), 'wrong color');\n    assert(state.position.x == 10, 'wrong x position');\n    assert(state.position.y == 15, 'wrong y position');\n    assert(state.quit == true, 'quit should be true');\n}\n"
     }
   },
+  "options1": {
+    "shouldContain": ["assert(icecreams == 5, 'err_6');"],
+    "append": {
+      "code": "#[test]\nfn check_icecream_duplicate() {\n    assert(maybe_icecream(9).unwrap() == 5, 'err_1');\n    assert(maybe_icecream(10).unwrap() == 5, 'err_2');\n    assert(maybe_icecream(23).unwrap() == 0, 'err_3');\n    assert(maybe_icecream(22).unwrap() == 0, 'err_4');\n    assert(maybe_icecream(25).is_none(), 'err_5');\n}\n"
+    }
+  },
+  "options2": {
+    "append": {
+      "code": "#[test]\nfn test_options_duplicate() {\n    let target = 'starklings';\n    let optional_some = Option::Some(target);\n    let optional_none: Option<felt252> = Option::None;\n    simple_option(optional_some);\n    simple_option(optional_none);\n}\n"
+    }
+  },
+  "options3": {
+    "append": {
+      "code": "#[test]\n#[available_gas(20000000)]\nfn test_all_defined_duplicate() {\n    let courses = array![\n        Option::Some('A'),\n        Option::Some('B'),\n        Option::Some('C'),\n        Option::Some('A'),\n    ];\n    let mut student = Student { name: 'Alice', courses: courses };\n    display_grades(@student, 0);\n}\n\n#[test]\n#[available_gas(20000000)]\nfn test_some_empty_duplicate() {\n    let courses = array![\n        Option::Some('A'),\n        Option::None,\n        Option::Some('B'),\n        Option::Some('C'),\n        Option::None,\n    ];\n    let mut student = Student { name: 'Bob', courses: courses };\n    display_grades(@student, 0);\n}\n"
+    }
+  },
+  "arrays1": {
+    "append": {
+      "code": "#[test]\nfn test_array_len_duplicate() {\n    let mut a = create_array();\n    assert(a.len() == 3, 'Array length is not 3');\n    assert(a.pop_front().unwrap() == 0, 'First element is not 0');\n}\n"
+    }
+  },
+  "arrays2": {
+    "shouldContain": [
+      "fn create_array() -> Array<felt252> {\n    let mut a = ArrayTrait::new();\n    a.append(42);\n    a\n}"
+    ],
+    "append": {
+      "code": "#[test]\nfn test_arrays2_duplicate() {\n    let mut a = create_array();\n    assert(*a.at(0) == 42, 'First element is not 42');\n}\n\n#[test]\nfn test_arrays2_empty_duplicate() {\n    let mut a = create_array();\n    remove_element_from_array(ref a);\n    assert(a.len() == 0, 'Array length is not 0');\n}\n"
+    }
+  },
   "structs1": {
     "append": {
       "to": "classic_c_structs",
@@ -169,6 +198,26 @@
       "to": "test_your_order",
       "code": "assert(name == 'Bob', 'Wrong name'); \n assert(year == order_template.year, 'Wrong year'); \nassert(made_by_phone == order_template.made_by_phone, 'Wrong phone'); \n assert(made_by_mobile == order_template.made_by_mobile, 'Wrong mobile'); \n assert(made_by_email == order_template.made_by_email, 'Wrong email'); \n assert(item_number == order_template.item_number, 'Wrong item number'); \n assert(count == 0, 'Wrong count');"
     }
+  },
+  "structs3": {
+    "append": {
+      "code": "#[test]\nfn create_international_package_duplicate() {\n    let sender_country = 'Spain';\n    let recipient_country = 'Russia';\n    let mut package = PackageTrait::new(sender_country, recipient_country, 1200);\n    assert(package.is_international() == true, 'Not international');\n}\n\n#[test]\nfn create_local_package_duplicate() {\n    let sender_country = 'Canada';\n    let recipient_country = sender_country;\n    let mut package = PackageTrait::new(sender_country, recipient_country, 1200);\n    assert(package.is_international() == false, 'International');\n}\n\n#[test]\nfn calculate_transport_fees_duplicate() {\n    let sender_country = 'Spain';\n    let recipient_country = 'Spain';\n    let cents_per_gram = 3;\n    let mut package = PackageTrait::new(sender_country, recipient_country, 1500);\n    assert(package.get_fees(cents_per_gram) == 4500, 'Wrong fees');\n}\n"
+    }
+  },
+  "move_semantics1": {
+    "shouldContain": ["print(arr1.span());", "arr1.append(88);"]
+  },
+  "move_semantics2": {
+    "shouldContain": ["print(arr0.span());"]
+  },
+  "move_semantics5": {
+    "shouldContain": [
+      "let mut a = ArrayTrait::new();",
+      "let mut b = pass_by_value(a);",
+      "pass_by_ref(ref a);",
+      "pass_by_ref(ref b);",
+      "pass_by_snapshot(@a);"
+    ]
   },
   "traits1": {
     "append": {
