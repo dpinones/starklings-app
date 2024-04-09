@@ -1,5 +1,5 @@
 mod restaurant {
-    fn take_order() -> felt252 {
+    pub fn take_order() -> felt252 {
         'order_taken'
     }
 }

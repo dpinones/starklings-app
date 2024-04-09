@@ -20,5 +20,5 @@ fn get_value(number: Number) -> u32 {
 fn set_value(number: Number) {
     let value = 2222222;
     number = Number { value };
-    number.value.print();
+    println!("{}", number.value);
 }
