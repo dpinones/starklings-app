@@ -6,23 +6,11 @@ struct Student {
 
 
 fn display_grades(student: @Student, index: usize) {
-    // don't mind these lines! They are required when
-    // running recursive functions.
-    match gas::withdraw_gas() {
-        Option::Some(_) => {},
-        Option::None => {
-            let mut data = ArrayTrait::new();
-            data.append('Out of gas');
-            panic(data);
-        },
-    }
 
     if index == 0 {
-        let mut msg = ArrayTrait::new();
-        msg.append(*student.name);
-        msg.append('\'s grades:');
-        debug::print(msg);
+        println!("{} index 0", *student.name);
     }
+    
     if index >= student.courses.len() {
         return ();
     }
