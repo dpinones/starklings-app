@@ -44,13 +44,11 @@ mod ProgressTracker {
 
 #[cfg(test)]
 mod test {
+    use starknet::ContractAddress;
+    use starknet::syscalls::deploy_syscall;
     use super::ProgressTracker;
     use super::IProgressTrackerDispatcher;
     use super::IProgressTrackerDispatcherTrait;
-    use starknet::ContractAddress;
-    use starknet::syscalls::deploy_syscall;
-    use starknet::Felt252TryIntoContractAddress;
-
 
     #[test]
     #[available_gas(2000000000)]

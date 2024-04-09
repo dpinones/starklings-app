@@ -7,7 +7,6 @@ trait IContractA<TContractState> {
 
 #[starknet::contract]
 mod ContractA {
-    use starknet::info::get_contract_address;
     use starknet::ContractAddress;
     use super::IContractBDispatcher;
     use super::IContractBDispatcherTrait;
@@ -72,7 +71,6 @@ mod ContractB {
 #[cfg(test)]
 mod test {
     use starknet::syscalls::deploy_syscall;
-    use starknet::class_hash::Felt252TryIntoClassHash;
     use starknet::ContractAddress;
     use super::ContractA;
     use super::IContractADispatcher;

@@ -57,14 +57,9 @@ mod LizInventory {
 mod test {
     use starknet::ContractAddress;
     
-    use array::SpanTrait;
-    
-    use traits::TryInto;
     use starknet::syscalls::deploy_syscall;
     use core::result::ResultTrait;
 
-    use starknet::Felt252TryIntoContractAddress;
-    
     use super::LizInventory;
     use super::ILizInventoryDispatcher;
     use super::ILizInventoryDispatcherTrait;
