@@ -18,7 +18,7 @@ fn fill_arr(arr: Array<felt252>) -> Array<felt252> {
     arr
 }
 
-n print(span: Span<felt252>) { 
+fn print(span: Span<felt252>) { 
     let mut i = 0;
     print!("PATH: {{ len: {}, values: [ ", span.len());
     loop {

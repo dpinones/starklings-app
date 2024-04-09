@@ -522,8 +522,7 @@ name = "Structs 3"
 path = "exercises/structs/structs3.cairo"
 mode = "test"
 description = """
-Structs contain data, but can also have logic. In this exercise we have
-defined the Package struct and we want to test some logic attached to it.
+Structs contain data, but can also have logic. In this exercise we have defined the Package struct and we want to test some logic attached to it.
 Make the code compile and the tests pass!
 """
 hint = """
@@ -600,9 +599,7 @@ name = "Move Semantics 4"
 path = "exercises/move_semantics/move_semantics4.cairo"
 mode = "run"
 description = """
-Refactor this code so that instead of passing `arr0` into the `fill_arr` function,
-the Array gets created in the function itself and passed back to the main
-function.
+Refactor this code so that instead of passing `arr0` into the `fill_arr` function, the Array gets created in the function itself and passed back to the main function.
 """
 hint = """
 Stop reading whenever you feel like you have enough direction :) Or try
@@ -621,8 +618,7 @@ name = "Move Semantics 5"
 path = "exercises/move_semantics/move_semantics5.cairo"
 mode = "test"
 description = """
-Make me compile only by reordering the lines in `main()`, but without
-adding, changing or removing any of them.
+Make me compile only by reordering the lines in `main()`, but without adding, changing or removing any of them.
 """
 hint = """
 Carefully reason about how each function takes ownership of the variable passed.
