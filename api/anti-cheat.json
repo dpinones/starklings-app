@@ -139,10 +139,66 @@
   },
   "enums1": {
     "shouldContain": [
-      "Message::Quit.print();",
-      "Message::Echo.print();",
-      "Message::Move.print();",
-      "Message::ChangeColor.print();"
+      "println!(\"{}\", Message::Quit);",
+      "println!(\"{}\", Message::Echo);",
+      "println!(\"{}\", Message::Move);",
+      "println!(\"{}\", Message::ChangeColor);"
     ]
+  },
+  "enums2": {
+    "shouldContain": [
+      "messages.append(Message::Quit);",
+      "messages.append(Message::Echo('hello world'));",
+      "messages.append(Message::Move((10, 30)));",
+      "messages.append(Message::ChangeColor((0, 255, 255)));"
+    ]
+  },
+  "enums3": {
+    "append": {
+      "code": "#[test]\nfn test_match_message_call_duplicate() {\n    let mut state = State { quit: false, position: Point { x: 0, y: 0 }, color: (0, 0, 0), };\n    state.process(Message::ChangeColor((255, 0, 255)));\n    state.process(Message::Echo('hello world'));\n    state.process(Message::Move(Point { x: 10, y: 15 }));\n    state.process(Message::Quit);\n\n    assert(state.color == (255, 0, 255), 'wrong color');\n    assert(state.position.x == 10, 'wrong x position');\n    assert(state.position.y == 15, 'wrong y position');\n    assert(state.quit == true, 'quit should be true');\n}\n"
+    }
+  },
+  "structs1": {
+    "append": {
+      "to": "classic_c_structs",
+      "code": "assert(green.red == 0, 0); \n assert(green.green == 255, 0); \n assert(green.blue == 0, 0);"
+    }
+  },
+  "structs2": {
+    "append": {
+      "to": "test_your_order",
+      "code": "assert(name == 'Bob', 'Wrong name'); \n assert(year == order_template.year, 'Wrong year'); \nassert(made_by_phone == order_template.made_by_phone, 'Wrong phone'); \n assert(made_by_mobile == order_template.made_by_mobile, 'Wrong mobile'); \n assert(made_by_email == order_template.made_by_email, 'Wrong email'); \n assert(item_number == order_template.item_number, 'Wrong item number'); \n assert(count == 0, 'Wrong count');"
+    }
+  },
+  "traits1": {
+    "append": {
+      "to": "test_traits1",
+      "code": "assert(cat.make_noise() == 'meow', 'Wrong noise');\nassert(cow.make_noise() == 'moo', 'Wrong noise');"
+    }
+  },
+  "traits2": {
+    "append": {
+      "code": "#[test]\nfn test_traits2_duplicate() {\n    let kitty: Cat = AnimalTrait::new();\n    assert(kitty.make_noise() == 'meow', 'Wrong noise');\n\n    let cow: Cow = AnimalTrait::new();\n    assert(cow.make_noise() == 'moo', 'Wrong noise');\n}\n"
+    }
+  },
+  "traits3": {
+    "append": {
+      "code": "#[test]\nfn test_traits3_duplicate() {\n    // Don't modify this test!\n    let mut salmon: Fish = AnimalTrait::new();\n    salmon.swim();\n    assert(salmon.make_noise() == 'blub', 'Wrong noise');\n    assert(salmon.get_distance() == 1, 'Wrong distance');\n\n    let mut dog: Dog = AnimalTrait::new();\n    dog.walk();\n    assert(dog.make_noise() == 'woof', 'Wrong noise');\n    assert(dog.get_distance() == 1, 'Wrong distance');\n}\n"
+    }
+  },
+  "dict1": {
+    "append": {
+      "code": "#[test]\n#[available_gas(200000)]\nfn test_dict_duplicate() {\n    let mut dict = create_dictionary();\n    assert(dict.get('A') == 1, 'First element is not 1');\n    assert(dict.get('B') == 2, 'Second element is not 2');\n    assert(dict.get('bob') == 3, 'Third element is not 3');\n}\n"
+    }
+  },
+  "dict2": {
+    "append": {
+      "code": "#[test]\n#[available_gas(2000000000)]\nfn test_3_duplicate() {\n    let mut dict: Felt252Dict<u32> = Default::default();\n    dict.insert(0, 1);\n    dict.insert(1, 2);\n    dict.insert(2, 3);\n\n    multiply_element_by_10(ref dict, 3);\n\n    assert(dict.get(0) == 10, 'First element is not 10');\n    assert(dict.get(1) == 20, 'Second element is not 20');\n    assert(dict.get(2) == 30, 'Third element is not 30');\n}\n\n#[test]\n#[available_gas(200000000)]\nfn test_4_duplicate() {\n    let mut dict: Felt252Dict<u32> = Default::default();\n    dict.insert(0, 1);\n    dict.insert(1, 2);\n    dict.insert(2, 5);\n    dict.insert(3, 10);\n\n    multiply_element_by_10(ref dict, 4);\n\n    assert(dict.get(2) == 50, 'First element is not 50');\n    assert(dict.get(3) == 100, 'First element is not 100');\n\n}\n"
+    }
+  },
+  "dict3": {
+    "append": {
+      "code": "#[test]\n#[available_gas(200000)]\nfn test_add_player_duplicate() {\n    let mut team = TeamTrait::new();\n    team.add_player('bob', 10);\n    team.add_player('alice', 20);\n\n    assert(team.players_count == 2, 'Wrong number of player');\n    assert(team.get_level('bob') == 10, 'Wrong level');\n    assert(team.get_level('alice') == 20, 'Wrong level');\n}\n\n#[test]\n#[available_gas(200000)]\nfn test_level_up_duplicate() {\n    let mut team = TeamTrait::new();\n    team.add_player('bobby', 10);\n    team.level_up('bobby');\n\n    assert(team.level.get('bobby') == 11, 'Wrong level');\n}\n"
+    }
   }
 }
