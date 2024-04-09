@@ -249,5 +249,16 @@
     "append": {
       "code": "#[test]\n#[available_gas(200000)]\nfn test_add_player_duplicate() {\n    let mut team = TeamTrait::new();\n    team.add_player('bob', 10);\n    team.add_player('alice', 20);\n\n    assert(team.players_count == 2, 'Wrong number of player');\n    assert(team.get_level('bob') == 10, 'Wrong level');\n    assert(team.get_level('alice') == 20, 'Wrong level');\n}\n\n#[test]\n#[available_gas(200000)]\nfn test_level_up_duplicate() {\n    let mut team = TeamTrait::new();\n    team.add_player('bobby', 10);\n    team.level_up('bobby');\n\n    assert(team.level.get('bobby') == 11, 'Wrong level');\n}\n"
     }
+  },
+  "modules1": {
+    "append": {
+      "code": "assert(order_result == 'order_taken', 'Order not taken');",
+      "to": "test_mod_fn"
+    }
+  },
+  "modules2": {
+    "append": {
+      "code": "#[test]\nfn test_array_duplicate() {\n    let order1 = order_utils::dummy_phoned_order('John Doe');\n    let fees1 = order_utils::order_fees(order1);\n    assert(fees1 == 500, 'Order fee should be 500');\n\n    let order2 = order_utils::dummy_emailed_order('Jane Doe');\n    let fees2 = order_utils::order_fees(order2);\n    assert(fees2 == 200, 'Order fee should be 200');\n}\n"
+    }
   }
 }
