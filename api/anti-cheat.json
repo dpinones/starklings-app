@@ -137,6 +137,23 @@
       "code": "assert(result == 5, 'result should be 5');"
     }
   },
+  "enums3": {
+    "append": {
+      "code": "#[test]\nfn test_match_message_call_duplicate() {\n    let mut state = State { quit: false, position: Point { x: 0, y: 0 }, color: (0, 0, 0), };\n    state.process(Message::ChangeColor((255, 0, 255)));\n    state.process(Message::Echo('hello world'));\n    state.process(Message::Move(Point { x: 10, y: 15 }));\n    state.process(Message::Quit);\n\n    assert(state.color == (255, 0, 255), 'wrong color');\n    assert(state.position.x == 10, 'wrong x position');\n    assert(state.position.y == 15, 'wrong y position');\n    assert(state.quit == true, 'quit should be true');\n}\n"
+    }
+  },
+  "structs1": {
+    "append": {
+      "to": "classic_c_structs",
+      "code": "assert(green.red == 0, 0); \n assert(green.green == 255, 0); \n assert(green.blue == 0, 0);"
+    }
+  },
+  "structs2": {
+    "append": {
+      "to": "test_your_order",
+      "code": "assert(name == 'Bob', 'Wrong name'); \n assert(year == order_template.year, 'Wrong year'); \nassert(made_by_phone == order_template.made_by_phone, 'Wrong phone'); \n assert(made_by_mobile == order_template.made_by_mobile, 'Wrong mobile'); \n assert(made_by_email == order_template.made_by_email, 'Wrong email'); \n assert(item_number == order_template.item_number, 'Wrong item number'); \n assert(count == 0, 'Wrong count');"
+    }
+  },
   "enums1": {
     "shouldContain": [
       "Message::Quit.print();",
