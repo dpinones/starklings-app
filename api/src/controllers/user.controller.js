@@ -127,8 +127,12 @@ async function existFolder(folderName) {
 
 async function executeScarbNew(folderName, tempFolder, destinationFolder) {
   try {
-    await util.promisify(exec)(`scarb new ${folderName} --no-vcs`, { cwd: tempFolder });
-    await util.promisify(exec)(`scarb add starknet@2.6.3`, { cwd: destinationFolder });
+    await util.promisify(exec)(`scarb new ${folderName} --no-vcs`, {
+      cwd: tempFolder,
+    });
+    await util.promisify(exec)(`scarb add starknet@2.6.3`, {
+      cwd: destinationFolder,
+    });
   } catch (error) {
     console.log("Error executing scarb new: ", error);
     throw { statusCode: 500, message: "Error executing scarb new" };
@@ -178,7 +182,11 @@ function appendAntiCheat(code, append) {
 
 function appendCodeToFunction(code, functionName = "main", codeLine) {
   // Find the index of the function definition
-  const functionIndex = code.indexOf(`fn ${functionName}(`);
+  let functionIndex = code.indexOf(`fn ${functionName}(`);
+
+  if (functionIndex === -1) {
+    functionIndex = code.indexOf(`mod ${functionName}`);
+  }
 
   if (functionIndex === -1) {
     const error = `Function '${functionName}' not found.`;
