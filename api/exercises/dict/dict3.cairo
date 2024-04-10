@@ -14,7 +14,7 @@ impl TeamImpl of TeamTrait {
         //TODO 
     }
 
-    fn add_player(ref self: Team, name: felt252, level: usize) -> () {
+    fn add_player(ref self: Team, name: felt252, level: usize) {
         //TODO
     }
 
