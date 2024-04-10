@@ -95,7 +95,7 @@ export const resolveExercise = async (req, res, next) => {
   console.log("antiCheatCOde", antiCheatCode);
   try {
     if (!(await existFolder(destinationFolder))) {
-      await executeScarbNew(safeUser, tempFolder);
+      await executeScarbNew(safeUser, tempFolder, destinationFolder);
     }
     await replaceCode(destinationFolder, antiCheatCode);
     let log;
@@ -125,9 +125,10 @@ async function existFolder(folderName) {
   }
 }
 
-async function executeScarbNew(folderName, tempFolder) {
+async function executeScarbNew(folderName, tempFolder, destinationFolder) {
   try {
-    await util.promisify(exec)(`scarb new ${folderName}`, { cwd: tempFolder });
+    await util.promisify(exec)(`scarb new ${folderName} --no-vcs`, { cwd: tempFolder });
+    await util.promisify(exec)(`scarb add starknet@2.6.3`, { cwd: destinationFolder });
   } catch (error) {
     console.log("Error executing scarb new: ", error);
     throw { statusCode: 500, message: "Error executing scarb new" };
