@@ -55,7 +55,7 @@ export const Workspace = () => {
     data: hintResponse,
     isPending: hintLoading,
   } = useGetHint(id ?? "", (data) => {
-    setHint(data.data.hints.replace("\n", "<br />"));
+    setHint(data.data.hints);
   });
 
   useEffect(() => {
@@ -156,25 +156,28 @@ export const Workspace = () => {
                     variant="filled"
                   >
                     <AlertTitle>Hint</AlertTitle>
-                    <div dangerouslySetInnerHTML={{ __html: hint }} />
-                    <br />
-                    Remember that you can always check the Cairo book at{" "}
-                    <Link
-                      target="_blank"
-                      sx={{ color: "#FFF", fontStyle: "italic" }}
-                      href={"https://book.cairo-lang.org/"}
-                    >
-                      https://book.cairo-lang.org/
-                    </Link>{" "}
-                    or the Cairo documentation at{" "}
-                    <Link
-                      target="_blank"
-                      sx={{ color: "#FFF", fontStyle: "italic" }}
-                      href={"https://docs.cairo-lang.org/"}
-                    >
-                      https://docs.cairo-lang.org/
-                    </Link>
-                    .
+                    <Typography sx={{ whiteSpace: "pre-wrap", fontSize: 14 }}>
+                      {hint}
+                      <br />
+                      <br />
+                      Remember that you can always check the Cairo book at{" "}
+                      <Link
+                        target="_blank"
+                        sx={{ color: "#FFF", fontStyle: "italic" }}
+                        href={"https://book.cairo-lang.org/"}
+                      >
+                        https://book.cairo-lang.org/
+                      </Link>{" "}
+                      or the Cairo documentation at{" "}
+                      <Link
+                        target="_blank"
+                        sx={{ color: "#FFF", fontStyle: "italic" }}
+                        href={"https://docs.cairo-lang.org/"}
+                      >
+                        https://docs.cairo-lang.org/
+                      </Link>
+                      .
+                    </Typography>
                   </Alert>
                 )}
                 {succeeded && (
@@ -197,8 +200,11 @@ export const Workspace = () => {
                     <AlertTitle>
                       Ups! Something went wrong with your code
                     </AlertTitle>
-                    <pre dangerouslySetInnerHTML={{ __html: compileError }} />
-                    Fix the code and click <strong>COMPILE</strong> again.
+                    <Typography sx={{ whiteSpace: "pre-wrap", fontSize: 14 }}>
+                      {compileError}
+                      <br />
+                      Fix the code and click <strong>COMPILE</strong> again.
+                    </Typography>
                   </Alert>
                 )}
               </Box>

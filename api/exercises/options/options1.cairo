@@ -22,5 +22,5 @@ fn check_icecream() {
 fn raw_value() {
     // TODO: Fix this test. How do you get at the value contained in the Option?
     let icecreams = maybe_icecream(12);
-    assert(icecreams == 5, 'err_6');
+    assert(icecreams == 5, 'err_6'); // don't change this line
 }

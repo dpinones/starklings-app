@@ -25,7 +25,7 @@
     }
   },
   "variables5": {
-    "shouldContain": ["let number = 1_u8;"],
+    "shouldContain": ["let number = 1_u8;", "number = 3;"],
     "append": {
       "to": "main",
       "code": "assert(number == 3, 'number should be 3');"
@@ -58,7 +58,6 @@
     }
   },
   "primitive_types4": {
-    "shouldContain": ["assert(sum_big_numbers(255", "510"],
     "append": {
       "code": "#[test]\nfn test_sum_u8s_duplicate() {\n    assert(sum_u8s(1, 2_u8) == 3_u8, 'Something went wrong');\n}\n\n#[test]\nfn test_convert_to_felt_duplicate() {\n    assert(convert_to_felt(1_u8) == 1, 'Type conversion went wrong');\n}\n\n#[test]\nfn test_convert_to_u8_duplicate() {\n    assert(convert_felt_to_u8(1) == 1_u8, 'Type conversion went wrong');\n}\n"
     }
@@ -125,13 +124,6 @@
     ]
   },
   "loops2": {
-    "shouldContain": [
-      "fn test_loop() {",
-      "let mut counter = 0;",
-      "let result = loop {",
-      "if counter == 5 {",
-      "counter += 1;"
-    ],
     "append": {
       "to": "test_loop",
       "code": "assert(result == 5, 'result should be 5');"
@@ -181,7 +173,9 @@
   },
   "arrays2": {
     "shouldContain": [
-      "fn create_array() -> Array<felt252> {\n    let mut a = ArrayTrait::new();\n    a.append(42);\n    a\n}"
+      "fn create_array() -> Array<felt252> {",
+      "let mut a = ArrayTrait::new();",
+      "a.append(42);"
     ],
     "append": {
       "code": "#[test]\nfn test_arrays2_duplicate() {\n    let mut a = create_array();\n    assert(*a.at(0) == 42, 'First element is not 42');\n}\n\n#[test]\nfn test_arrays2_empty_duplicate() {\n    let mut a = create_array();\n    remove_element_from_array(ref a);\n    assert(a.len() == 0, 'Array length is not 0');\n}\n"

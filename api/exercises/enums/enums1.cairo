@@ -4,7 +4,7 @@ use core::fmt::{Display, Formatter, Error};
 enum Message { // TODO: define a few types of messages as used below
 }
 
-fn main() {
+fn main() { // don't change any of the lines inside main
     println!("{}", Message::Quit);
     println!("{}", Message::Echo);
     println!("{}", Message::Move);

@@ -5,8 +5,10 @@ enum Message { // TODO: define the different variants used below
 }
 
 
-fn main() {
+fn main() { // don't change any of the lines inside main
     let mut messages: Array<Message> = ArrayTrait::new();
+
+    //don't change any of the next 4 lines
     messages.append(Message::Quit);
     messages.append(Message::Echo('hello world'));
     messages.append(Message::Move((10, 30)));

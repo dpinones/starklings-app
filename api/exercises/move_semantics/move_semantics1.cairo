@@ -3,7 +3,7 @@ fn main() {
 
     let arr1 = fill_arr(arr0);
 
-    // This is just a print statement for arrays.
+    // This is just a print statement for arrays. Don't change it.
     print(arr1.span());
 
     //TODO fix the error here without modifying this line.
