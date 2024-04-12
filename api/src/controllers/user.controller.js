@@ -156,6 +156,7 @@ async function executeScarbRun(destinationFolder) {
     });
     return stdout;
   } catch (error) {
+    console.log("error executing scarb run:", error);
     throw { statusCode: 500, message: error.stdout };
   }
 }
@@ -167,6 +168,7 @@ async function executeScarbTest(destinationFolder) {
     });
     return stdout;
   } catch (error) {
+    console.log("error executing scarb test:", error);
     throw { statusCode: 500, message: error.stdout };
   }
 }
