@@ -204,6 +204,22 @@
   "move_semantics2": {
     "shouldContain": ["print(arr0.span());"]
   },
+  "move_semantics4": {
+    "append": {
+      "to": "main",
+      "code": "let result = fill_arr();\nassert(*result.at(0) == 22, 'element[0] != 22');\nassert(*result.at(1) == 44, 'element[1] != 44');\nassert(*result.at(2) == 66, 'element[2] != 66');"
+    }
+  },
+  "move_semantics6": {
+    "shouldContain": [
+      "#[test]",
+      "fn test_move_semantics6() {",
+      "let mut number = Number { value: 1111111 };",
+      "assert(get_value(@number) == 1111111, 'value is not 1111111');",
+      "set_value(ref number);",
+      "assert(get_value(@number) == 2222222, 'value is not 1111111');"
+    ]
+  },
   "move_semantics5": {
     "shouldContain": [
       "let mut a = ArrayTrait::new();",

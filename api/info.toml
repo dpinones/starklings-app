@@ -580,7 +580,7 @@ Can we still use it later on?
 id = "move_semantics6"
 name = "Move Semantics 6"
 path = "exercises/move_semantics/move_semantics6.cairo"
-mode = "run"
+mode = "test"
 description = """
 You can't change anything except adding or removing references.
 """

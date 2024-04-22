@@ -8,6 +8,11 @@ fn main() {
     arr1.append(88);
 
     print(arr1.span());
+
+    let result = fill_arr();
+    assert(*result.at(0) == 22, 'element[0] != 22');
+    assert(*result.at(1) == 44, 'element[1] != 44');
+    assert(*result.at(2) == 66, 'element[2] != 66');
 }
 
 // `fill_arr()` should no longer take `arr: Array<felt252>` as argument
