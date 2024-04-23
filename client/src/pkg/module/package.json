@@ -13,7 +13,8 @@
   "files": [
     "wasm-cairo_bg.wasm",
     "wasm-cairo.js",
-    "wasm-cairo.d.ts"
+    "wasm-cairo.d.ts",
+    "LICENSE_APACHE"
   ],
   "module": "wasm-cairo.js",
   "types": "wasm-cairo.d.ts",

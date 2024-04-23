@@ -20,6 +20,7 @@ import { useCairo } from "../../../hooks/useCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
+import { antiCheatShouldContain } from "../../../utils/antiCheat";
 import {
   findNextExercise,
   findPrevExercise,
@@ -50,6 +51,7 @@ export const Workspace = () => {
   const prevId = findPrevExercise(exercises ?? [], id ?? "");
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);
+  const [warning, setWarning] = useState<string | undefined>(undefined);
   const isTest = data?.mode === "test";
   const {
     mutate: getHint,
@@ -87,11 +89,17 @@ export const Workspace = () => {
     } else {
       run = compile;
     }
-    const result = run(editorValue);
+    const result = run(editorValue, data?.antiCheat?.append);
     if (result.success) {
-      nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
-      setSucceeded(true);
-      setHint(undefined);
+      try {
+        antiCheatShouldContain(editorValue, data?.antiCheat?.shouldContain);
+        nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
+        setSucceeded(true);
+        setHint(undefined);
+      } catch (e) {
+        console.log(e);
+        setWarning(e?.toString());
+      }
     } else {
       const { error } = result;
       console.error(error);
@@ -188,6 +196,24 @@ export const Workspace = () => {
                       </Link>
                       .
                     </Typography>
+                  </Alert>
+                )}
+                {warning && (
+                  <Alert
+                    sx={{ m: 2, ml: 4 }}
+                    variant="filled"
+                    severity="warning"
+                  >
+                    <AlertTitle>Beware!</AlertTitle>
+                    The submitted code compiles, but you are not following the
+                    exercise rules. <br /> <br />
+                    <b>{warning}</b>
+                    <br />
+                    <br />
+                    Please, re-read the exercise description and comments on the
+                    code section. <br />
+                    If necessary, you can reset code clicking the icon on the
+                    bottom right corner.
                   </Alert>
                 )}
                 {succeeded && (
