@@ -16,7 +16,7 @@ import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
-import { useCompileCairo } from "../../../queries/useCompileCairo";
+import { useCairo } from "../../../hooks/useCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
@@ -31,12 +31,13 @@ import { Sidebar } from "./Sidebar";
 
 export const Workspace = () => {
   const { id } = useParams();
+  const { compile, test, runContract } = useCairo();
   const [searchParams] = useSearchParams();
   const compatibility = !!searchParams.get("compatibility");
 
   const bannersHeight = 138;
 
-  const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
+  // const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
   const { data: exercises } = useGetExercises();
   const { data, isLoading } = useGetExercise(id);
@@ -77,14 +78,23 @@ export const Workspace = () => {
   const handleCompileClick = async () => {
     setCompileError(undefined);
     setSucceeded(false);
-    try {
-      await compile({ exercise: id ?? "", code: editorValue });
+    // await compile({ exercise: id ?? "", code: editorValue });
+    let run;
+    /* if (data?.id.startsWith("starknet")) {
+      run = runContract;
+    } else */ if (data?.mode === "test") {
+      run = test;
+    } else {
+      run = compile;
+    }
+    const result = run(editorValue);
+    if (result.success) {
       nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
       setSucceeded(true);
       setHint(undefined);
-    } catch (e: any) {
-      const error = e.response?.data?.message ?? "Something went wrong!";
-      console.error(e);
+    } else {
+      const { error } = result;
+      console.error(error);
       setCompileError(error);
     }
   };
@@ -219,7 +229,8 @@ export const Workspace = () => {
               succeeded={succeeded}
               hintVisible={!!hint}
               first={!prevId}
-              compilePending={compilePending}
+              //TODO: fix this
+              compilePending={false}
               last={!nextId}
             />
           </Panel>
