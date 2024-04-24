@@ -32,13 +32,11 @@ import { Sidebar } from "./Sidebar";
 
 export const Workspace = () => {
   const { id } = useParams();
-  const { compile, test, runContract } = useCairo();
+  const { compile, test, testContract } = useCairo();
   const [searchParams] = useSearchParams();
   const compatibility = !!searchParams.get("compatibility");
 
   const bannersHeight = 138;
-
-  // const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
   const { data: exercises } = useGetExercises();
   const { data, isLoading } = useGetExercise(id);
@@ -80,12 +78,13 @@ export const Workspace = () => {
   const handleCompileClick = async () => {
     setCompileError(undefined);
     setSucceeded(false);
-    // await compile({ exercise: id ?? "", code: editorValue });
     let run;
-    /* if (data?.id.startsWith("starknet")) {
-      run = runContract;
-    } else */ if (data?.mode === "test") {
-      run = test;
+    if (data?.mode === "test") {
+      if (data?.id.startsWith("starknet")) {
+        run = testContract;
+      } else {
+        run = test;
+      }
     } else {
       run = compile;
     }
