@@ -11,12 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
-import { useCairo } from "../../../hooks/useCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
@@ -29,10 +28,16 @@ import { CircularProgressCenterLoader } from "../../shared/CircularProgressCente
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
 import { Sidebar } from "./Sidebar";
+import { useMarkExerciseDone } from "../../../queries/useMarkExerciseDone";
 
 export const Workspace = () => {
+  const worker: Worker = useMemo(
+    () =>
+      new Worker(new URL("../../../workers/cairoWorker.ts", import.meta.url)),
+    []
+  );
+
   const { id } = useParams();
-  const { compile, test, testContract } = useCairo();
   const [searchParams] = useSearchParams();
   const compatibility = !!searchParams.get("compatibility");
 
@@ -45,6 +50,7 @@ export const Workspace = () => {
     undefined
   );
   const [succeeded, setSucceeded] = useState(false);
+  const [compiling, setCompiling] = useState(false);
   const nextId = findNextExercise(exercises ?? [], id ?? "");
   const prevId = findPrevExercise(exercises ?? [], id ?? "");
   const navigate = useNavigate();
@@ -58,6 +64,8 @@ export const Workspace = () => {
   } = useGetHint(id ?? "", (data) => {
     setHint(data.data.hints);
   });
+
+  const { mutateAsync: markExerciseDone } = useMarkExerciseDone();
 
   useEffect(() => {
     if (data?.code) {
@@ -73,37 +81,49 @@ export const Workspace = () => {
     setSucceeded(false);
     setHint(undefined);
     setCompileError(undefined);
+    setWarning(undefined);
   };
 
   const handleCompileClick = async () => {
-    setCompileError(undefined);
-    setSucceeded(false);
-    let run;
+    let mode;
     if (data?.mode === "test") {
       if (data?.id.startsWith("starknet")) {
-        run = testContract;
+        mode = "TEST_CONTRACT";
       } else {
-        run = test;
+        mode = "TEST";
       }
     } else {
-      run = compile;
+      mode = "COMPILE";
     }
-    const result = run(editorValue, data?.antiCheat?.append);
-    if (result.success) {
-      try {
-        antiCheatShouldContain(editorValue, data?.antiCheat?.shouldContain);
-        nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
-        setSucceeded(true);
-        setHint(undefined);
-      } catch (e) {
-        console.log(e);
-        setWarning(e?.toString());
+    worker.postMessage({
+      code: editorValue,
+      mode,
+      append: data?.antiCheat?.append,
+    });
+    setCompiling(true);
+    setCompileError(undefined);
+    setSucceeded(false);
+    worker.onmessage = (event) => {
+      setCompiling(false);
+      const result = event.data;
+      if (result.success) {
+        try {
+          antiCheatShouldContain(editorValue, data?.antiCheat?.shouldContain);
+          nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
+          setSucceeded(true);
+          id && markExerciseDone(id);
+          setHint(undefined);
+          setWarning(undefined);
+        } catch (e) {
+          console.log(e);
+          setWarning(e?.toString());
+        }
+      } else {
+        const { error } = result;
+        console.error(error);
+        setCompileError(error);
       }
-    } else {
-      const { error } = result;
-      console.error(error);
-      setCompileError(error);
-    }
+    };
   };
 
   const handleHintClick = async () => {
@@ -254,8 +274,7 @@ export const Workspace = () => {
               succeeded={succeeded}
               hintVisible={!!hint}
               first={!prevId}
-              //TODO: fix this
-              compilePending={false}
+              compilePending={compiling}
               last={!nextId}
             />
           </Panel>
