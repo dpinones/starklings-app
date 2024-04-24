@@ -11,15 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { CURRENT_EXERCISE } from "../../../constants/localStorage";
-import { useCompileCairo } from "../../../queries/useCompileCairo";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
+import { antiCheatShouldContain } from "../../../utils/antiCheat";
 import {
   findNextExercise,
   findPrevExercise,
@@ -28,15 +28,20 @@ import { CircularProgressCenterLoader } from "../../shared/CircularProgressCente
 import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
 import { Sidebar } from "./Sidebar";
+import { useMarkExerciseDone } from "../../../queries/useMarkExerciseDone";
 
 export const Workspace = () => {
+  const worker: Worker = useMemo(
+    () =>
+      new Worker(new URL("../../../workers/cairoWorker.ts", import.meta.url)),
+    []
+  );
+
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const compatibility = !!searchParams.get("compatibility");
 
   const bannersHeight = 138;
-
-  const { mutateAsync: compile, isPending: compilePending } = useCompileCairo();
 
   const { data: exercises } = useGetExercises();
   const { data, isLoading } = useGetExercise(id);
@@ -45,10 +50,12 @@ export const Workspace = () => {
     undefined
   );
   const [succeeded, setSucceeded] = useState(false);
+  const [compiling, setCompiling] = useState(false);
   const nextId = findNextExercise(exercises ?? [], id ?? "");
   const prevId = findPrevExercise(exercises ?? [], id ?? "");
   const navigate = useNavigate();
   const [hint, setHint] = useState<string | undefined>(undefined);
+  const [warning, setWarning] = useState<string | undefined>(undefined);
   const isTest = data?.mode === "test";
   const {
     mutate: getHint,
@@ -57,6 +64,8 @@ export const Workspace = () => {
   } = useGetHint(id ?? "", (data) => {
     setHint(data.data.hints);
   });
+
+  const { mutateAsync: markExerciseDone } = useMarkExerciseDone();
 
   useEffect(() => {
     if (data?.code) {
@@ -72,21 +81,49 @@ export const Workspace = () => {
     setSucceeded(false);
     setHint(undefined);
     setCompileError(undefined);
+    setWarning(undefined);
   };
 
   const handleCompileClick = async () => {
+    let mode;
+    if (data?.mode === "test") {
+      if (data?.id.startsWith("starknet")) {
+        mode = "TEST_CONTRACT";
+      } else {
+        mode = "TEST";
+      }
+    } else {
+      mode = "COMPILE";
+    }
+    worker.postMessage({
+      code: editorValue,
+      mode,
+      append: data?.antiCheat?.append,
+    });
+    setCompiling(true);
     setCompileError(undefined);
     setSucceeded(false);
-    try {
-      await compile({ exercise: id ?? "", code: editorValue });
-      nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
-      setSucceeded(true);
-      setHint(undefined);
-    } catch (e: any) {
-      const error = e.response?.data?.message ?? "Something went wrong!";
-      console.error(e);
-      setCompileError(error);
-    }
+    worker.onmessage = (event) => {
+      setCompiling(false);
+      const result = event.data;
+      if (result.success) {
+        try {
+          antiCheatShouldContain(editorValue, data?.antiCheat?.shouldContain);
+          nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
+          setSucceeded(true);
+          id && markExerciseDone(id);
+          setHint(undefined);
+          setWarning(undefined);
+        } catch (e) {
+          console.log(e);
+          setWarning(e?.toString());
+        }
+      } else {
+        const { error } = result;
+        console.error(error);
+        setCompileError(error);
+      }
+    };
   };
 
   const handleHintClick = async () => {
@@ -180,6 +217,24 @@ export const Workspace = () => {
                     </Typography>
                   </Alert>
                 )}
+                {warning && (
+                  <Alert
+                    sx={{ m: 2, ml: 4 }}
+                    variant="filled"
+                    severity="warning"
+                  >
+                    <AlertTitle>Beware!</AlertTitle>
+                    The submitted code compiles, but you are not following the
+                    exercise rules. <br /> <br />
+                    <b>{warning}</b>
+                    <br />
+                    <br />
+                    Please, re-read the exercise description and comments on the
+                    code section. <br />
+                    If necessary, you can reset code clicking the icon on the
+                    bottom right corner.
+                  </Alert>
+                )}
                 {succeeded && (
                   <Alert
                     sx={{ m: 2, ml: 4 }}
@@ -219,7 +274,7 @@ export const Workspace = () => {
               succeeded={succeeded}
               hintVisible={!!hint}
               first={!prevId}
-              compilePending={compilePending}
+              compilePending={compiling}
               last={!nextId}
             />
           </Panel>

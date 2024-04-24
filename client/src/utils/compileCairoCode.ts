@@ -1,17 +1,10 @@
-import { compileCairoProgram } from "../pkg/module/wasm-cairo";
 import { ICompilationResult } from "../types/compilation";
+import { Append } from "../types/exercise";
+import { runCairoCode } from "./runCairoCode";
 
-export const compileCairoCode = (code: string): ICompilationResult => {
-  const result = compileCairoProgram(code, false);
-  if (result.startsWith("failed to compile") || !code || code.trim() === '') {
-    return {
-      success: false,
-      result,
-      error: result.replaceAll("\n", "<br />"),
-    };
-  }
-  return {
-    success: true,
-    result,
-  };
+export const compileCairoCode = (
+  code: string,
+  append?: Append
+): ICompilationResult => {
+  return runCairoCode(code, "COMPILE", append);
 };
