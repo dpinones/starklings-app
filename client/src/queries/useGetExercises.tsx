@@ -4,11 +4,10 @@ import { API_URL } from "../constants/api";
 import { ICompletedExercise, IExercise } from "../types/exercise";
 import { getUser } from "../utils/getUser";
 
-export const useGetExercises = () => {
+export const useGetExercises = (user = getUser()) => {
   return useQuery<IExercise[]>({
     queryKey: ["exercises"],
     queryFn: async () => {
-      const user = getUser();
       const { data: exercises } = await axios.get(API_URL + "/exercises");
       const { data: completedExercises } = await axios.get(
         `${API_URL}/user/${user}/exercise`
