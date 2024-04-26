@@ -35,7 +35,12 @@ export const WalletConnector = () => {
     <>
       {isConnected && address ? (
         <>
-          <Button variant="outlined" color="warning" onClick={handleClick}>
+          <Button
+            sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            variant="outlined"
+            color="warning"
+            onClick={handleClick}
+          >
             {"0x..." + address.slice(address.length - 6)}
           </Button>
           <Menu
@@ -49,6 +54,7 @@ export const WalletConnector = () => {
         </>
       ) : (
         <Button
+          sx={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 999 }}
           variant="outlined"
           color="warning"
           onClick={() => setConnectWalletDrawerOpen(true)}

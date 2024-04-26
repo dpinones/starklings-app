@@ -44,11 +44,8 @@ export const ConnectWalletDrawer = ({
           </Box>
           <Box>
             <Typography sx={{ mb: 2 }} variant="body2">
-              When your wallet is connected, all your process is saved.
-            </Typography>
-            <Typography variant="body2">
-              Besides, at the end of the tutorial you will be able to claim a
-              POAP that proofs you have completed successfully all the
+              By connecting your wallet, you will be able to claim an
+              NFT that proofs you have completed successfully all the
               Starklings exercises.
             </Typography>
           </Box>
