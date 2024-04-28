@@ -27,3 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 a, button {
   border-radius: 0 !important;
 }
+
+.codicon {
+  font-family: codicon, monospace !important;
+}
