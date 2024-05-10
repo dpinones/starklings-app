@@ -31,13 +31,13 @@ export const Home = () => {
       }}
     >
       <Logo />
-      <Typography sx={{ mt: 3 }}>
+      <Typography sx={{ mt: 3, px:2 }}>
         A web-based interactive tutorial to learn Cairo and Starknet.
       </Typography>
 
       <Button
         onClick={handleStartCodingClick}
-        sx={{ mt: 6, px: 16, fontSize: 16 }}
+        sx={{ mt: 6, px: isMobileOnly ? 8 : 16, fontSize: 16 }}
         variant="contained"
       >
         Start coding
