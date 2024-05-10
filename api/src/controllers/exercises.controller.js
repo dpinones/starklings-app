@@ -1,8 +1,13 @@
 import fs from 'fs';
 import util from 'util';
 import toml from '@iarna/toml';
+import { readFile } from "fs/promises";
 
 const readFileAsync = util.promisify(fs.readFile);
+
+const antiCheatJson = JSON.parse(
+  await readFile(new URL("../../anti-cheat.json", import.meta.url))
+);
 
 export const getAllExercises = async (req, res, next) => {
 
@@ -38,6 +43,8 @@ export const getExercise = async (req, res) => {
       break;
     }
   }
+
+  exercise.antiCheat = antiCheatJson[req.params.id]
 
   try {
       exercise.code = await readFileAsync(exercise.path, 'utf8');

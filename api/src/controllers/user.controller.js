@@ -116,6 +116,20 @@ export const resolveExercise = async (req, res, next) => {
   }
 };
 
+export const markExerciseDone = async (req, res, next) => {
+  const user = req.params.user;
+  const exercise_id = req.params.exercise;
+  try {
+    await pool.query(
+      "INSERT INTO Resolutions (user_name, exercise_id) VALUES ($1, $2) ON CONFLICT (user_name, exercise_id) DO NOTHING",
+      [user, exercise_id]
+    );
+    return res.status(200).json({ message: "ok" });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 async function existFolder(folderName) {
   try {
     await accessAsync(folderName, fs.constants.F_OK);

@@ -17,6 +17,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router-dom";
 import { ErrorFallback } from "./components/error/ErrorFallback";
 import { BasicLayout } from "./components/layout/BasicLayout";
+import { CheckGitHubAccount } from "./components/pages/Check/CheckGitHubAccount";
+import { CheckGraduates } from "./components/pages/Check/CheckGraduates";
 import { FinalScreen } from "./components/pages/FinalScreen/FinalScreen";
 import { Home } from "./components/pages/Home/Home";
 import { Workspace } from "./components/pages/Workspace/Workspace";
@@ -63,6 +65,11 @@ function App() {
                     <Route path="/poc" element={<PocApp />} />
                     <Route path="/exercise/:id" element={<Workspace />} />
                     <Route path="/end" element={<FinalScreen />} />
+                    <Route
+                      path="/check/:account"
+                      element={<CheckGitHubAccount />}
+                    />{" "}
+                    <Route path="/graduates" element={<CheckGraduates />} />
                   </Routes>
                   <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
                     <Typography

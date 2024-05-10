@@ -1,7 +1,7 @@
 import Editor from "@monaco-editor/react";
 import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import __wbg_init, { compileCairoProgram } from "../../pkg/module/wasm-cairo";
+import __wbg_init, { compileCairoProgram, runTests } from "../../pkg/module/wasm-cairo";
 import "./PocApp.css";
 
 const cairoTestProgram = `
@@ -61,7 +61,7 @@ export const PocApp = () => {
           <Button
             variant="contained"
             onClick={() => {
-              const result = compileCairoProgram(editorValue, false);
+              const result = runTests(editorValue, true, '', false, false, false, '', false,false);
               if (result.startsWith("failed to compile")) {
                 setError(result);
                 setPassed(false);

@@ -159,7 +159,10 @@ export const About = () => {
             </Grid>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Typography sx={{ mx: 4 }}>Cairo version: 2.6.3</Typography>
           <Button
             sx={{ m: 2 }}
             variant="contained"
