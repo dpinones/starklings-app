@@ -10,7 +10,7 @@ export const getGraduates = async (req, res, next) => {
 export const checkGraduate = async (req, res, next) => {
   let userGithub = req.params.github?.match(/^\d/) ? "gh" + req.params.github : req.params.github;
   const result = await pool.query(
-    "SELECT COUNT(DISTINCT exercise_id) = 54 AS has_54_exercises FROM resolutions WHERE user_name = $1;", [userGithub]
+    "SELECT COUNT(DISTINCT exercise_id) = 54 AS has_54_exercises FROM resolutions WHERE user_name = $1;", [userGithub.toLowerCase()]
   );
   return res.json({
     "completed": result.rows[0].has_54_exercises
