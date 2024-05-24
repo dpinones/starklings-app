@@ -16,3 +16,4 @@ export const checkGraduate = async (req, res, next) => {
     "completed": result.rows[0].has_54_exercises
   });
 };
+
