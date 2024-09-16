@@ -25,6 +25,7 @@ import { Workspace } from "./components/pages/Workspace/Workspace";
 import { PocApp } from "./components/poc/PocApp";
 import { StarknetProvider } from "./context/StarknetProvider";
 import { useNotification } from "./hooks/useNotification";
+import { EvaluateGraduates } from "./components/pages/EvaluateGraduates/EvaluateGraduates";
 
 const darkTheme = createTheme({
   palette: {
@@ -70,6 +71,7 @@ function App() {
                       element={<CheckGitHubAccount />}
                     />{" "}
                     <Route path="/graduates" element={<CheckGraduates />} />
+                    <Route path="/evaluate-students" element={<EvaluateGraduates />} />
                   </Routes>
                   <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
                     <Typography
