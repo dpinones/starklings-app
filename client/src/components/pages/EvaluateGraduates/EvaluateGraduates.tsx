@@ -64,7 +64,7 @@ export const EvaluateGraduates = () => {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h5">Evaluate graduates</Typography> <br />
+      <Typography variant="h5">Evaluate students</Typography> <br />
       <Typography sx={{mt: 4}}>
         Upload a .csv file containing a single column labeled 'Students' with GitHub usernames, one per line.
       </Typography>

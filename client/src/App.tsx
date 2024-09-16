@@ -71,7 +71,7 @@ function App() {
                       element={<CheckGitHubAccount />}
                     />{" "}
                     <Route path="/graduates" element={<CheckGraduates />} />
-                    <Route path="/evaluate-graduates" element={<EvaluateGraduates />} />
+                    <Route path="/evaluate-students" element={<EvaluateGraduates />} />
                   </Routes>
                   <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
                     <Typography
