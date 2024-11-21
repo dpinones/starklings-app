@@ -15,7 +15,7 @@ import { useEffect, useMemo, useState } from "react";
 import { isMobileOnly } from "react-device-detect";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { CURRENT_EXERCISE } from "../../../constants/localStorage";
+import { CURRENT_EXERCISE, EXERCISE_SOLUTION } from "../../../constants/localStorage";
 import { useGetExercise } from "../../../queries/useGetExercise";
 import { useGetExercises } from "../../../queries/useGetExercises";
 import { useGetHint } from "../../../queries/useGetHint";
@@ -68,7 +68,13 @@ export const Workspace = () => {
   const { mutateAsync: markExerciseDone } = useMarkExerciseDone();
 
   useEffect(() => {
-    if (data?.code) {
+    const savedSolution = id ? localStorage.getItem(`${EXERCISE_SOLUTION}${id}`) : null;
+
+    if (savedSolution) {
+      if (!compatibility) {
+        setEditorValue(savedSolution);
+      }
+    } else if (data?.code) {
       if (!compatibility) {
         setEditorValue(data.code);
       }
@@ -111,7 +117,10 @@ export const Workspace = () => {
           antiCheatShouldContain(editorValue, data?.antiCheat?.shouldContain);
           nextId && localStorage.setItem(CURRENT_EXERCISE, nextId);
           setSucceeded(true);
-          id && markExerciseDone(id);
+          if (id) {
+            markExerciseDone(id);
+            localStorage.setItem(`${EXERCISE_SOLUTION}${id}`, editorValue);
+          }
           setHint(undefined);
           setWarning(undefined);
         } catch (e) {
@@ -150,6 +159,7 @@ export const Workspace = () => {
   };
 
   const resetCode = () => {
+    localStorage.removeItem(`${EXERCISE_SOLUTION}${id}`);
     setEditorValue(data?.code ?? "");
   };
 
