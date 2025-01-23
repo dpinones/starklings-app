@@ -6,7 +6,7 @@ interface ILogoProps {
   fontSize?: string;
 }
 
-export const Logo = ({ text = "starklings.app", fontSize = "14.2vw" }: ILogoProps) => {
+export const Logo = ({ text = "starklings.app", fontSize = "10.2vw" }: ILogoProps) => {
   return (
     <Box
       sx={{
