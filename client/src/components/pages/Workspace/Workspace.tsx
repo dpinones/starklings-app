@@ -29,6 +29,7 @@ import { ActionBar } from "./ActionBar";
 import { MobileWarningDialog } from "./MobileWarningDialog";
 import { Sidebar } from "./Sidebar";
 import { useMarkExerciseDone } from "../../../queries/useMarkExerciseDone";
+import LinkifyText from "../../layout/LinkfyText";
 
 export const Workspace = () => {
   const worker: Worker = useMemo(
@@ -204,7 +205,11 @@ export const Workspace = () => {
                   >
                     <AlertTitle>Hint</AlertTitle>
                     <Typography sx={{ whiteSpace: "pre-wrap", fontSize: 14 }}>
-                      {hint}
+                      <LinkifyText
+                        text={hint}
+                        style={{ color: "#FFF" }}
+                        linkStyle={{ color: "#FFF", fontStyle: "italic" }}
+                      />
                       <br />
                       <br />
                       Remember that you can always check the Cairo book at{" "}
