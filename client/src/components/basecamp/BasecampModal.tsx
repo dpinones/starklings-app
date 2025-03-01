@@ -78,7 +78,7 @@ export const BasecampModal = ({ open, handleClose }: BasecampModalProps) => {
               }}
             >
               <img
-                src="/basecamp.png"
+                src="/basecamp.jpg"
                 alt="Starknet Basecamp"
                 style={{
                   width: "100%",
