@@ -9,6 +9,15 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { isMobileOnly } from "react-device-detect";
+
+const BASECAMP_URL =
+  "https://us06web.zoom.us/webinar/register/7017368536020/WN_vPEdeTvqS5y-ZnC79_DBjw#/registration";
+
+const openInNewTab = (url: string) => {
+  const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+  if (newWindow) newWindow.opener = null;
+};
 
 interface BasecampModalProps {
   open: boolean;
@@ -78,6 +87,7 @@ export const BasecampModal = ({ open, handleClose }: BasecampModalProps) => {
               }}
             >
               <img
+                onClick={() => openInNewTab(BASECAMP_URL)}
                 src="/basecamp.jpg"
                 alt="Starknet Basecamp"
                 style={{
@@ -90,82 +100,84 @@ export const BasecampModal = ({ open, handleClose }: BasecampModalProps) => {
           </Grid>
 
           {/* Right side - Content */}
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                p: 4,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                height: "100%",
-                color: "white",
-              }}
-            >
-              {/* Text content */}
-              <Typography
-                variant="h4"
-                component="h2"
-                fontWeight="bold"
-                textAlign="center"
-                gutterBottom
+          {!isMobileOnly && (
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  p: 4,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: "100%",
+                  color: "white",
+                }}
               >
-                Starknet Basecamp 12
-              </Typography>
-
-              <Typography
-                variant="subtitle1"
-                textAlign="center"
-                sx={{ color: "rgba(255, 255, 255, 0.7)" }}
-              >
-                Starting April 03
-              </Typography>
-
-              <Typography textAlign="center" sx={{ my: 3 }}>
-                Learn, build, and connect with the community. Start your
-                Starknet Journey now!
-              </Typography>
-
-              {/* Buttons */}
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-                sx={{ mt: 2 }}
-              >
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  onClick={handleDontShowAgain}
-                  sx={{
-                    borderColor: "rgba(255, 255, 255, 0.5)",
-                    color: "white",
-                    borderRadius: 2,
-                    py: 1.5,
-                  }}
+                {/* Text content */}
+                <Typography
+                  variant="h4"
+                  component="h2"
+                  fontWeight="bold"
+                  textAlign="center"
+                  gutterBottom
                 >
-                  Don't show again
-                </Button>
+                  Starknet Basecamp 12
+                </Typography>
 
-                <Button
-                  variant="contained"
-                  fullWidth
-                  target="_blank"
-                  href={"https://us06web.zoom.us/webinar/register/7017368536020/WN_vPEdeTvqS5y-ZnC79_DBjw#/registration"}
-                  sx={{
-                    bgcolor: "#f37646",
-                    color: "white",
-                    textAlign: "center",
-                    borderRadius: 2,
-                    py: 1.5,
-                    "&:hover": {
-                      bgcolor: "#e06535",
-                    },
-                  }}
+                <Typography
+                  variant="subtitle1"
+                  textAlign="center"
+                  sx={{ color: "rgba(255, 255, 255, 0.7)" }}
                 >
-                  Register for Basecamp
-                </Button>
-              </Stack>
-            </Box>
-          </Grid>
+                  Starting April 03
+                </Typography>
+
+                <Typography textAlign="center" sx={{ my: 3 }}>
+                  Learn, build, and connect with the community. Start your
+                  Starknet Journey now!
+                </Typography>
+
+                {/* Buttons */}
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={2}
+                  sx={{ mt: 2 }}
+                >
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    onClick={handleDontShowAgain}
+                    sx={{
+                      borderColor: "rgba(255, 255, 255, 0.5)",
+                      color: "white",
+                      borderRadius: 2,
+                      py: 1.5,
+                    }}
+                  >
+                    Don't show again
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    target="_blank"
+                    href={BASECAMP_URL}
+                    sx={{
+                      bgcolor: "#f37646",
+                      color: "white",
+                      textAlign: "center",
+                      borderRadius: 2,
+                      py: 1.5,
+                      "&:hover": {
+                        bgcolor: "#e06535",
+                      },
+                    }}
+                  >
+                    Register for Basecamp
+                  </Button>
+                </Stack>
+              </Box>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
     </Dialog>
