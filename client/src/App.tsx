@@ -32,6 +32,9 @@ import { useNotification } from "./hooks/useNotification";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    primary: {
+      main: "#dd3d3d",
+    },
   },
 });
 
@@ -97,9 +100,18 @@ function App() {
                       element={<EvaluateGraduates />}
                     />
                   </Routes>
-                  <Box sx={{ position: "fixed", bottom: 0, right: 0 }}>
+                  <Box
+                    className="snf-pow"
+                    sx={{ position: "fixed", bottom: 0, right: 0, zIndex: 999 }}
+                  >
                     <Typography
-                      sx={{ mb: 1, mr: 2, fontSize: 13, color: "#b0b0b0" }}
+                      sx={{
+                        p: 1,
+                        pr: 2,
+                        pl: 2,
+                        fontSize: 13,
+                        color: "#b0b0b0",
+                      }}
                     >
                       powered by Starknet Foundation
                     </Typography>

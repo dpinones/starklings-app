@@ -1,2 +1,3 @@
 api/temp/
 client/.env
+.DS_Store
