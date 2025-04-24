@@ -1,3 +1,9 @@
+# 🚨🚨🚨 ARCHIVED REPOSITORY 🚨🚨🚨
+
+> ⚠️ **This repository is archived and no longer maintained.**
+
+This project has been archived and its contents have been merged into the [Starklings repository](https://github.com/shramee/starklings).  
+
 <p align="center">
   <img alt="Starklings logo" width="150" src="https://avatars.githubusercontent.com/oa/2511820?s=240&u=cd5bd4a66a696036e63d3169ba5f5fc8c06fdeeb&v=4">
 </p>
